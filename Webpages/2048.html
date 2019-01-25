@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<!-- saved from url=(0020)https://play2048.co/ -->
+<html lang="en" class="gr__play2048_co"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <title>2048</title>
+
+  <script id="twitter-wjs" src="./2048_files/widgets.js.download"></script><script>
+    if (typeof window !== undefined && typeof window.location !== undefined && window.location.hostname === "gabrielecirulli.github.io") {
+      if (typeof window.location.replace === "function") {
+        window.location.replace("https://play2048.co/");
+      } else {
+        window.location = "https://play2048.co/"
+      }
+    }
+  </script>
+
+  <script async="" src="./2048_files/js"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+
+    gtag("config", "UA-42620757-2");
+  </script>
+
+  <link href="./2048_files/main.css" rel="stylesheet" type="text/css">
+  <link rel="shortcut icon" href="https://play2048.co/favicon.ico">
+  <link rel="apple-touch-icon" href="https://play2048.co/meta/apple-touch-icon.png">
+  <link rel="apple-touch-startup-image" href="https://play2048.co/meta/apple-touch-startup-image-640x1096.png" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)"> <!-- iPhone 5+ -->
+  <link rel="apple-touch-startup-image" href="https://play2048.co/meta/apple-touch-startup-image-640x920.png" media="(device-width: 320px) and (device-height: 480px) and (-webkit-device-pixel-ratio: 2)"> <!-- iPhone, retina -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0, maximum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="format-detection" content="telephone=no">
+
+  <meta name="apple-itunes-app" content="app-id=868076805">
+
+  <meta property="og:title" content="2048">
+  <meta property="og:site_name" content="2048">
+  <meta property="og:description" content="Join the numbers and get to the 2048 tile! Careful: this game is extremely addictive!">
+  <meta property="og:image" content="http://gabrielecirulli.github.io/2048/meta/og_image.png">
+
+  <meta name="twitter:card" content="app">
+  <meta name="twitter:site" content="@gabrielecirulli">
+  <meta name="twitter:title" content="2048">
+  <meta name="twitter:description" content="Join the numbers and get to the 2048 tile! Careful: this game is extremely addictive!">
+  <meta name="twitter:image" content="http://gabrielecirulli.github.io/2048/meta/og_image.png">
+  <meta name="twitter:url" content="http://gabrielecirulli.github.io/2048/">
+  <meta name="twitter:app:country" content="US">
+  <meta name="twitter:app:name:iphone" content="2048">
+  <meta name="twitter:app:id:iphone" content="868076805">
+  <meta name="twitter:app:url:iphone" content="https://itunes.apple.com/us/app/2048-by-gabriele-cirulli/id868076805">
+  <meta name="twitter:app:name:ipad" content="2048">
+  <meta name="twitter:app:id:ipad" content="868076805">
+  <meta name="twitter:app:url:ipad" content="https://itunes.apple.com/us/app/2048-by-gabriele-cirulli/id868076805">
+  <meta name="twitter:app:name:googleplay" content="2048">
+  <meta name="twitter:app:id:googleplay" content="com.gabrielecirulli.app2048">
+  <meta name="twitter:app:url:googleplay" content="https://play.google.com/store/apps/details?id=com.gabrielecirulli.app2048">
+  <script async="" src="./2048_files/f.txt"></script>
+  <script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-2670526606338388",
+          enable_page_level_ads: true
+     });
+  </script>
+<script charset="utf-8" src="./2048_files/button.e96bb6acc0f8bda511c0c46a84ee18e4.js.download"></script></head>
+<body data-gr-c-s-loaded="true">
+  <div class="sidebar">
+    <ins class="adsbygoogle" style="display:inline-block;width:160px;height:600px" data-ad-client="ca-pub-2670526606338388" data-ad-slot="2901539552"></ins>
+    <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+  </div>
+
+  <div class="cookie-notice">
+    <p>2048 uses cookies to analyse traffic to the site and to serve ads. <a href="https://play2048.co/privacy.html">Learn More</a></p>
+    <a class="cookie-notice-dismiss-button">Got it</a>
+  </div>
+  
+  <div class="container">
+    <div class="heading">
+      <h1 class="title">2048</h1>
+      <div class="scores-container">
+        <div class="score-container">0</div>
+        <div class="best-container">0</div>
+      </div>
+    </div>
+
+    <div class="above-game">
+      <p class="game-intro">Join the numbers and get to the <strong>2048 tile!</strong></p>
+      <a class="restart-button">New Game</a>
+    </div>
+
+    <div class="app-notice">
+      <span class="notice-close-button">×</span>
+      <p>Get 2048 for <a href="https://itunes.apple.com/us/app/2048-by-gabriele-cirulli/id868076805" target="_blank">iOS</a> and <a href="https://play.google.com/store/apps/details?id=com.gabrielecirulli.app2048" target="_blank">Android!</a></p>
+    </div>
+
+    <div class="game-container">
+      <div class="game-message">
+        <p></p>
+        <div class="lower">
+	        <a class="keep-playing-button">Keep going</a>
+          <a class="retry-button">Try again</a>
+          <div class="score-sharing"></div>
+          <div class="mailing-list">
+            <!-- MailChimp Signup Form -->
+            <form action="http://gabrielecirulli.us8.list-manage.com/subscribe/post?u=991201206817cfb4e4247ed6c&amp;id=7928ea817b" method="post" name="mc-embedded-subscribe-form" class="mailing-list-form" target="_blank">
+              <strong>Get email updates from Gabriele</strong>
+
+              <input type="email" value="" name="EMAIL" class="mailing-list-email-field" placeholder="Your email address" spellcheck="false">
+
+              <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+              <div style="position: absolute; left: -9999px;">
+                <input type="text" name="b_991201206817cfb4e4247ed6c_7928ea817b" value="">
+              </div>
+
+              <input type="submit" value="Go" name="subscribe" class="mailing-list-subscribe-button">
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-container">
+        <div class="grid-row">
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+        </div>
+        <div class="grid-row">
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+        </div>
+        <div class="grid-row">
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+        </div>
+        <div class="grid-row">
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+        </div>
+      </div>
+
+      <div class="tile-container"><div class="tile tile-2 tile-position-3-1 tile-new"><div class="tile-inner">2</div></div><div class="tile tile-2 tile-position-3-3 tile-new"><div class="tile-inner">2</div></div></div>
+    </div>
+
+    <div class="under-board-container">
+      <ins class="adsbygoogle" data-ad-client="ca-pub-2670526606338388" data-ad-slot="3711201455" data-ad-format="auto" data-full-width-responsive="false"></ins>
+      <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+    </div>
+
+    <p class="game-explanation">
+      <strong class="important">How to play:</strong> Use your <strong>arrow keys</strong> to move the tiles. When two tiles with the same number touch, they <strong>merge into one!</strong>
+    </p>
+    <hr>
+    <p>
+    <strong class="important">Note:</strong> The game on <a href="http://git.io/2048">this site</a> is the original version of 2048. Apps for <a href="https://itunes.apple.com/us/app/2048-by-gabriele-cirulli/id868076805" target="_blank">iOS</a> and <a href="https://play.google.com/store/apps/details?id=com.gabrielecirulli.app2048" target="_blank">Android</a> are also available. Other versions are derivatives or fakes, and should be used with caution.
+    </p>
+    <hr>
+    <p>
+    Created by <a href="http://gabrielecirulli.com/" target="_blank">Gabriele Cirulli.</a> Based on <a href="https://itunes.apple.com/us/app/1024!/id823499224" target="_blank">1024 by Veewo Studio</a> and conceptually similar to <a href="http://asherv.com/threes/" target="_blank">Threes by Asher Vollmer.</a>
+    </p>
+    <div class="sharing">
+      <iframe id="twitter-widget-0" scrolling="no" frameborder="0" allowtransparency="true" class="twitter-share-button twitter-share-button-rendered twitter-tweet-button" style="position: static; visibility: visible; width: 60px; height: 20px;" title="Twitter Tweet Button" src="./2048_files/tweet_button.a600a62a1c92aa33bb89e73fa1e8b3b3.en.html" data-url="http://git.io/2048"></iframe>
+      <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+      <form class="pp-donate" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+        <input type="hidden" name="cmd" value="_s-xclick">
+        <input type="hidden" name="hosted_button_id" value="NVNPJLTBZ8AME">
+        <button name="submit"><img src="./2048_files/icon_pp.svg">Donate</button>
+        <img alt="" border="0" src="./2048_files/pixel.gif" width="1" height="1" hidden="" style="display: none !important;">
+      </form>
+
+      <span class="btc-donate">
+        <a href="bitcoin:1Ec6onfsQmoP9kkL3zkpB6c5sA4PVcXU2i">
+          <img src="./2048_files/icon_bitcoin.svg">Donate BTC
+        </a>
+        <span class="address"><code>1Ec6onfsQmoP9kkL3zkpB6c5sA4PVcXU2i</code></span>
+      </span>
+
+    </div>
+
+    <footer class="links">
+      <a href="https://play2048.co/privacy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+    </footer>
+  </div>
+
+  <script src="./2048_files/bind_polyfill.js.download"></script>
+  <script src="./2048_files/classlist_polyfill.js.download"></script>
+  <script src="./2048_files/animframe_polyfill.js.download"></script>
+  <script src="./2048_files/keyboard_input_manager.js.download"></script>
+  <script src="./2048_files/html_actuator.js.download"></script>
+  <script src="./2048_files/grid.js.download"></script>
+  <script src="./2048_files/tile.js.download"></script>
+  <script src="./2048_files/local_storage_manager.js.download"></script>
+  <script src="./2048_files/game_manager.js.download"></script>
+  <script src="./2048_files/application.js.download"></script>
+
+
+<iframe scrolling="no" frameborder="0" allowtransparency="true" src="./2048_files/widget_iframe.a600a62a1c92aa33bb89e73fa1e8b3b3.html" title="Twitter settings iframe" style="display: none;"></iframe></body><span class="gr__tooltip"><span class="gr__tooltip-content"></span><i class="gr__tooltip-logo"></i><span class="gr__triangle"></span></span></html>

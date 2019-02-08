@@ -1,0 +1,28 @@
+<p><strong>2.4.1.2 Scenario 3 Answer Key</strong></p>
+<p><strong>Objectives</strong></p>
+<p>&middot; Configure hostnames and IP addresses on two Cisco Internetwork Operating System (IOS) switches using the command-line interface (CLI).<br />&middot; Use Cisco IOS commands to specify or limit access to the device configurations.<br />&middot; Use IOS commands to save the running configuration.<br />&middot; Configure two host devices with IP addresses.<br />&middot; Verify connectivity between the two PC end devices.<br />Scenario</p>
+<p>As a recently hired LAN technician, your network User-01 has asked you to demonstrate your ability to configure a small LAN. Your tasks include configuring initial settings on two switches using the Cisco IOS and configuring IP address parameters on host devices to provide end-to-end connectivity. You are to use two switches and two hosts/PCs on a cabled and powered network.</p>
+<p><strong>Requirements</strong></p>
+<p>&middot; Use a console connection to access each switch.<br />&middot; Name ASw-1 and ASw-2 switches.<br />&middot; Use the xAw6k password for all lines.<br />&middot; Use the 6EBUp secret password.<br />&middot; Encrypt all clear text passwords.<br />&middot; Include the word warning in the message-of-the-day (MOTD) Banner.<br />&middot; Configure addressing for all devices according to the Addressing Table.<br />&middot; Save your configurations.<br />&middot; Verify connectivity between all devices.</p>
+<p><strong>Answers</strong></p>
+<p>&middot; On the bottom lefthand side of your screen, click the little lightning icon. Then click the console cable (second from the left) and click on the PC labeled User-01. Click RS232 and then click on the ASw-1 Switch. Select console form the drop-down menu.&nbsp;</p>
+<p>&middot; On the bottom lefthand side of your screen, click the little lightning icon. Then click the console cable (second from the left) and click on the PC labeled User-02. Click RS232 and then click on the ASw-2 Switch. Select console form the drop-down menu.&nbsp;</p>
+<p>&middot; Click on User-01 -&gt; Desktop -&gt; Terminal -&gt; OK</p>
+<p><strong>&middot; Type in the following commands.</strong></p>
+<p>Switch&gt;en<br />Switch#conf t<br />Switch(config)#hostname ASw-1<br />ASw-1(config)#line con 0<br />ASw-1(config-line)#password xAw6k<br />ASw-1(config-line)#line vty 0 15 <br />ASw-1(config-line)#password xAw6k<br />ASw-1(config-line)#exit<br />ASw-1(config)#enable secret 6EBUp<br />ASw-1(config)#service password-encryption <br />ASw-1(config)#banner motd "Warning! Keep Out!"<br />ASw-1(config)#do writ<br />Building configuration...<br />[OK]<br />ASw-1(config)#int vlan 1<br />ASw-1(config-if)#ip address 172.16.5.35 255.255.255.0<br />ASw-1(config-if)#no shut</p>
+<p>ASw-1(config-if)#<br />%LINK-5-CHANGED: Interface Vlan1, changed state to up</p>
+<p>%LINEPROTO-5-UPDOWN: Line protocol on Interface Vlan1, changed state to up</p>
+<p>&middot; Click Exit</p>
+<p>&middot; Click on IP-Configuration</p>
+<p>&middot; In the IP Address Field type 172.16.5.50&nbsp;</p>
+<p>&middot; In the Subnet Mask Feild type 255.255.255.0</p>
+<p>&middot; Return to the Network Topology&nbsp;</p>
+<p>&middot; Click on User-02 -&gt; Desktop -&gt; Terminal -&gt; OK</p>
+<p><strong>&middot; Type in the following commands.</strong></p>
+<p>Switch&gt;en<br />Switch#conf t<br />Switch(config)#hostname ASw-1<br />ASw-2(config)#line con 0<br />ASw-2(config-line)#password xAw6k<br />ASw-2(config-line)#line vty 0 15 <br />ASw-2(config-line)#password xAw6k<br />ASw-2(config-line)#exit<br />ASw-2(config)#enable secret 6EBUp<br />ASw-2(config)#service password-encryption <br />ASw-2(config)#banner motd "Warning! Keep Out!"<br />ASw-2(config)#do writ<br />Building configuration...<br />[OK]<br />ASw-2(config)#int vlan 1<br />ASw-2(config-if)#ip address 172.16.5.40 255.255.255.0<br />ASw-2(config-if)#no shut</p>
+<p>ASw-2(config-if)#<br />%LINK-5-CHANGED: Interface Vlan1, changed state to up</p>
+<p>%LINEPROTO-5-UPDOWN: Line protocol on Interface Vlan1, changed state to up</p>
+<p>&middot; Click Exit</p>
+<p>&middot; Click on IP-Configuration</p>
+<p>&middot; In the IP Address Field type 176.16.5.50&nbsp;</p>
+<p>&middot; In the Subnet Mask Feild type 255.255.255.0</p>

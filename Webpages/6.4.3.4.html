@@ -1,0 +1,41 @@
+<h4>Objectives</h4>
+<p><strong><br />Part 1: Verify Network Documentation and Isolate Problems</strong></p>
+<p><strong>Part 2: Implement, Verify, and Document Solutions</strong></p>
+<h4>Background</h4>
+<p>For a device to communicate across multiple networks, it must be configured with an IP address, subnet mask, and a default gateway. The default gateway is used when the host wants to send a packet to a device on another network. The default gateway address is generally the router interface address attached to the local network to which the host is connected. In this activity, you will finish documenting the network. You will then verify the network documentation by testing end-to-end connectivity and troubleshooting issues. The troubleshooting method you will use consists of the following steps:</p>
+<p>1) Verify the network documentation and use tests to isolate problems.</p>
+<p>2) Determine an appropriate solution for a given problem.</p>
+<p>3) Implement the solution.</p>
+<p>4) Test to verify the problem is resolved.</p>
+<p>5) Document the solution.</p>
+<p>Throughout your CCNA studies, you will encounter different descriptions of the troubleshooting method, as well as different ways to test and document issues and solutions. This is intentional. There is no set standard or template for troubleshooting. Each organization develops unique processes and documentation standards (even if that process is &ldquo;we don&rsquo;t have one&rdquo;). However, all effective troubleshooting methodologies generally include the above steps.</p>
+<p><strong>Note:</strong>&nbsp;If you are proficient with default gateway configurations, this activity might seem more involved than it should be. You can, most likely, quickly discover and solve all the connectivity issues faster than following these procedures. However, as you proceed in your studies, the networks and problems you encounter will become increasingly more complex. In such situations, the only effective way to isolate and solve issues is to use a methodical approach such as the one used in this activity.</p>
+<h3>Part 1: Verify Network Documentation and Isolate Problems</h3>
+<p>In Part 1 of this activity, complete the documentation and perform connectivity tests to discover issues. In addition, you will determine an appropriate solution for implementation in Part 2.</p>
+<h5>Step 1: Verify the network documentation and isolate any problems.</h5>
+<p>a. Before you can effectively test a network, you must have complete documentation. Notice in the&nbsp;<strong>Addressing Table</strong>&nbsp;that some information is missing. Complete the&nbsp;<strong>Addressing Table</strong>&nbsp;by filling in the missing default gateway information for the switches and the PCs.</p>
+<p>b. Test connectivity to devices on the same network. By isolating and correcting any local access issues, you can better test remote connectivity with the confidence that local connectivity is operational.</p>
+<p>A verification plan can be as simple as a list of connectivity tests. Use the following tests to verify local connectivity and isolate any access issues. The first issue is already documented, but you must implement and verify the solution during Part 2.</p>
+<h4>Testing and Verification Documentation</h4>
+<h5>Step 2: Determine an appropriate solution for the problem.</h5>
+<p>a. Using your knowledge of the way networks operate and your device configuration skills, search for the cause of the problem. For example, S1 is not the cause of the connectivity issue between PC1 and PC2. The link lights are green and no configuration on S1 would cause traffic to not pass between PC1 and PC2. So the problem must be with PC1, PC2, or both.</p>
+<p>b. Verify the device addressing to ensure it matches the network documentation. For example, the IP address for PC1 is incorrect as verified with the&nbsp;<strong>ipconfig</strong>&nbsp;command.</p>
+<p>c. Suggest a solution that you think will resolve the problem and document it. For example, change the IP address for PC1 to match the documentation.</p>
+<p><strong>Note:</strong>&nbsp;Often there is more than one solution. However, it is a troubleshooting best practice to implement one solution at a time. Implementing more than one solution could introduce additional issues in a more complex scenario.</p>
+<h3>Part 2: Implement, Verify, and Document Solutions</h3>
+<p>In Part 2 of this activity, you will implement the solutions you identified in Part 1. You will then verify the solution worked. You may need to return to Part 1 to finish isolating all the problems.</p>
+<h5>Step 1: Implement solutions to connectivity problems.</h5>
+<p>Refer to your documentation in Part 1. Choose the first issue and implement your suggested solution. For example, correct the IP address on PC1.</p>
+<h5>Step 2: Verify that the problem is now resolved.</h5>
+<p>a. Verify your solution has solved the problem by performing the test you used to identify the problem. For example, can PC1 now ping PC2?.</p>
+<p>b. If the problem is resolved, indicate so in your documentation. For example, in the table above, a simple checkmark would suffice in the &ldquo;Verified&rdquo; column.</p>
+<h5>Step 3: Verify that all issues are resolved.</h5>
+<p>a. If you still have an outstanding issue with a solution that has not yet been implemented, return to Part 2, Step 1.</p>
+<p>b. If all your current issues are resolved, have you also resolved any remote connectivity issues (such as can PC1 ping PC4)? If the answer is no, return to Part 1, Step 1c to test remote connectivity.</p>
+<h3>Issues:</h3>
+<p>PC1 cannot ping PC2 because PC1 has an IP address that does not belong to the network PC1 is<br />attached to.<br />&ndash; Devices cannot ping S2 and S2 cannot ping any device because S2 is missing an IP address.<br />&ndash; Remote devices cannot ping PC4 because PC4 has the wrong default gateway configured.<br />&ndash; Remote devices cannot ping S1 because S1 is missing a default gateway configuration.</p>
+<p>&nbsp;</p>
+<p><strong>Solution</strong></p>
+<p>On PC1 and PC4 the default gateway is incorrent so the packets are not being directed towards the correct place.</p>
+<p>S1#configure terminal<br />S1(config)#ip default-gateway 192.168.10.1</p>
+<p>S2#conf terminal<br />S2(config)#interface vlan 1<br />S2(config-if)#ip address 192.168.11.2 255.255.255.0<br />S2(config-if)#no shutdown</p>

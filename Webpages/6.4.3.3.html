@@ -1,0 +1,83 @@
+<h3>Packet Tracer &ndash; Connect a Router to a LAN</h3>
+<p>&nbsp;</p>
+<h4>Objectives</h4>
+<p><strong>Part 1: Display Router Information</strong></p>
+<p>Part 2: Configure Router Interfaces</p>
+<p>Part 3: Verify the Configuration</p>
+<h4>Background</h4>
+<p>In this activity, you will use various show commands to display the current state of the router. You will then use the Addressing Table to configure router Ethernet interfaces. Finally, you will use commands to verify and test your configurations.</p>
+<p><strong>Note:</strong>&nbsp;The routers in this activity are partially configured. Some of the configurations are not covered in this course, but are provided to assist you in using verification commands.</p>
+<h3>Part 1: Display Router Information</h3>
+<h5>Step 1: Display interface information on R1.</h5>
+<p><strong>Note:</strong>&nbsp;Click a device and then click the CLI tab to access the command line directly. The console password is cisco. The privileged EXEC password is class.</p>
+<p>a. Which command displays the statistics for all interfaces configured on a router?</p>
+<blockquote>
+<p>R1#show interfaces</p>
+</blockquote>
+<p>b. Which command displays the information about the Serial 0/0/0 interface only?</p>
+<blockquote>
+<p>R1#show interfaces serial 0/0/0</p>
+</blockquote>
+<p>c. Enter the command to display the statistics for the Serial 0/0/0 interface on R1 and answer the following questions:<br />1) What is the IP address configured on R1?<br />2) What is the bandwidth on the Serial 0/0/0 interface?</p>
+<h4>Instructions</h4>
+<blockquote>
+<p>R1#show interfaces serial 0/0/0<br />R1#show interfaces serial 0/0/0<br />Serial0/0/0 is up, line protocol is up (connected)<br />Hardware is HD64570<br />Internet address is&nbsp;<strong>209.165.200.225/30</strong><br />MTU 1500 bytes, BW&nbsp;<strong>1544 Kbit</strong>, DLY 20000 usec,<br />reliability 255/255, txload 1/255, rxload 1/255<br />Encapsulation HDLC, loopback not set, keepalive set (10 sec)<br />Last input never, output never, output hang never<br />Last clearing of &ldquo;show interface&rdquo; counters never<br />Input queue: 0/75/0 (size/max/drops); Total output drops: 0<br />Queueing strategy: weighted fair<br />Output queue: 0/1000/64/0 (size/max total/threshold/drops)<br />Conversations 0/0/256 (active/max active/max total)<br />Reserved Conversations 0/0 (allocated/max allocated)<br />Available Bandwidth 1158 kilobits/sec<br />5 minute input rate 64 bits/sec, 0 packets/sec<br />5 minute output rate 67 bits/sec, 0 packets/sec<br />43 packets input, 2540 bytes, 0 no buffer<br />Received 0 broadcasts, 0 runts, 0 giants, 0 throttles<br />0 input errors, 0 CRC, 0 frame, 0 overrun, 0 ignored, 0 abort<br />43 packets output, 2560 bytes, 0 underruns<br />0 output errors, 0 collisions, 1 interface resets<br />0 output buffer failures, 0 output buffers swapped out<br />0 carrier transitions<br />DCD=up DSR=up DTR=up RTS=up CTS=up</p>
+</blockquote>
+<p>d. Enter the command to display the statistics for the GigabitEthernet 0/0 interface and answer the following questions:</p>
+<p>1) What is the IP address on R1? &ndash;&gt;&nbsp;unassigned</p>
+<p>2) What is the MAC address of the GigabitEthernet 0/0 interface?</p>
+<p>3) What is the bandwidth on the GigabitEthernet 0/0 interface?</p>
+<h4>Instructions</h4>
+<blockquote>
+<p>R1#show interfaces gigabitEthernet 0/0<br />GigabitEthernet0/0 is administratively down, line protocol is down (disabled)<br />Hardware is CN Gigabit Ethernet, address is 000d.bd6c.7d01 (bia&nbsp;000d.bd6c.7d01)<br />MTU 1500 bytes, BW&nbsp;1000000 Kbit, DLY 10 usec,<br />reliability 255/255, txload 1/255, rxload 1/255<br />Encapsulation ARPA, loopback not set<br />Keepalive set (10 sec)<br />Full-duplex, 100Mb/s, media type is RJ45<br />output flow-control is unsupported, input flow-control is unsupported<br />ARP type: ARPA, ARP Timeout 04:00:00,<br />Last input 00:00:08, output 00:00:05, output hang never<br />Last clearing of &ldquo;show interface&rdquo; counters never<br />Input queue: 0/75/0 (size/max/drops); Total output drops: 0<br />Queueing strategy: fifo<br />Output queue :0/40 (size/max)<br />5 minute input rate 0 bits/sec, 0 packets/sec<br />5 minute output rate 0 bits/sec, 0 packets/sec<br />0 packets input, 0 bytes, 0 no buffer<br />Received 0 broadcasts, 0 runts, 0 giants, 0 throttles<br />0 input errors, 0 CRC, 0 frame, 0 overrun, 0 ignored, 0 abort<br />0 watchdog, 1017 multicast, 0 pause input<br />0 input packets with dribble condition detected<br />0 packets output, 0 bytes, 0 underruns<br />0 output errors, 0 collisions, 2 interface resets<br />0 unknown protocol drops<br />0 babbles, 0 late collision, 0 deferred<br />0 lost carrier, 0 no carrier<br />0 output buffer failures, 0 output buffers swapped out</p>
+</blockquote>
+<h5>Step 2: Display a summary list of the interfaces on R1.</h5>
+<p>a. Which command displays a brief summary of the current interfaces, statuses, and IP addresses assigned to them?</p>
+<blockquote>
+<p>R1#show ip interface brief<br />Interface IP-Address OK? Method Status Protocol<br />GigabitEthernet0/0 unassigned YES unset administratively down down<br />GigabitEthernet0/1 unassigned YES unset administratively down down<br />Serial0/0/0 209.165.200.225 YES manual up up<br />Serial0/0/1 unassigned YES unset administratively down down<br />FastEthernet0/1/0 unassigned YES unset up down<br />FastEthernet0/1/1 unassigned YES unset up down<br />FastEthernet0/1/2 unassigned YES unset up down<br />FastEthernet0/1/3 unassigned YES unset up down<br />Vlan1 unassigned YES unset administratively down down</p>
+</blockquote>
+<p>b. Enter the command on each router and answer the following questions:<br />1) How many serial interfaces are there on R1 and R2? &ndash;&gt; 2 interface<br />2) How many Ethernet interfaces are there on R1 and R2? &mdash;&gt; R1: 6 interface ; R2: 2 nterface<br />3) Are all the Ethernet interfaces on R1 the same? If no, explain the difference(s).</p>
+<h5>Step 3: Display the routing table on R1.</h5>
+<p>a. What command displays the content of the routing table?</p>
+<blockquote>
+<p>R1#show ip route</p>
+</blockquote>
+<p>b. Enter the command on R1 and answer the following questions:<br />1) How many connected routes are there (uses the C code)?<br />2) Which route is listed?</p>
+<blockquote>
+<p>R1#show ip route<br />Codes: L &ndash; local, C &ndash; connected, S &ndash; static, R &ndash; RIP, M &ndash; mobile, B &ndash; BGP<br />D &ndash; EIGRP, EX &ndash; EIGRP external, O &ndash; OSPF, IA &ndash; OSPF inter area<br />N1 &ndash; OSPF NSSA external type 1, N2 &ndash; OSPF NSSA external type 2<br />E1 &ndash; OSPF external type 1, E2 &ndash; OSPF external type 2, E &ndash; EGP<br />i &ndash; IS-IS, L1 &ndash; IS-IS level-1, L2 &ndash; IS-IS level-2, ia &ndash; IS-IS inter area<br />* &ndash; candidate default, U &ndash; per-user static route, o &ndash; ODR<br />P &ndash; periodic downloaded static route</p>
+<p>Gateway of last resort is not set</p>
+<p>209.165.200.0/24 is variably subnetted, 2 subnets, 2 masks<br />C 209.165.200.224/30 is directly connected, Serial0/0/0<br />L 209.165.200.225/32 is directly connected, Serial0/0/0</p>
+</blockquote>
+<p>3) How does a router handle a packet destined for a network that is not listed in the routing table?<br /><strong>A router will only send packets to a network listed in the routing table. If a network is not listed, the packet will be dropped.</strong></p>
+<h3>Part 2: Configure Router Interfaces</h3>
+<h5>Step 1: Configure the GigabitEthernet 0/0 interface on R1.</h5>
+<p>a. Enter the following commands to address and activate the GigabitEthernet 0/0 interface on R1:</p>
+<blockquote>
+<p>R1(config)# interface gigabitethernet 0/0<br />R1(config-if)# ip address 192.168.10.1 255.255.255.0<br />R1(config-if)# no shutdown<br />%LINK-5-CHANGED: Interface GigabitEthernet0/0, changed state to up<br />%LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet0/0, changed state to up</p>
+</blockquote>
+<p>b. It is good practice to configure a description for each interface to help document the network information. Configure an interface description indicating to which device it is connected.</p>
+<p>R1(config-if)# description LAN connection to S1</p>
+<p>c. R1 should now be able to ping PC1.</p>
+<blockquote>
+<p>R1(config-if)# end<br />%SYS-5-CONFIG_I: Configured from console by console<br />R1# ping 192.168.10.10</p>
+</blockquote>
+<blockquote>
+<p>Type escape sequence to abort.<br />Sending 5, 100-byte ICMP Echos to 192.168.10.10, timeout is 2 seconds:<br />.!!!!<br />Success rate is 80 percent (4/5), round-trip min/avg/max = 0/2/8 ms</p>
+</blockquote>
+<h5>Step 2: Configure the remaining Gigabit Ethernet Interfaces on R1 and R2.</h5>
+<p>a. Use the information in the Addressing Table to finish the interface configurations for R1 and R2. For each interface, do the following:</p>
+<p>1) Enter the IP address and activate the interface.</p>
+<p>2) Configure an appropriate description.</p>
+<p>b. Verify interface configurations.</p>
+<h5>Step 3: Back up the configurations to NVRAM.</h5>
+<p>Save the configuration files on both routers to NVRAM. What command did you use?</p>
+<p>&nbsp;</p>
+<p><strong>Solution</strong></p>
+<p>R1(config)#interface gigabitEthernet 0/1<br />R1(config-if)#ip address 192.168.11.1 255.255.255.0<br />R1(config-if)#no shutdown<br />R1(config-if)#description LAN connection to S2<br />R1(config-if)#exit<br />R1(config)#exit<br />R1#ping 192.168.11.10</p>
+<p>R2&gt;en<br />Password: class<br />R2#configure terminal<br />R2(config)#interface gigabitEthernet 0/0<br />R2(config-if)#ip address 10.1.1.1 255.255.255.0<br />R2(config-if)#no shutdown<br />R2(config-if)#description LAN connection to S3<br />R2(config-if)#exit</p>
+<p>R2(config)#interface gigabitEthernet 0/1<br />R2(config-if)#ip address 10.1.2.1 255.255.255.0<br />R2(config-if)#no shutdown<br />R2(config-if)#description LAN connection to S4<br />R2(config-if)#exit<br />R2(config)#exit</p>
+<p>R2#ping 10.1.1.10</p>
+<p>Type escape sequence to abort.<br />Sending 5, 100-byte ICMP Echos to 10.1.1.10, timeout is 2 seconds:<br />.!!!!<br />Success rate is 80 percent (4/5), round-trip min/avg/max = 0/0/1 ms</p>
+<p>R2#ping 10.1.2.10</p>
+<p>Type escape sequence to abort.<br />Sending 5, 100-byte ICMP Echos to 10.1.2.10, timeout is 2 seconds:<br />.!!!!<br />Success rate is 80 percent (4/5), round-trip min/avg/max = 0/0/1 ms</p>
+<p>R2#copy running-config startup-config<br />Destination filename [startup-config]?<br />Building configuration...<br />[OK]</p>

@@ -1,0 +1,22 @@
+<h4>Objectives</h4>
+<p>&middot; Finish the network documentation.<br />&middot; Perform basic device configurations on a router and a switch.<br />&middot; Verify connectivity and troubleshoot any issues.</p>
+<h4>Scenario</h4>
+<p>Your network manager is impressed with your performance in your job as a LAN technician. She would like you to now demonstrate your ability to configure a router connecting two LANs. Your tasks include configuring basic settings on a router and a switch using the&nbsp;<strong>Cisco</strong>&nbsp;IOS. You will then verify your configurations, as well as configurations on existing devices by testing end-to-end connectivity.</p>
+<p><strong>Note:</strong>&nbsp;After completing this activity, you can choose to click the&nbsp;<strong>Reset Activity</strong>&nbsp;button to generate a new set of requirements. Variable aspects include device names, IP addressing schemes, and the topology.</p>
+<h4>Requirements</h4>
+<p>&middot; Provide the missing information in the Addressing Table.<br />&middot; Name the router&nbsp;<strong>RTA</strong>&nbsp;and the second switch&nbsp;<strong>ASw-2</strong>. You will not be able to access&nbsp;<strong>ASw-1</strong>.<br />&middot; Use&nbsp;<strong>cisco</strong>&nbsp;as the user EXEC password for all lines.<br />&middot; Use&nbsp;<strong>class</strong>&nbsp;as the privileged EXEC password.<br />&middot; Encrypt all plain text passwords.<br />&middot; Configure an appropriate banner.<br />&middot; Configure addressing for all devices according to the Addressing Table.<br />&middot; Document interfaces with descriptions, including the&nbsp;<strong>ASw-2</strong>&nbsp;VLAN 1 interface.<br />&middot; Save your configurations.<br />&middot; Verify connectivity between all devices. All devices should be able to ping any other device.<br />&middot; Troubleshoot and document any issues.<br />&middot; Implement the solutions necessary to enable and verify full end-to-end connectivity.</p>
+<p><strong>Note:</strong>&nbsp;Click&nbsp;<strong>Check Results</strong>&nbsp;button to see your progress. Click the Reset Activity button to generate a new set of requirements.</p>
+<p><strong>Solution</strong></p>
+<p>Router&gt;enable<br />Router#configure terminal<br />Router(config)#hostname RTA</p>
+<p>RTA(config)#line console 0<br />RTA(config-line)#password cisco<br />RTA(config-line)#login<br />RTA(config-line)#exit</p>
+<p>RTA(config)#line vty 0 4<br />RTA(config-line)#password cisco<br />RTA(config-line)#login<br />RTA(config-line)#exit</p>
+<p>RTA(config)#enable password cisco<br />RTA(config)#enable secret class<br />RTA(config)#service password-encryption<br />RTA(config)#banner motd #Router RTA#</p>
+<p>RTA(config)#interface gigabitEthernet 0/0<br />RTA(config-if)#ip address 172.14.5.1 255.255.255.0<br />RTA(config-if)#no shutdown<br />RTA(config-if)#exit</p>
+<p>RTA(config)#interface gigabitEthernet 0/1<br />RTA(config-if)#ip address 172.14.10.1 255.255.255.0<br />RTA(config-if)#no shutdown<br />RTA(config-if)#exit</p>
+<p>RTA(config)#exit<br />RTA#copy running-config startup-config</p>
+<p>ASw-2#configure terminal</p>
+<p>ASw-2(config)#line console 0<br />ASw-2(config-line)#password cisco<br />ASw-2(config-line)#login<br />ASw-2(config-line)#exit</p>
+<p>ASw-2(config)#line vty 0 4<br />ASw-2(config-line)#password cisco<br />ASw-2(config-line)#login<br />ASw-2(config-line)#exit</p>
+<p>ASw-2(config)#enable password cisco<br />ASw-2(config)#enable secret class<br />ASw-2(config)#service password-encryption<br />ASw-2(config)#banner motd #Switch 2#</p>
+<p>ASw-2(config)#interface vlan 1<br />ASw-2(config-if)#ip address 172.14.10.35 255.255.255.0<br />ASw-2(config-if)#no shutdown<br />ASw-2(config-if)#description #This is interface VLAN 1 in ASw-2#<br />ASw-2(config-if)#exit<br />ASw-2(config)#ip default-gateway 172.14.10.1<br />ASw-2(config)#exit<br />ASw-2#copy running-config startup-config</p>
+<p>Fill out the IP Configuration for users 1-4 according to the routing table.&nbsp;</p>

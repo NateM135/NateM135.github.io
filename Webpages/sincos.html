@@ -1,0 +1,1879 @@
+<!DOCTYPE html>
+<!-- saved from url=(0036)https://www.studystack.com/triangles -->
+<html itemscope="" itemtype="http://schema.org/" lang="en" class="gr__studystack_com"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+   <!-- commonHead.jsp -->
+   <meta name="p:domain_verify" content="2d8691d9c4eca28a93aa9a3287a19cc8">
+   <meta content="IE=9" http-equiv="X-UA-Compatible">
+   
+   <meta name="theme-color" content="#000000">
+
+
+      <link rel="StyleSheet" href="./sincos_files/stylecss.jsp" type="text/css">
+
+   <meta name="Author" content="John Weidner">
+
+   <link rel="SHORTCUT ICON" href="https://sstk.biz/images/favicon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="https://www.studystack.com/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://www.studystack.com/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="https://www.studystack.com/favicon-16x16.png">
+<link rel="manifest" href="https://www.studystack.com/site.webmanifest">
+<link rel="mask-icon" href="https://www.studystack.com/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#603cba">
+<meta name="theme-color" content="#ffffff">
+
+
+   <link rel="apple-touch-icon" sizes="40x40" href="https://sstk.biz/images/books40x40.png">
+   <link rel="apple-touch-icon" sizes="155x155" href="https://sstk.biz/images/Study_stack155px.png">
+   <link rel="apple-touch-startup-image" href="https://sstk.biz/images/studystack320x480.png">
+   <meta itemprop="name" content="StudyStack flashcards">
+   <meta itemprop="description" content="The seriously fun way to study!!!">
+   <link href="./sincos_files/css" rel="stylesheet" type="text/css">
+
+
+   
+
+
+
+
+
+      <style>
+        body {
+           background-color: inherit;
+        }
+        div#container {
+           background-color: inherit;
+        }
+      </style>
+      <link rel="stylesheet" type="text/css" href="./sincos_files/newHomeStyles.css">
+      <link href="./sincos_files/css(1)" rel="stylesheet" type="text/css">
+
+
+   <title>Law of Sines and Law of Cosines calculator</title>
+   <meta name="robots" content="index, follow">
+   <meta name="description" content="Law of Sine and Law of Cosine calculator">
+   <meta name="keywords" content="Sine, Cosine, Calculator">
+   <style type="text/css">
+      .step {
+          padding: 10px;
+      }
+      .inputArea {
+          float: left;
+      }
+      #sideInput {
+         width: 100% ;
+         overflow: auto;
+         padding-bottom: 15px;
+      }
+      #angleInput {
+         width: 100% ;
+         overflow: auto;
+         padding-bottom: 15px;
+      }
+      
+      #solve {
+         padding: 7px;
+      }
+      #theCanvas {
+           background-color: white;
+           display: none ;
+      }
+   </style>
+
+
+   <!--[if IE]><script type="text/javascript" src="excanvas.js"></script><![endif]-->
+
+<script async="" src="./sincos_files/analytics.js.download"></script><script id="smb-dispAd-js" async="" src="./sincos_files/smb-dispAd.js.download"></script><script src="./sincos_files/all.js.download" async=""></script><script id="facebook-jssdk" async="" src="./sincos_files/all.js(1).download"></script><style type="text/css">.fb_hidden{position:absolute;top:-10000px;z-index:10001}.fb_reposition{overflow:hidden;position:relative}.fb_invisible{display:none}.fb_reset{background:none;border:0;border-spacing:0;color:#000;cursor:auto;direction:ltr;font-family:"lucida grande", tahoma, verdana, arial, sans-serif;font-size:11px;font-style:normal;font-variant:normal;font-weight:normal;letter-spacing:normal;line-height:1;margin:0;overflow:visible;padding:0;text-align:left;text-decoration:none;text-indent:0;text-shadow:none;text-transform:none;visibility:visible;white-space:normal;word-spacing:normal}.fb_reset>div{overflow:hidden}@keyframes fb_transform{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}.fb_animate{animation:fb_transform .3s forwards}
+.fb_dialog{background:rgba(82, 82, 82, .7);position:absolute;top:-10000px;z-index:10001}.fb_dialog_advanced{border-radius:8px;padding:10px}.fb_dialog_content{background:#fff;color:#373737}.fb_dialog_close_icon{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 0 transparent;cursor:pointer;display:block;height:15px;position:absolute;right:18px;top:17px;width:15px}.fb_dialog_mobile .fb_dialog_close_icon{left:5px;right:auto;top:5px}.fb_dialog_padding{background-color:transparent;position:absolute;width:1px;z-index:-1}.fb_dialog_close_icon:hover{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 -15px transparent}.fb_dialog_close_icon:active{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 -30px transparent}.fb_dialog_iframe{line-height:0}.fb_dialog_content .dialog_title{background:#6d84b4;border:1px solid #365899;color:#fff;font-size:14px;font-weight:bold;margin:0}.fb_dialog_content .dialog_title>span{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/yd/r/Cou7n-nqK52.gif) no-repeat 5px 50%;float:left;padding:5px 0 7px 26px}body.fb_hidden{height:100%;left:0;margin:0;overflow:visible;position:absolute;top:-10000px;transform:none;width:100%}.fb_dialog.fb_dialog_mobile.loading{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/ya/r/3rhSv5V8j3o.gif) white no-repeat 50% 50%;min-height:100%;min-width:100%;overflow:hidden;position:absolute;top:0;z-index:10001}.fb_dialog.fb_dialog_mobile.loading.centered{background:none;height:auto;min-height:initial;min-width:initial;width:auto}.fb_dialog.fb_dialog_mobile.loading.centered #fb_dialog_loader_spinner{width:100%}.fb_dialog.fb_dialog_mobile.loading.centered .fb_dialog_content{background:none}.loading.centered #fb_dialog_loader_close{clear:both;color:#fff;display:block;font-size:18px;padding-top:20px}#fb-root #fb_dialog_ipad_overlay{background:rgba(0, 0, 0, .4);bottom:0;left:0;min-height:100%;position:absolute;right:0;top:0;width:100%;z-index:10000}#fb-root #fb_dialog_ipad_overlay.hidden{display:none}.fb_dialog.fb_dialog_mobile.loading iframe{visibility:hidden}.fb_dialog_mobile .fb_dialog_iframe{position:sticky;top:0}.fb_dialog_content .dialog_header{background:linear-gradient(from(#738aba), to(#2c4987));border-bottom:1px solid;border-color:#1d3c78;box-shadow:white 0 1px 1px -1px inset;color:#fff;font:bold 14px Helvetica, sans-serif;text-overflow:ellipsis;text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0;vertical-align:middle;white-space:nowrap}.fb_dialog_content .dialog_header table{height:43px;width:100%}.fb_dialog_content .dialog_header td.header_left{font-size:12px;padding-left:5px;vertical-align:middle;width:60px}.fb_dialog_content .dialog_header td.header_right{font-size:12px;padding-right:5px;vertical-align:middle;width:60px}.fb_dialog_content .touchable_button{background:linear-gradient(from(#4267B2), to(#2a4887));background-clip:padding-box;border:1px solid #29487d;border-radius:3px;display:inline-block;line-height:18px;margin-top:3px;max-width:85px;padding:4px 12px;position:relative}.fb_dialog_content .dialog_header .touchable_button input{background:none;border:none;color:#fff;font:bold 12px Helvetica, sans-serif;margin:2px -12px;padding:2px 6px 3px 6px;text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0}.fb_dialog_content .dialog_header .header_center{color:#fff;font-size:16px;font-weight:bold;line-height:18px;text-align:center;vertical-align:middle}.fb_dialog_content .dialog_content{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/y9/r/jKEcVPZFk-2.gif) no-repeat 50% 50%;border:1px solid #4a4a4a;border-bottom:0;border-top:0;height:150px}.fb_dialog_content .dialog_footer{background:#f5f6f7;border:1px solid #4a4a4a;border-top-color:#ccc;height:40px}#fb_dialog_loader_close{float:left}.fb_dialog.fb_dialog_mobile .fb_dialog_close_button{text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0}.fb_dialog.fb_dialog_mobile .fb_dialog_close_icon{visibility:hidden}#fb_dialog_loader_spinner{animation:rotateSpinner 1.2s linear infinite;background-color:transparent;background-image:url(https://static.xx.fbcdn.net/rsrc.php/v3/yD/r/t-wz8gw1xG1.png);background-position:50% 50%;background-repeat:no-repeat;height:24px;width:24px}@keyframes rotateSpinner{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+.fb_iframe_widget{display:inline-block;position:relative}.fb_iframe_widget span{display:inline-block;position:relative;text-align:justify}.fb_iframe_widget iframe{position:absolute}.fb_iframe_widget_fluid_desktop,.fb_iframe_widget_fluid_desktop span,.fb_iframe_widget_fluid_desktop iframe{max-width:100%}.fb_iframe_widget_fluid_desktop iframe{min-width:220px;position:relative}.fb_iframe_widget_lift{z-index:1}.fb_iframe_widget_fluid{display:inline}.fb_iframe_widget_fluid span{width:100%}</style><link id="smb-fonts" href="./sincos_files/css(2)" type="text/css" rel="stylesheet"><link id="smb-dispad-select-style" href="./sincos_files/select.css" type="text/css" rel="stylesheet"><link id="smb-dispad-style" href="./sincos_files/smb-dispad.css" type="text/css" rel="stylesheet"><script id="__smbcfgldr883123" src="./sincos_files/studystack" type="text/javascript" async=""></script><script id="smb-googtag" src="./sincos_files/gpt.js.download" type="text/javascript" async=""></script><script id="smb-prebid" src="./sincos_files/smb-prebid.js.download" type="text/javascript" async=""></script><script id="__smbldr120594" src="./sincos_files/partner-status" type="text/javascript" async=""></script><script id="googleAnalytics" src="./sincos_files/analytics.js.download" type="text/javascript" async=""></script></head>
+
+<body data-gr-c-s-loaded="true">
+        <!-- framework.jsp -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   <div id="fb-root" class=" fb_reset"><div style="position: absolute; top: -10000px; width: 0px; height: 0px;"><div><iframe name="fb_xdm_frame_https" frameborder="0" allowtransparency="true" allowfullscreen="true" scrolling="no" allow="encrypted-media" id="fb_xdm_frame_https" aria-hidden="true" title="Facebook Cross Domain Communication Frame" tabindex="-1" src="./sincos_files/vy-MhgbfL4v.html" style="border: none;"></iframe></div><div></div></div></div>
+<script type="text/javascript">
+  window.fbAsyncInit = function() {
+      var fbConnectArea = document.getElementById( 'faceBookConnectArea' );
+      if ( fbConnectArea != null ) {
+             fbConnectArea.style.display = 'block';
+      }
+
+      FB.init({
+        appId      : '52462214664',
+        channelUrl : 'https://www.studystack.com/fbChannel.html', // Channel File
+        status     : true, // check login status
+        cookie     : true, // enable cookies to allow the server to access the session
+        xfbml      : true, // parse XFBML
+        oauth      : true 
+      });
+
+      FB.Event.subscribe('auth.login', function(response) {
+         top.location = '/fbConnector.jsp';
+      });
+
+
+    FB.getLoginStatus(function(response) {
+        if (response.status === 'connected') {
+            top.location = '/fbConnector.jsp?originalDestination=' + top.location ;
+        }
+    }  );
+
+
+   if ( typeof facebookInitPage == 'function' ) {
+      facebookInitPage();
+   }
+
+
+  };
+
+  // Load the SDK Asynchronously
+  (function(d){
+     var js, id = 'facebook-jssdk'; if (d.getElementById(id)) {return;}
+     js = d.createElement('script'); js.id = id; js.async = true;
+     js.src = "//connect.facebook.net/en_US/all.js";
+     d.getElementsByTagName('head')[0].appendChild(js);
+   }(document));
+</script>
+
+
+
+<script type="text/javascript">
+   var UTILS_JS = "" ;
+   var studyStackId = 0 ;
+   var completionBits = 0 ;
+
+   
+
+
+   var userBadges = '';
+
+</script>
+
+
+
+
+
+<script src="./sincos_files/utils.js.download" type="text/javascript"></script>
+
+
+
+
+
+
+<div id="topContainer">
+
+   <div id="top">
+      <div id="topErrorMessage"></div>
+
+
+      
+      
+      
+      
+      <!-- topHeader.jsp -->
+<style>
+   div#topContainer {
+      padding: 0;
+      height: auto;
+      background-color: #1f1f1f ;
+   }
+div#top {
+    width: inherit ; 
+}
+#appLinkArea {
+    text-align: center ;
+    display: none;
+}
+@media screen and (max-width: 500px) {
+  #appLinkArea {
+     display: block;
+  }
+}
+</style>
+
+ <script>
+
+  function statusChangeCallback(response) {
+    if (response.status === 'connected') {
+      onFacebookLogin( response );
+    } else if (response.status === 'not_authorized') {
+      console.log('User is logged into Facebook, but not your app.');
+    } else {
+      console.log( "User is not logged into Facebook." );
+    }
+  }
+
+
+  window.fbAsyncInit = function() {
+     FB.init({
+       appId      : '52462214664',
+       cookie     : true,   // enable cookies to allow the server to access the session
+       xfbml      : false,  // do NOT parse social plugins on this page
+       version    : 'v2.12'  // use graph api version 2.5
+     });
+
+     FB.getLoginStatus(function(response) {
+       
+         statusChangeCallback(response);
+       
+     });
+  };
+
+
+  function onFacebookLogin() {
+    top.location = '/fbConnector.jsp';
+  }
+
+  // Load the SDK asynchronously
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+ </script>
+
+
+
+
+
+
+	<header>
+                        <div id="appLinkArea">
+
+
+                                 <div id="app-button-wrapper-appLinkArea">
+                                      <a href="https://play.google.com/store/apps/details?id=com.studystack.phonegap&amp;hl=en&amp;utm_source=global_co&amp;utm_medium=prtnr&amp;utm_content=Mar2515&amp;utm_campaign=PartBadge&amp;pcampaignid=MKT-AC-global-none-all-co-pr-py-PartBadges-Oct1515-1">
+                                         <img class="app-button2" alt="Get it on Google Play" src="./sincos_files/en-play-badge.png">
+                                      </a>
+                                      <a href="https://itunes.apple.com/us/app/studystack-flashcards-study/id1147027509?mt=8">
+                                         <img class="app-button2" alt="Download on the App Store" src="./sincos_files/iosAppStore.png">
+                                      </a>
+                                </div>
+
+
+                        </div>
+
+
+			<div id="header-upper">
+				<div class="container">
+					<a href="https://www.studystack.com/"><img id="topLogo" src="./sincos_files/studystacklogo.svg" alt="Study Stack"></a>
+
+                                        
+
+
+
+
+
+
+                                            <!-- loginBox.jsp v6 -->
+<style scoped="">
+   #busyIndicator{
+position:absolute;
+top: 2.5em;
+width:100%;
+height:5px;
+opacity: 0.2;
+display: none;
+z-index: 999999;
+}
+
+.followingBallsG{
+background-color:#000000;
+position:absolute;
+top:0;
+left:0;
+width:5px;
+height:5px;
+-webkit-border-radius:3px;
+-webkit-animation-name:bounce_followingBallsG;
+-webkit-animation-duration:3.3s;
+-webkit-animation-iteration-count:infinite;
+-webkit-animation-direction:linear;
+border-radius:3px;
+animation-name:bounce_followingBallsG;
+animation-duration:1.3s;
+animation-iteration-count:infinite;
+animation-direction:linear;
+}
+
+#followingBallsG_1{
+-moz-animation-delay:0s;
+}
+
+#followingBallsG_1{
+-webkit-animation-delay:0s;
+}
+
+#followingBallsG_1{
+-ms-animation-delay:0s;
+}
+
+#followingBallsG_1{
+-o-animation-delay:0s;
+}
+
+#followingBallsG_1{
+animation-delay:0s;
+}
+
+#followingBallsG_2{
+-webkit-animation-delay:0.13s;
+animation-delay:0.13s;
+}
+
+#followingBallsG_3{
+-webkit-animation-delay:0.26s;
+animation-delay:0.26s;
+}
+
+#followingBallsG_4{
+-webkit-animation-delay:0.39s;
+animation-delay:0.39s;
+}
+
+
+@-webkit-keyframes bounce_followingBallsG{
+0%{
+left:0px;
+}
+
+50%{
+left:100%;
+}
+
+100%{
+left:0px;
+}
+
+}
+
+
+
+@keyframes bounce_followingBallsG{
+0%{
+left:0px;
+}
+
+50%{
+left:100%;
+}
+
+100%{
+left:0px;
+}
+
+}
+
+
+
+
+
+/*  spinner from http://tobiasahlin.com/spinkit/  */
+#loadingResultsDiv {
+   text-align: center ;
+}
+.spinner {
+  margin: 1em auto;
+  width: 16em;
+  height: 3em;
+  text-align: center;
+  font-size: 10px;
+}
+
+.spinner > div {
+  background-color: white;
+  height: 100%;
+  width: 0.7em;
+  display: inline-block;
+  
+  -webkit-animation: stretchdelay 1.2s infinite ease-in-out;
+  animation: stretchdelay 1.2s infinite ease-in-out;
+  margin: 0 0.35em;
+}
+
+.spinner .rect2 {
+  -webkit-animation-delay: -1.1s;
+  animation-delay: -1.1s;
+}
+
+.spinner .rect3 {
+  -webkit-animation-delay: -1.0s;
+  animation-delay: -1.0s;
+}
+
+.spinner .rect4 {
+  -webkit-animation-delay: -0.9s;
+  animation-delay: -0.9s;
+}
+
+.spinner .rect5 {
+  -webkit-animation-delay: -0.8s;
+  animation-delay: -0.8s;
+}
+
+@-webkit-keyframes stretchdelay {
+  0%, 40%, 100% { -webkit-transform: scaleY(0.4) }  
+  20% { -webkit-transform: scaleY(1.0) }
+}
+
+@keyframes stretchdelay {
+  0%, 40%, 100% { 
+    transform: scaleY(0.4);
+    -webkit-transform: scaleY(0.4);
+  }  20% { 
+    transform: scaleY(1.0);
+    -webkit-transform: scaleY(1.0);
+  }
+}
+
+
+
+
+    
+    .modalPopup {
+        display: none;
+        position: fixed;
+        z-index: 9999;
+        background-color: white;
+        width: 315px;
+        right: 0px;
+        left: 0px;
+        top: 0px;
+        bottom: 0px;
+        height: 300px;
+        margin: auto;
+        padding: 20px;
+        border-radius: 3px;
+        font-size: 11pt;
+        max-height: 100%;
+        overflow-y: scroll;
+        text-align: center ;
+    }
+    .modalPopup hr {
+	border: 1px solid rgba(0,0,0,.1);
+    }
+    #aboveAlreadyUser {
+	margin-top: 17px;
+	margin-bottom: 14px;
+    }
+    #alreadyClient a {
+      padding: 9px 20px;
+    }
+    .standard-button {
+        background-color: #8cc63f; 
+        border-radius: 3px;
+	transition: all ease 0.25sec;
+	box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+        border: none;
+        height: 33px;
+        font-size: 1em;
+        padding: 0;
+        color: white;
+        font-weight: bold;
+        padding: 0 10px;
+    }
+    #progressPopup {
+        background-color: lightgray;
+        height: 163px;
+    }
+    #errorPopup {
+        height: 163px;
+    }
+    #errorMessage {
+        height: 80px;
+        text-align: left ;
+        color: #111111;
+    }
+    #loginPopup {
+        height: 380px;
+    }
+    .facebookButton {
+        text-align: center ;
+        line-height: 65px;
+
+        border-color: #3B5998;
+    	border-bottom-color: #263a63;
+    	background-color: #3B5998;
+        color: white;
+    }
+
+    #resetPassword {
+        padding: 0;
+        height: 286px;
+        text-align: left ;
+    }
+    #resetPassword hr {
+       margin: 18px 5px;
+       border: 1px solid rgba(0,0,0,.07);
+    }
+    #resetPassword input[type='text']{
+        width: 100% ;
+        margin-top: 20px;
+        padding: 6px;
+        box-sizing: border-box;
+        font-size: 1em;
+    } 
+  
+    #resetPassword input[type='submit']{
+         padding: 0 19px;
+         font-weight: normal;
+    }
+    #resetPasswordHeading {
+        background-color: #e5e5e5;
+        padding: 10px 20px;
+        font-size: 13pt;
+        color: black;
+        border-top-right-radius: 3px;
+        border-top-left-radius: 3px;
+    }
+
+    #resetPasswordBoxPadding {
+        padding: 20px;
+        color: #727272;
+        line-height: 1.5em;
+    }
+
+    .modalButton{
+       height: 34px;
+       padding: 5px 16px;
+       margin: 0;
+       text-transform: inherit ;
+    }
+    
+    #modalBackground {
+        display: none;
+        position: fixed;
+        z-index: 9998;
+        top: 0; 
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: black;
+        opacity: 0.7;
+    }
+    #loginPopup button {
+       width: 100%;
+       margin-bottom: 5px;
+    }
+    #loginWithEmail {
+       width: 100%;
+       margin-bottom: 24px;
+    }
+    #loginPopup input[type=password] {
+       width: 100%;
+       height: 2.5em;
+       margin: 0.2em 0;
+       font-size: 1.2em;
+       padding: 0.3em;
+       box-sizing: border-box;
+    }
+    #loginPopup input[type=email] {
+       width: 100%;
+       height: 2.5em;
+       margin: 0.2em 0;
+       font-size: 1.2em;
+       padding: 0.3em;
+       box-sizing: border-box;
+    }
+    #loginPopup input[type=text] {
+       width: 100%;
+       height: 2.5em;
+       margin: 0.2em 0;
+       font-size: 1.2em;
+       padding: 0.3em;
+       box-sizing: border-box;
+    }
+    #signupPopup input[type='text'] {
+        background-color: rgb(250, 255, 189);
+    }
+    #signupUserName {
+       padding-right: 28px;
+    }
+    #signupPopup input[type='email'] {
+        background-color: rgb(250, 255, 189);
+    }
+    #signupPopup input[type='password'] {
+        background-color: rgb(250, 255, 189);
+    }
+
+    #facebookSignupArea {
+       padding-bottom: 10px ;
+    }
+
+
+    #signupPopup {
+        height: 504px;
+        overflow: hidden;
+    }
+    #emailSignupArea p {
+       text-align: left;
+       font-size: 9.5pt;
+       line-height: 1.4em;
+       margin-top: 1em;
+    }
+    p#agreementMsg  {
+       margin-top: 0;
+    }
+
+    #emailInputArea {
+        height: 62px;
+        overflow: hidden;
+    }
+
+    #signUpWithEmail {
+       margin-top: 11px;
+       width: 100%;
+    }
+    #alreadyClient {
+        width: 100%;
+        text-align: left ;
+    }
+
+    #signupPopup input[type='password']{
+        width: 100% ;
+        margin-top: 2px;
+        padding: 4px;
+        box-sizing: border-box;
+        height: 42px;
+        font-size: 1.2em;
+    } 
+    #signupPopup input[type='text']{
+        width: 100% ;
+        margin-top: 2px;
+        padding: 4px;
+        box-sizing: border-box;
+        height: 42px;
+        font-size: 1.2em;
+    } 
+
+    #signupPopup input[type='email']{
+        width: 100% ;
+        margin-top: 11px;
+        padding: 4px;
+        box-sizing: border-box;
+        height: 42px;
+        font-size: 1.2em;
+    } 
+
+    #ageWrapper {
+        margin-top: 10px;
+        position: relative ;
+        height: 80px;
+	background-color: rgba(250, 235, 215, 0.51);
+    }
+    #signupPopup input[type='radio']{
+        height: 30px;
+        width: 30px;
+    }
+
+    #ageLabel {
+       position: absolute;
+       left: 8px;
+       top: 0px;
+       line-height: 80px;
+    }
+
+    #twelveOrYoungerLabel {
+        position: absolute;
+        top: 16px;
+        left: 97px;
+    }
+    #twelveOrYoungerWrapper {
+        position: absolute;
+        top: 5px;
+        left: 56px;
+    }
+    #thirteenOrOlderLabel {
+        position: absolute;
+        bottom: 15px;
+        left: 97px;
+    }
+    #thirteenOrOlder {
+        position: absolute;
+        bottom: 5px;
+        left: 56px;
+    }
+    #whyLink {
+       position: absolute;
+       left: 250px;
+       top: 0px;
+       line-height: 80px;
+    }
+
+
+    #forgotWrapper {
+        padding: 0 0.2em;
+        text-align: left ;
+        position: relative;
+        height: 48px;
+    }
+    #forgotPassword {
+	float: right;
+	padding: 10px 0;
+        position: absolute;
+        right: 0;
+    }
+    #forgotWrapper label {
+	font-weight: 400;
+	padding: 10px 0;
+        position: absolute;
+        left: 27px;
+    }
+    #rememberMe {
+       width: auto;
+       position: absolute;
+       top: 6px;
+       height: 17px;
+       width: 17px;
+    }
+
+    #noAccount {
+       text-align: left ;
+	margin-top: 1.8em;
+    }
+    .orDivider {
+       font-size:16px;
+       margin-bottom: 23px;
+       text-align: center ;
+       margin-top: 20px;
+    }
+    #signupPopup .orDivider {
+       margin-top: 0px;
+    }
+    .orText {
+         display: inline-block;
+         padding: 8px;
+         background-color: white;
+         position: relative;
+         top: -4px;
+    }
+    .orDivider hr {
+       margin: -20px auto 10px auto;
+       width: 90%;
+    }
+    #loginForm {
+       padding: 0;
+       overflow-y: visible ;
+    }
+    #loginPopup a {
+       color: #8CC63F;
+       padding: 10px;
+    }
+    #signupPopup a {
+       color: #8CC63F;
+    }
+</style>
+       <div id="modalBackground" onclick="hideModalBox()"></div>
+
+       <div id="progressPopup" class="modalPopup">
+             <div id="progressMessage">Busy.   Please wait.</div>
+
+             <div class="spinner">
+		<div class="rect1"></div>
+		<div class="rect2"></div>
+		<div class="rect3"></div>
+		<div class="rect4"></div>
+		<div class="rect5"></div>
+             </div>
+
+             <button class="standard-button" onclick="hideModalBox()">Cancel</button>
+       </div>
+
+       <div id="errorPopup" class="modalPopup">
+             <div id="errorMessage"></div>
+             <button class="standard-button" id="dismissErrorButton">Ok</button>
+       </div>
+
+       <div id="loginPopup" class="modalPopup">
+           <div class="facebookButton" onclick="FB.login( statusChangeCallback )">Log in using Facebook</div>
+           <div class="orDivider">
+                 <div class="orText">or</div>
+                <hr>
+           </div>
+           <form id="loginForm" action="https://www.studystack.com/" onsubmit="return doLoginWithEmail(this);" autocomplete="on">
+               <label style="display:none" for="email">Username or email</label>
+               <label style="display:none" for="password">Password</label>
+
+               <input type="email" id="email" name="email" placeholder="Username or email" autocomplete="off" style="background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAASCAYAAABSO15qAAAAAXNSR0IArs4c6QAAAPhJREFUOBHlU70KgzAQPlMhEvoQTg6OPoOjT+JWOnRqkUKHgqWP4OQbOPokTk6OTkVULNSLVc62oJmbIdzd95NcuGjX2/3YVI/Ts+t0WLE2ut5xsQ0O+90F6UxFjAI8qNcEGONia08e6MNONYwCS7EQAizLmtGUDEzTBNd1fxsYhjEBnHPQNG3KKTYV34F8ec/zwHEciOMYyrIE3/ehKAqIoggo9inGXKmFXwbyBkmSQJqmUNe15IRhCG3byphitm1/eUzDM4qR0TTNjEixGdAnSi3keS5vSk2UDKqqgizLqB4YzvassiKhGtZ/jDMtLOnHz7TE+yf8BaDZXA509yeBAAAAAElFTkSuQmCC&quot;); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%;">
+               <input type="password" id="password" name="password" placeholder="Password" autocomplete="off" style="background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAASCAYAAABSO15qAAAAAXNSR0IArs4c6QAAAPhJREFUOBHlU70KgzAQPlMhEvoQTg6OPoOjT+JWOnRqkUKHgqWP4OQbOPokTk6OTkVULNSLVc62oJmbIdzd95NcuGjX2/3YVI/Ts+t0WLE2ut5xsQ0O+90F6UxFjAI8qNcEGONia08e6MNONYwCS7EQAizLmtGUDEzTBNd1fxsYhjEBnHPQNG3KKTYV34F8ec/zwHEciOMYyrIE3/ehKAqIoggo9inGXKmFXwbyBkmSQJqmUNe15IRhCG3byphitm1/eUzDM4qR0TTNjEixGdAnSi3keS5vSk2UDKqqgizLqB4YzvassiKhGtZ/jDMtLOnHz7TE+yf8BaDZXA509yeBAAAAAElFTkSuQmCC&quot;); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%;">
+                 <img id="loginEye" src="./sincos_files/blackeye.png" onmouseover="showPassword(&quot;password&quot;,true)" onmouseout="showPassword(&quot;password&quot;,false)" style="width:20px;height:17px;position:absolute;top:52%;right:1.7em;transform:translate(0%,-50%)" alt="show password">
+
+               <div id="forgotWrapper">
+                   <input type="checkbox" id="rememberMe"><label for="rememberMe">&nbsp;Remember me&nbsp;</label>
+                   <a href="https://www.studystack.com/triangles#" onclick="showResetPassword(event);return false;" id="forgotPassword">Forgot Password?</a>
+               </div>
+               <input type="submit" id="loginWithEmail" class="standard-button" value="Log In">
+           </form>
+           <hr>
+           <div id="noAccount">
+               Don't have an account?
+               <a href="https://www.studystack.com/triangles#" onclick="showSignupBox(event);return false;">&nbsp;Sign up&nbsp;</a>
+           </div>
+      </div>
+
+
+
+      <div id="signupPopup" class="modalPopup">
+          <div id="facebookSignupArea">
+               <div class="facebookButton" onclick="FB.login( statusChangeCallback )">Sign up using Facebook</div>
+          </div>
+           <div class="orDivider">
+                 <div class="orText">or</div>
+                <hr>
+           </div>
+
+          <div id="emailSignupArea">
+             <label style="display:none" for="signupUserName">Username</label>
+             <label style="display:none" for="signupEmail">Email address</label>
+             <label style="display:none" for="signupPassword">Password</label>
+             <div style="position:relative">
+                 <input type="text" id="signupUserName" name="signupUserName" placeholder="Username" autocomplete="off" onkeyup="checkUniqueUserName( this.value)" style="background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABHklEQVQ4EaVTO26DQBD1ohQWaS2lg9JybZ+AK7hNwx2oIoVf4UPQ0Lj1FdKktevIpel8AKNUkDcWMxpgSaIEaTVv3sx7uztiTdu2s/98DywOw3Dued4Who/M2aIx5lZV1aEsy0+qiwHELyi+Ytl0PQ69SxAxkWIA4RMRTdNsKE59juMcuZd6xIAFeZ6fGCdJ8kY4y7KAuTRNGd7jyEBXsdOPE3a0QGPsniOnnYMO67LgSQN9T41F2QGrQRRFCwyzoIF2qyBuKKbcOgPXdVeY9rMWgNsjf9ccYesJhk3f5dYT1HX9gR0LLQR30TnjkUEcx2uIuS4RnI+aj6sJR0AM8AaumPaM/rRehyWhXqbFAA9kh3/8/NvHxAYGAsZ/il8IalkCLBfNVAAAAABJRU5ErkJggg==&quot;); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%;">
+                 <img id="userNameStatus" src="./sincos_files/greenCheckMark.svg" alt="Username is available" style="position: absolute; z-index: 10; top: 13px; right: 5px; height: 24px; width: 24px;opacity:0;transition: opacity 0.25s ease-in-out;">
+                 <span id="userNameTaken" style="color: red; position: absolute; z-index: 3; right: 4px; top: 30px; font-size: 11px;opacity:0;transition: opacity 0.25s ease-in-out;">taken</span>
+             </div>
+             <div style="position:relative">
+                 <input type="password" id="signupPassword" placeholder="Password" autocomplete="off" style="background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAASCAYAAABSO15qAAAAAXNSR0IArs4c6QAAAPhJREFUOBHlU70KgzAQPlMhEvoQTg6OPoOjT+JWOnRqkUKHgqWP4OQbOPokTk6OTkVULNSLVc62oJmbIdzd95NcuGjX2/3YVI/Ts+t0WLE2ut5xsQ0O+90F6UxFjAI8qNcEGONia08e6MNONYwCS7EQAizLmtGUDEzTBNd1fxsYhjEBnHPQNG3KKTYV34F8ec/zwHEciOMYyrIE3/ehKAqIoggo9inGXKmFXwbyBkmSQJqmUNe15IRhCG3byphitm1/eUzDM4qR0TTNjEixGdAnSi3keS5vSk2UDKqqgizLqB4YzvassiKhGtZ/jDMtLOnHz7TE+yf8BaDZXA509yeBAAAAAElFTkSuQmCC&quot;); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%;">
+                 <img id="signupEye" src="./sincos_files/blackeye.png" onmouseover="showPassword(&quot;signupPassword&quot;,true)" onmouseout="showPassword(&quot;signupPassword&quot;,false)" style="width:20px;height:17px;position:absolute;top:50%;right:0.3em;transform:translate(0%,-50%)" alt="show password">
+             </div>
+
+
+
+            <div id="ageWrapper">
+                      <label id="ageLabel">Age:</label>
+                      <div id="twelveOrYoungerWrapper"><input id="twelveOrYounger" type="radio" name="age" value="12-" onclick="handleAgeChange(0)"></div>
+                       <label id="twelveOrYoungerLabel" for="twelveOrYounger">12 or younger</label><br> 
+                       <input id="thirteenOrOlder" type="radio" name="age" value="13+" checked="checked" onclick="handleAgeChange(1)">
+                       <label id="thirteenOrOlderLabel" for="thirteenOrOlder">13 or older</label>
+                       <a id="whyLink" target="_blank" href="https://www.ftc.gov/enforcement/rules/rulemaking-regulatory-reform-proceedings/childrens-online-privacy-protection-rule" rel="nofollow" title="The Federal Trade Commission Children&#39;s Online Privacy Protection Act (COPPA) prohibits websites from collecting personal information from children under 13 years old.  So if you are under 13, we won&#39;t collect your email address.">why</a>
+             </div>
+
+
+           <div id="emailInputArea" style="display: block;">
+
+
+             <input type="email" id="signupEmail" name="signupEmail" placeholder="Email Address">
+           </div>
+
+             <p id="agreementMsg">
+	        <span id="noEmailMsg" style="display: none;">
+                 <br>
+                 Make sure to remember your password. If you forget it there is no way for StudyStack
+                 to send you a reset link.   You would need to create a new account. 
+                </span>
+                <span id="emailShareMsg" style="display: inline;">
+                We do not share your email address with others. It is only used to allow you to reset your password. </span>
+                For details read our
+                <a href="https://www.studystack.com/Privacy" target="_blank">Privacy Policy</a> and
+                <a href="https://www.studystack.com/Terms" target="_blank">Terms of Service</a>.
+             </p>
+             <button id="signUpWithEmail" class="standard-button">Sign up</button>
+          </div>
+
+          <hr id="aboveAlreadyUser">
+          <p id="alreadyClient">
+             Already a StudyStack user? <a href="https://www.studystack.com/triangles#" onclick="showLoginBox(event);return false;">Log In</a> 
+          </p>
+      </div>
+
+
+
+
+      <div id="resetPassword" class="modalPopup">
+          <div id="resetPasswordHeading">Reset Password</div>
+          <div id="resetPasswordBoxPadding">
+              Enter the <label for="resetEmail">email address</label> associated with your account, and we'll email you a link to reset your password.
+              <input type="text" id="resetEmail" name="resetEmail" placeholder="Email Address">
+              <hr>
+              <input type="submit" id="sendResetLink" class="standard-button" value="Send Reset Link">
+          </div>
+      </div>
+
+<script type="text/javascript">
+
+
+
+
+
+
+
+
+
+
+
+  var NO_ERROR = 0;
+  var BAD_LOGIN = -1;
+  var SERVER_ERROR = -2;
+  var NO_USERS = -3;
+  var INVALID_EMAIL = -4;
+  var MISSING_EMAIL = -5;
+  var USERNAME_TAKEN = -6;
+
+   function showPassword( pwFieldId, show ) {
+      var pwField = document.getElementById( pwFieldId );
+      if ( pwField ) {
+           pwField.type = show ? 'text' : 'password' ;
+      }
+   }
+   function showLoginBox( event ) {
+       return showModalBox( event, 'loginPopup' );
+   }
+   function showSignupBox( event ) {
+       return showModalBox( event, 'signupPopup' );
+   }
+   function showResetPassword( event ) {
+       return showModalBox( event, 'resetPassword' );
+   }
+   function showProgress( message ) {
+        document.getElementById( 'progressMessage' ).innerHTML = message ;
+        showModalBox( null, 'progressPopup' ) ;
+   }
+   function showError( message, completeFunc ) {
+       document.getElementById( 'errorMessage' ).innerHTML = message ;
+       if ( !completeFunc ) {
+           completeFunc = hideModalBox;
+       }
+       document.getElementById( 'dismissErrorButton' ).onclick = completeFunc ;
+       showModalBox( null, 'errorPopup' );
+   }
+   var activeModal = null; 
+   var modalBackground = document.getElementById( 'modalBackground' );
+
+   function showModalBox( event, divId ) {
+        if ( activeModal != null ) {
+             activeModal.style.display = 'none';
+        }
+ 
+        activeModal = document.getElementById( divId );
+        modalBackground.style.display = 'block';
+        document.body.style.overflowY = 'hidden';
+        activeModal.style.display = 'block' ;
+        if (event) {
+            killEvent( event );
+        }
+        $(document).keyup( hideModalOnEscape ) ;
+        return false ;
+   };
+
+   function hideModalOnEscape(e) {
+        if (e.keyCode == 27) { // escape key
+            hideModalBox();
+        }
+   }
+
+   function hideModalBox() {
+        activeModal.style.display = 'none';
+        modalBackground .style.display = 'none';
+        document.body.style.overflowY = 'auto';
+        activeModal = null ;
+        $(document).unbind("keyup", hideModalOnEscape);
+   }
+
+
+   document.getElementById( 'signUpWithEmail' ).onclick = function() {
+
+      var userName = document.getElementById( 'signupUserName' ).value ;
+      var password = document.getElementById( 'signupPassword' ).value ;
+      var emailAddr = document.getElementById( 'signupEmail' ).value ;
+      var child = document.getElementById( 'twelveOrYounger' ).checked; 
+
+      if ( userName.length == 0 ) {
+           showError( "Please enter a user name.", showSignupBox );
+           return ;
+      }
+
+      if ( userName.indexOf( "@" ) >= 0 ) {
+           showError( "Your user name cannot be your email address.", showSignupBox );
+           return ;
+      }
+
+      if ( password.length == 0 ) {
+           showError( "Please enter a password.", showSignupBox );
+           return ;
+      }
+
+      if ( !child && emailAddr.length == 0 ) {
+           showError( "Please enter an email address.", showSignupBox );
+           return ;
+      }
+
+      showProgress( 'Signing up.   Please wait!' );
+
+      createAccount( userName, password, emailAddr, child, function(error) {
+          if ( error == NO_ERROR ) {
+               hideModalBox();
+               top.location = '/MyStudyStack.jsp' ;
+          }
+          else if ( error == BAD_LOGIN ) {
+              showError( "Login failed", showSignupBox );
+          }
+          else if ( error == USERNAME_TAKEN ) {
+              showError( "Username is already taken", showSignupBox );
+          }
+          else if ( error == INVALID_EMAIL ) {
+              showError( "Invalid email address", showSignupBox );
+          }
+          else {
+               showError( "Error communicating with server.  Please try again. " + error, showSignupBox );
+          }
+        } ); 
+      };
+
+
+   document.getElementById( 'loginWithEmail' ).onclick = doLoginWithEmail ;
+
+   function doLoginWithEmail() {
+      showProgress( 'Logging in.   Please wait!' );
+      var emailAddr = document.getElementById( 'email' ).value ;
+      var password = document.getElementById( 'password' ).value ;
+      ajaxLoginUser( emailAddr, password, 
+		function(data) {
+                   hideModalBox();
+                   top.location = "/MyStudyStack.jsp";
+                }, 
+                function(data) {
+                   if ( emailAddr.indexOf( "@" ) > 0 ) {
+                       showError( "Invalid email address  or password", showLoginBox );
+                   }
+                   else {
+                       showError( "Invalid username or password", showLoginBox );
+                   }
+                } );
+      return false ;
+   };
+
+
+
+
+
+   document.getElementById( 'sendResetLink' ).onclick = function() {
+      showProgress( 'Requesting temporary password.   Please wait!' );
+      var emailAddr = document.getElementById( 'resetEmail' ).value ;
+      ajaxForgotPassword( emailAddr,
+		function(data) {
+                   showError( 'Please check your email for instructions on accessing your account.' );
+                }, 
+                function(data) {
+                   showError( 'Error:' + data, showLoginBox );
+                } );
+      };
+
+
+function handleAgeChange( val ) {
+   document.getElementById( 'emailInputArea' ).style.display = (val==0) ? 'none' : 'block';
+   document.getElementById( 'noEmailMsg' ).style.display = (val==1) ? 'none' : 'inline';
+   document.getElementById( 'emailShareMsg' ).style.display = (val==0) ? 'none' : 'inline';
+}
+
+
+
+
+function ajaxLoginUser( userName, password, successFunc, errorFunc ) {
+  var urlString = '/ajaxSignIn.jsp';
+  $.ajax( { url: urlString,
+            type: "POST",
+            data: {
+                i : userName,
+                p : password
+            },
+            cache: false,
+            success: function( data, status, xhr ) {
+                 data = data.trim();
+	         var parts = data.split( ' ' );
+	         if ( parts.length >=2 ) {
+	             var id = parts[0].trim();
+	             var token = parts[1].trim();
+	             successFunc( id, token );
+	         }
+	         else {
+	             console.log( 'parts.length=' + parts.length );
+	             errorFunc();
+	         }
+
+            },
+          } );
+}
+
+
+function ajaxForgotPassword( userNameOrEmail, successFunc, errorFunc ) {
+  var urlString = '/ajaxForgotPassword.jsp';
+  $.ajax( { url: urlString,
+            type: "POST",
+            data: {
+                info : userNameOrEmail
+            },
+            cache: false,
+            success: function( data, status, xhr ) {
+                 data = data.trim();
+                 if ( data.indexOf( "EMAILSENT" ) >= 0 ) {
+	             successFunc();
+	         }
+	         else {
+	             errorFunc( data );
+	         }
+
+            },
+          } );
+}
+
+
+
+function createAccount( userName, password, emailAddress, child, callback ) {
+     var urlString = '/ajaxCreateAccount2.jsp';
+     $.ajax( { url: urlString,
+               type: "POST",
+               dataType: "text",
+               data: { i: userName,
+                       p: password,
+                       e: emailAddress,
+                       c: (child ? "1" : "0") },
+               cache : false,
+               success: function( data, textStatus, jqXHR ) {
+                              console.log( 'success:' + data );
+	                      data = data.trim();
+	                      var parts = data.split( ' ' );
+                              console.log( 'length=' + parts.length );
+	                      if ( parts.length >=2 ) {
+	                          var id = parts[0].trim();
+	                          var token = parts[1].trim();
+	                          callback( NO_ERROR, id, token );
+	                      }
+	                      else {
+	                          callback( BAD_LOGIN );
+	                      }
+               },
+               error: function(jqXHR, textStatus, errorThrown){
+      			if ( jqXHR.status == 409 ) {
+	                    callback( USERNAME_TAKEN );
+	            	}
+	           	else if ( jqXHR.status == 404 ) {
+	           	     callback( INVALID_EMAIL ); 
+	           	}
+	                else {
+	                     callback( SERVER_ERROR );
+	                }
+	      }
+           } 
+      );
+}
+
+   var userNameStatus = document.getElementById( 'userNameStatus' );
+   var userNameTaken = document.getElementById( 'userNameTaken' );
+
+   var checkNameTimer = null ;
+
+   function checkUniqueUserName( username ) {
+       if ( document.getElementById( 'signupPopup' ).style.display != 'block' ) {
+           return ;
+       }
+       console.log( 'checkUniqueUserName:' + username + '...' );
+       showUserNameStatus( STATUS_BUSY );
+       if ( checkNameTimer ) {
+          clearTimeout( checkNameTimer );
+       }
+       checkNameTimer = setTimeout( checkUniqueUserNameNow, 150, username );
+   }
+   function checkUniqueUserNameNow( username ) {
+       var table = 'users' ;
+       var column = 'userName' ;
+       if ( username == '' ) {
+           showUserNameStatus( STATUS_UNKNOWN );
+           return ;
+       }
+       if ( username.includes('@') ) {
+           showUserNameStatus( STATUS_INVALID );
+           return ;
+       }
+       var xmlhttp = newAjaxRequest();
+       xmlhttp.onreadystatechange = function() {
+           if (xmlhttp.readyState==4) {
+              try {
+                  console.log( 'ajax resp:' + xmlhttp.responseText + '<<<');
+                  var count = xmlhttp.responseText ;
+                  showUserNameStatus( count <= 0  ? STATUS_AVAILABLE : STATUS_TAKEN );
+              }
+              catch (err ) {
+                  showUserNameStatus( STATUS_UNKNOWN );
+              }
+           }
+       }
+       var url = "countRecords.jsp" +
+                  "?table=" + table +
+                  "&column=" + column + "&value=" + escape(username);
+       xmlhttp.open('GET', url, true);
+       xmlhttp.send( 'text=text' );
+    }
+
+    var STATUS_BUSY = -1;
+    var STATUS_UNKNOWN = 0;
+    var STATUS_AVAILABLE = 1;
+    var STATUS_TAKEN = 2;
+    var STATUS_INVALID = 3;
+    var shownStatus = STATUS_UNKNOWN ;
+    function showUserNameStatus( status ) {
+       if ( status == shownStatus ) {
+           return ;
+       }
+       shownStatus = status;
+       userNameTaken.style.opacity = 0;
+       userNameStatus.style.opacity = 0;
+
+       if ( status == STATUS_TAKEN ) {
+            userNameTaken.style.opacity = 1;
+            userNameTaken.innerHTML = 'Taken';
+       }
+       else if ( status == STATUS_INVALID ) {
+            userNameTaken.style.opacity = 1;
+            userNameTaken.innerHTML = 'Invalid';
+       }
+       else if ( status == STATUS_AVAILABLE ) {
+            userNameStatus.style.opacity = 1;
+            userNameStatus.src = '/images/greenCheckMark.svg' ;
+       }
+       else if ( status == STATUS_BUSY ) {
+            userNameStatus.style.opacity = 1;
+            userNameStatus.src = '/images/spinner.gif' ;
+       }
+    }
+
+
+handleAgeChange( 1 );
+
+</script>
+
+<!-- end of loginBox.jsp -->
+
+
+					    <nav id="header-logandsign">
+						<a href="https://www.studystack.com/triangles#" onclick="showLoginBox();return false;" class="header-footer-a">Log&nbsp;In</a>
+						<a href="https://www.studystack.com/triangles#" onclick="showSignupBox();return false;" class="header-footer-a" id="header-signup">Sign&nbsp;Up</a>
+    					    </nav>
+
+
+
+                                      
+
+
+
+				</div><!--END OF container-->
+			</div><!--END OF header-upper--> 
+	</header>
+<!-- end of topHeader.jsp -->
+
+      
+
+   </div><!-- end top -->
+</div><!-- end topContainer -->
+<div class="clearFloat"> </div>
+<div id="container" class="roundedCorners">
+    <div id="main">
+
+
+
+        <!--  rightAd = WIDE   -->
+
+        <div id="rightSide" class="wideRightSide noprint">
+            <!-- rightSideWide.jsp -->
+
+
+
+   <!-- ad_336_280_atf.jsp -->
+<div id="ad336x280atf">
+
+
+
+
+<script async="" src="./sincos_files/f.txt"></script>
+<!-- 336x280 right top -->
+<ins class="adsbygoogle" style="display:inline-block;width:336px;height:280px" data-ad-client="ca-pub-4909676113151654" data-ad-slot="8514216753"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+
+
+</div>
+
+   <div style="height: 18px"></div>
+
+
+
+
+
+
+
+
+   <!-- ad_300_600_atf.jsp -->
+<style>
+#adWrapper { 
+  position: relative;
+  margin: 0 auto;
+  width: 300px;
+  height: 600px;
+  z-index: 10;
+}
+
+#sideAd {
+  width:300px; 
+  height:600px;
+  position: absolute;
+  top: 0px;
+}
+
+#sideAd.fixed {
+  position: fixed;
+  top: 0;
+}
+</style>
+
+<div id="adWrapper" class="noprint">
+ <div id="sideAd">
+
+
+
+
+
+
+
+
+<script async="" src="./sincos_files/f.txt"></script>
+<!-- 300x600 -->
+<ins class="adsbygoogle" style="display:inline-block;width:300px;height:600px" data-ad-client="ca-pub-4909676113151654" data-ad-slot="2328082358"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+
+
+
+ </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+         <br>
+         <a href="https://www.studystack.com/noads" style="font-size: 0.8em">Remove Ads</a>
+
+        </div><!-- end rightSide -->
+
+
+
+      <div id="leftSide" class="mainContentNarrow">
+
+        <div id="mainContent" class="leftContent roundedCorners primaryBackground">
+
+        
+        
+
+
+        <h1>Solving Triangles - using Law&nbsp;of&nbsp;Sine and Law&nbsp;of&nbsp;Cosine </h1>
+
+  <script type="text/javascript">
+
+         function solvePass() {
+	if ( !solveThirdAngle( "A",  "B",  "C" ))
+                   if (!solveThirdAngle( "B",  "C",  "A" ))
+                    if (!solveThirdAngle( "A",  "C",  "B" ))               
+                     if (!solveAAS( "B",  "A",  "b",  "a" ) )
+                      if (!solveAAS( "A",  "B",  "a",  "b" ))
+                       if (!solveAAS( "A",  "C",  "a",  "c" ))
+                        if (!solveAAS( "B",  "C",  "b",  "c" ))
+                         if (!solveAAS( "C",  "A",  "c",  "a" ))
+                          if (!solveAAS( "C",  "B",  "c",  "b" ))
+                           if (!solveSSS( "a", "b", "c", "A" ))
+                            if (!solveSSS( "b", "c", "a", "B" ))
+                             if (!solveSSS( "c", "a", "b", "C" ))
+                              if (!solveSAS( "b", "A", "c", "a" ))
+                               if (!solveSAS( "a", "B", "c", "b" ))
+                                if (!solveSSA( "a", "b", "A", "B" ))
+                                 if (!solveSSA( "a", "c", "A", "C" ))
+                                  if (!solveSSA( "b", "a", "B", "A" ))
+                                   if (!solveSSA( "b", "c", "B", "C" ))
+                                    if (!solveSSA( "c", "a", "C", "A" ))
+                                     if (!solveSSA( "c", "b", "C", "B" ))
+                                       solveSAS( "a", "C", "b", "c" );
+         }
+
+         function solve() {
+                document.getElementById( "steps" ).innerHTML = '';
+                checkedThreeAngles180 = false ;
+                solvePass();
+                solvePass();
+                solvePass();
+                drawTriangle();
+         }
+
+        function drawTriangle() {
+            clearCanvas();
+            var a = 1 * document.getElementById( 'side_a' ).value ;
+            var b = 1 * document.getElementById( 'side_b' ).value ;
+            var c = 1 * document.getElementById( 'side_c' ).value ;
+            var B = 1 * document.getElementById( 'angleB' ).value;
+            var A = 1 * document.getElementById( 'angleA' ).value;
+
+            var e = -a * Math.sin( toRad( B ) ) ;
+
+            var d = Math.sqrt( Math.abs( b*b - e*e)  );
+
+
+            if ( A > 90   ) {
+               d = -1 * d;
+            }
+
+            var maxNum = Math.max( Math.max( Math.abs(c),Math.abs(d) ), Math.abs(e) );
+            var desiredMax = 300;
+            var scale = desiredMax / maxNum ; 
+            // logStep( 'c=' + c + ' d=' + d + ' e=' + e + ' scale=' + scale + ' maxNum=' + maxNum );
+            c = c * scale;
+            d = d * scale;
+            e = e * scale;
+            //logStep( 'c=' + c + ' d=' + d + ' e=' + e );
+            //
+            var minX = Math.min( Math.min( c,d ), 0 );
+
+            xoffset = minX ;
+            if ( xoffset < 0 ) {
+                 xoffset = -xoffset ;
+            }
+            xoffset += 30;
+            yoffset = -e + 30;
+            //logStep( 'xoffset=' + xoffset + '  yoffset=' + yoffset );
+
+            drawLine( 0,0, c,0 );
+            drawLine( c,0, d,e );
+            drawLine( d,e, 0,0 );
+
+            ctx.font = '14pt Arial';
+            drawText( "A", -20, 10 );
+            drawText( "B", c+10, 10 );
+            drawText( "C", d-5, e-10 );
+            document.getElementById( 'theCanvas' ).style.display = 'block'; 
+        }
+
+    var canvas = null;
+    var ctx = null ;
+
+
+  var xoffset = 200;
+  var yoffset = 330;
+
+  function drawLine( x1, y1, x2, y2 ) {
+       x1 += xoffset ;
+       y1 += yoffset ;
+       x2 += xoffset ;
+       y2 += yoffset ;
+
+       if ( getCanvasContext() != null ) {
+           ctx.fillStyle = "rgb(200,0,0)";
+           ctx.beginPath();
+           ctx.moveTo(x1, y1);
+           ctx.lineTo(x2, y2);
+           ctx.closePath();
+           ctx.stroke();
+       }
+    }
+
+    function drawText( text, x1, y1 ) {
+       if ( getCanvasContext() != null ) {
+           x1 += xoffset ;
+           y1 += yoffset ;
+           ctx.fillText( text, x1, y1 );
+       }
+    }
+
+    function  clearCanvas() {
+        if ( getCanvasContext() != null ) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+    }
+
+
+    function getCanvasContext() {
+       if ( ctx == null ) {
+           if ( canvas == null ) {
+               canvas = document.getElementById( 'theCanvas' );
+           }
+
+           if ( canvas.getContext ) {
+              ctx = canvas.getContext( '2d' );
+           }
+        }
+        return ctx ;
+    }
+
+
+        function logStep( step ) {
+              document.getElementById( "steps" ).innerHTML = document.getElementById( "steps" ).innerHTML + "<div class='step'>" + step + "</div>";
+        }
+
+        var checkedThreeAngles180 = false ;
+
+         function solveThirdAngle( angleName1, angleName2, unknownAngle ) {
+                var unknownAngleInput = document.getElementById( "angle" + unknownAngle ) ;
+                var angle1Value = document.getElementById( "angle" + angleName1 ).value;
+                var angle2Value = document.getElementById( "angle" + angleName2 ).value ;
+                var unknownAngleValue = unknownAngleInput.value ;
+
+                if ( (!checkedThreeAngles180) && angle1Value != '' && angle2Value != '' && unknownAngleValue != '' ) {
+                     checkedThreeAngles180 = true ;
+                     var sumAngles = 1*unknownAngleValue + 1*angle1Value + 1*angle2Value ;
+                     if ( sumAngles < 179.5 || sumAngles > 180.5 ) {
+                          logStep( 'WARNING: Three angles do not add up to 180.   Not a triangle!!! sum=' + sumAngles );
+                          return true ;
+                     }
+                     
+                }
+//                alert( 'unknownAngle=' + unknownAngle + ' unknownAngle=' + unknownAngleInput + ' value=' + unknownAngleValue + ' is unknown=' + ( unknownAngleValue=='' ) );
+                if ( unknownAngleValue == '' ) {
+                        if ( angle1Value != '' && angle2Value != '' ) {
+                         	unknownAngleInput.value = 180 - (1*angle1Value) - (1*angle2Value);       
+                                    logStep( 'Since the sum of the three angles is 180, ' + unknownAngle + ' = 180 - ( ' + angle1Value + ' + ' + angle2Value + ' ) = ' + unknownAngleInput.value );
+                                    return true ;
+                        }
+                }
+                return false ;
+         }
+
+
+          function solveAAS( angleName1, angleName2, sideName1, unknownSide ) {
+                 var unknownSideInput = document.getElementById( "side_" + unknownSide ) ;
+                 var unknownSideValue = unknownSideInput.value ;
+                 if ( unknownSideValue == '' ) {
+                          var angle1Value = document.getElementById( "angle" + angleName1 ).value ;
+                          var angle2Value = document.getElementById( "angle" + angleName2 ).value ;
+                          var side1Value = document.getElementById( "side_" + sideName1 ).value ;
+                          if ( angle1Value != '' && angle2Value != '' && side1Value != '' ) {
+                                  var unknownSideValue = (1*side1Value)/ Math.sin( toRad( angle1Value ) ) * Math.sin( toRad( angle2Value ) );
+                                  unknownSideInput.value = unknownSideValue ;
+                                  logStep( 'Using law of sine, given two angles and a side, '  + unknownSide + ' = (' + side1Value + ' /  sin( ' + angle1Value + ' ) ) * sin( ' + angle2Value + ' )'  );
+                                  return true ;
+                          }
+                 }
+                 return false ;
+          }
+
+         function solveSSS( sideName1, sideName2, sideName3, unknownAngleName ) {
+               var unknownAngleInput = document.getElementById( "angle" + unknownAngleName ) ;
+               if ( unknownAngleInput.value == '' ) {
+                          var side1Value = document.getElementById( "side_" + sideName1 ).value ;
+                          var side2Value = document.getElementById( "side_" + sideName2 ).value ;
+                          var side3Value = document.getElementById( "side_" + sideName3 ).value ;
+
+                          if ( side1Value != '' && side2Value != '' && side3Value != '' ) {
+                               
+                                 var rightSide=  ((side2Value * side2Value) + (side3Value * side3Value) - (side1Value * side1Value)) /  (2 * side2Value * side3Value );
+                                 var radians = Math.acos( rightSide );
+                                 unknownAngleInput.value = 180/Math.PI * radians;
+                                 logStep( 'SSS - law of cosine, given three sides ' + unknownAngleName + ' = cos<sup><small>-1</small></sup>( (' + side2Value + '^2 + '  + side3Value + '^2 - ' + side1Value + '^2 ) /  ( 2 * ' + side2Value + ' * ' + side3Value + '))' );
+                                 return true ;
+                          }
+               }
+               return false ;
+         }
+
+         function solveSSA( sideName1, sideName2, angleName1, unknownAngleName ) {
+               var unknownAngleInput = document.getElementById( "angle" + unknownAngleName ) ;
+               if ( unknownAngleInput.value == '' ) {
+                          var side1Value = document.getElementById( "side_" + sideName1 ).value ;
+                          var side2Value = document.getElementById( "side_" + sideName2 ).value ;
+                          var angle1Value = document.getElementById( "angle" + angleName1 ).value ;
+                          if ( side1Value != '' && side2Value != '' && angle1Value != '' ) {
+                                 var rightSide = side2Value * ( Math.sin( toRad( angle1Value ) ) / side1Value ) ;
+                                 var radians = Math.asin( rightSide );
+                                 unknownAngleInput.value = 180/Math.PI * radians;
+                                 var warning = '' ;
+                                 if ( (1*unknownAngleInput.value) + 1*angle1Value < 180 ) {
+                                    warning= '<br /><b>WARNING</b> - SSA ambiguous case!!! ' + unknownAngleName + ' could also be ' + (180 - 1*unknownAngleInput.value) ;
+                                 }
+                                 logStep( 'SSA - law of sine, given ' + sideName1 + sideName2 + angleName1 + ' solve for ' + unknownAngleName + ' = sin<sup><small>-1</small></sup>( ' + side2Value + ' * sin( ' + angle1Value + ' )  / ' + side1Value + ' ) = sin<sup><small>-1</small></sup>( ' + rightSide + ')' + warning );
+                                 return true ;
+                          }
+                }
+                return false ;
+         }
+
+         function solveSAS( sideName1, angleName3, sideName2, unknownSideName ) {
+                 var unknownSideInput = document.getElementById( "side_" + unknownSideName ) ;
+                 var unknownSideValue = unknownSideInput.value ;
+                 if ( unknownSideValue == '' ) {
+                          var side1Value = document.getElementById( "side_" + sideName1 ).value ;
+                          var side2Value = document.getElementById( "side_" + sideName2 ).value ;
+                          var angle3Value = document.getElementById( "angle" + angleName3 ).value ;
+                          if ( side1Value != '' && side2Value != '' && angle3Value != '' ) {
+                                  unknownSideInput.value = Math.sqrt( side1Value * side1Value + side2Value*side2Value - 2*side1Value*side2Value* Math.cos( toRad( angle3Value ) )) ;
+                                  logStep( 'SAS - law of cosine, given ' + sideName1 + angleName3 + sideName2 + ' solve for ' + unknownSideName + ' = sqrt( ' + side1Value + '^2 + '  + side2Value + '^2 - 2*' + side1Value + '*' + side2Value + ' * cos( ' + angle3Value + '))'  );
+                                  return true ;
+                          }
+                 }
+                 return false ;
+         }
+
+          function toRad(deg) {
+              return deg * Math.PI/180;
+          }
+
+          function cb() {
+              var count = 0;
+              if ( document.getElementById( 'angleA' ).value != '' ) count++;
+              if ( document.getElementById( 'angleB' ).value != '' ) count++;
+              if ( document.getElementById( 'angleC' ).value != '' ) count++;
+              if ( document.getElementById( 'side_a' ).value != '' ) count++;
+              if ( document.getElementById( 'side_b' ).value != '' ) count++;
+              if ( document.getElementById( 'side_c' ).value != '' ) count++;
+    
+              document.getElementById( 'solve' ).disabled = (count < 3);
+          }
+  </script>
+<div style="text-align: left; padding: 30px;">
+  Enter three values of a triangle's sides or angles (in degrees) including at least one side.   (Angle "A" is the angle opposite side "a".   Angle "B" is the angle opposite side "b".  Angle "C" is the angle opposite side "c".)  <br>&nbsp;<br>Click "solve" to find the missing values using the <a href="http://en.wikipedia.org/wiki/Law_of_sines">Law of Sines</a> or the <a href="http://en.wikipedia.org/wiki/Law_of_cosines">Law of Cosines</a>.
+<br>&nbsp;<br>
+
+    Angles:
+    <div id="angleInput">
+           <div class="inputArea">A = <input id="angleA" type="text" class="angleInput" onchange="cb()" onkeyup="cb()" autocomplete="off" style="background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAASCAYAAABSO15qAAAAAXNSR0IArs4c6QAAAPhJREFUOBHlU70KgzAQPlMhEvoQTg6OPoOjT+JWOnRqkUKHgqWP4OQbOPokTk6OTkVULNSLVc62oJmbIdzd95NcuGjX2/3YVI/Ts+t0WLE2ut5xsQ0O+90F6UxFjAI8qNcEGONia08e6MNONYwCS7EQAizLmtGUDEzTBNd1fxsYhjEBnHPQNG3KKTYV34F8ec/zwHEciOMYyrIE3/ehKAqIoggo9inGXKmFXwbyBkmSQJqmUNe15IRhCG3byphitm1/eUzDM4qR0TTNjEixGdAnSi3keS5vSk2UDKqqgizLqB4YzvassiKhGtZ/jDMtLOnHz7TE+yf8BaDZXA509yeBAAAAAElFTkSuQmCC&quot;); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;"></div>
+           <div class="inputArea">B = <input id="angleB" type="text" class="angleInput" onchange="cb()" onkeyup="cb()"></div>
+           <div class="inputArea">C = <input id="angleC" type="text" class="angleInput" onchange="cb()" onkeyup="cb()"></div>
+    </div>
+   sides:
+   <div id="sideInput">
+           <div class="inputArea">a = <input id="side_a" type="text" class="sideInput" onchange="cb()" onkeyup="cb()"></div>
+           <div class="inputArea">b = <input id="side_b" type="text" class="sideInput" onchange="cb()" onkeyup="cb()"></div>
+           <div class="inputArea">c = <input id="side_c" type="text" class="sideInput" onchange="cb()" onkeyup="cb()"></div>
+   </div>
+
+   <button id="solve" onclick="solve()">Solve</button>
+
+<br>&nbsp;<br>
+
+    <div id="steps"><div class="step">SSS - law of cosine, given three sides A = cos<sup><small>-1</small></sup>( (2^2 + 2^2 - 2^2 ) /  ( 2 * 2 * 2))</div><div class="step">SSS - law of cosine, given three sides B = cos<sup><small>-1</small></sup>( (2^2 + 2^2 - 2^2 ) /  ( 2 * 2 * 2))</div><div class="step">Since the sum of the three angles is 180, C = 180 - ( 60.00000000000001 + 60.00000000000001 ) = 59.99999999999999</div></div>
+
+    
+   <canvas id="theCanvas" width="600" height="500" style="display: block;">
+   </canvas>
+
+
+
+
+</div>
+        
+        <!-- frameworkend.jsp -->
+ 
+
+
+
+
+
+
+
+
+        </div><!-- end mainContent -->
+
+
+        <div class="leftContent primaryBackground roundedCorners noprint" style="padding: 8px 0 6px 0">
+
+
+<script async="" src="./sincos_files/f.txt"></script>
+<!-- 468x15, created 8/4/08 -->
+<ins class="adsbygoogle" style="display:inline-block;width:468px;height:15px" data-ad-client="ca-pub-4909676113151654" data-ad-slot="4899173157"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+        </div>
+
+     
+      </div><!-- end leftSide -->
+
+        <div class="clearFloat"> </div>
+    </div><!-- end main -->
+</div><!-- end container -->
+
+
+<div>&nbsp;</div>
+
+
+    <!--ad_728_90_btf2.jsp--> 
+
+
+
+      
+
+<div id="smb-dispAd-widget" class="smb-dispad" data-src="//studystack.saambaa.com/partner/gpt/studystack"></div>
+<script>(function(d, s, id) {var js,ejs = d.getElementsByTagName(s)[0];if (d.getElementById(id))return; js = d.createElement(s);js.id = id; js.async = true; js.src = '//studystack.saambaa.com/widget/gpt/970x250/assets/smb-dispAd.js';ejs.parentNode.insertBefore(js, ejs);}(document, 'script', 'smb-dispAd-js'));</script>
+      
+
+<!-- end of ad_728_90_btf2.jsp -->
+
+    <br>&nbsp;<br>
+
+
+
+
+    <div id="copyrightDiv">
+            <br>
+            <!-- newCopyright.jsp -->
+	<footer>
+
+		<div class="container">
+			<a href="https://www.studystack.com/"><img src="./sincos_files/studystacklogo.svg" alt="Study Stack"></a>
+
+			<h6>Copyright © 2001-2019 StudyStack LLC.&nbsp; All rights reserved.</h6>
+
+			<div class="line-seperator"></div>
+
+			<nav>
+				<ul>
+					<li><a href="https://www.studystack.com/#top" class="header-footer-a">Home</a></li>
+					<li><a href="https://www.studystack.com/Flashcards" class="header-footer-a">Flashcards</a></li>
+					<li><a href="https://www.studystack.com/About" class="header-footer-a">About</a></li>
+					<li><a href="https://www.studystack.com/FAQ" class="header-footer-a">FAQ</a></li>
+					<li><a href="https://www.studystack.com/Terms" class="header-footer-a">Terms of Service</a></li>
+					<li><a href="https://www.studystack.com/Privacy" class="header-footer-a">Privacy Statement</a></li>
+					<li><a href="https://www.studystack.com/Contact" class="header-footer-a">Contact</a></li>
+				</ul>
+			</nav>
+		</div><!--END OF container-->
+
+
+
+    <!--ad_728_90_btf.jsp--> 
+
+
+
+<!-- ad_728_90_btf.jsp -->
+<div id="ad728x90btf" style="width:728px; height:90px; margin-right: auto; margin-left: auto" class="noprint">
+
+<script async="" src="./sincos_files/f.txt"></script>
+<!-- bottom letterboard -->
+<ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-4909676113151654" data-ad-slot="5843291017"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+</div>
+
+
+
+
+    <br>&nbsp;<br>
+
+
+<!-- requestURI = /triangles.jsp -->
+       <style>
+      #bottomButtonWrapper a:hover {
+         text-decoration: none;
+      }
+      .buttonTitle {
+          font-size: 17pt;
+      }
+      .bigbutton2 {
+          background-color: #3ea3db;
+          font-size: 10pt;
+          font-style: normal;
+          padding: 1px;
+          padding-top: 11px;
+          width: 224px;
+          padding-bottom: 10px;
+      }
+   </style>
+   <div id="bottomButtonWrapper">
+           <a title="browse or search millions of existing flashcards" href="https://www.studystack.com/" id="browseOrSearchButton2" class="bigbutton bigbutton2"><span class="buttonTitle">Browse or Search</span> 
+               millions of existing flashcards</a>
+
+           <a title="create flashcards plus a dozen other activities" onclick="showSignupBox(event);return false;" href="https://www.studystack.com/triangles#" id="createFlashcardsButton2" class="bigbutton bigbutton2">
+                <span class="buttonTitle">Create Flashcards</span> plus a dozen other activities
+           </a>
+   </div>
+
+
+
+
+
+
+
+
+	</footer>
+
+	<script src="./sincos_files/utils.js(1).download"></script>
+<!--
+	<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+	<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+	<script src="responsive-nav.js"></script>
+
+-->
+<!-- end of newCopyright.jsp -->
+
+            <br>
+    </div>
+ <!--  googleAnalytics.jsp  -->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-463111-1', 'auto');
+  ga('send', 'pageview', {
+    page: '/triangles.jsp',
+    title: '/triangles.jsp'
+  });
+</script>
+
+
+
+
+
+
+
+
+
+
+       
+
+
+<script>
+   if ( UTILS_JS == '' ) {
+      document.getElementById( 'topErrorMessage' ).innerHTML = 'ERROR: domain sstk.biz is blocked.  Contact your network admin' ;
+   }
+</script>
+
+
+     <!-- mobile=false     requestCount=1 adTypes: Adsense  -->
+
+<script>window.jQuery || document.write("<script src='jquery-2.1.3.min.js?v=2'>\x3C/script>")</script><script src="./sincos_files/jquery-2.1.3.min.js.download"></script>
+<!-- end of frameworkend.jsp -->
+
+
+
+
+</body></html>

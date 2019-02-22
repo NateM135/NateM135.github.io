@@ -1,0 +1,475 @@
+@font-face {
+    font-family: 'Glyphicons Halflings';
+    src: url('./fonts/glyphicons-halflings-regular.eot');
+    src: url('./fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('./fonts/glyphicons-halflings-regular.woff2') format('woff2'), url('./fonts/glyphicons-halflings-regular.woff') format('woff'), url('./fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('./fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
+}
+
+@font-face {
+    font-family: 'CNN Sans Display Regular';
+    src: url('./fonts/CNNSansDisplay-Regular.eot');
+    src: url('./fonts/CNNSansDisplay-Regular.eot?#iefix') format('embedded-opentype'), url('./fonts/CNNSansDisplay-Regular.woff') format('woff'), url('./fonts/CNNSansDisplay-Regular.ttf') format('truetype'), url('./fonts/CNNSansDisplay-Regular.svg#CNNSansDisplay-Regular') format('svg');
+}
+
+
+/* JW STYLES */
+
+.jwplayer {
+    min-height: 250px;
+	top: 22.5px;
+}
+
+.jw-display-container {
+    display: table-cell !important;
+}
+
+.jw-group {
+    display: table-cell !important;
+}
+
+.jw-aspect .jw-reset {
+    padding-top: 83%;
+}
+
+.jw-display {
+    display: table !important;
+}
+
+.jw-display-controls {
+    display: inline-block !important;
+}
+
+.jw-captions.jw-captions-enabled {
+    display: block !important;
+}
+
+.vjs-volume-menu-button.vjs-menu-button-inline {
+    width: 12em;
+}
+
+.vjs-volume-menu-button.vjs-menu-button-inline .vjs-menu {
+    opacity: 1;
+}
+
+.jw-controls,
+.jw-overlays {
+    z-index: 2;
+}
+
+.smb-dispad {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    /* align-items: center; */
+    width: 970px;
+    height: 250px;
+    font-family: CNN Sans Display Regular, Helvetica Neue, Arial, sans-serif;
+    position: relative;
+    z-index: 0;
+    background-color: #fff;
+    margin: auto;
+    font-size: 16px;
+    line-height: 20px;
+}
+
+.smb-dispad-widget-cont {
+    width: 365px;
+}
+
+.smb-dispad-header-suggest {
+    height: 18px;
+    text-align: center
+}
+
+.smb-dispad-header-suggest p {
+    margin: 0;
+    text-transform: uppercase;
+    font-weight: 300;
+    font-size: 2.4vw;
+    letter-spacing: 2px;
+    line-height: 23px
+}
+
+.smb-dispad-header {
+    position: absolute;
+    /* right: 30%; */
+    height: auto;
+    width: auto;
+    padding: 5px 0;
+    display: block;
+    z-index: 1;
+}
+
+#smb-dispad-header-text {
+    padding: 5px 0 9px !important;
+    margin: 0 !important;
+    color: #ffffff;
+    font-size: 1.1em !important;
+    line-height: 1.3em !important;
+    text-align: center !important;
+    display: block;
+    letter-spacing: 1px;
+    font-family: 'CNN Sans Display Regular' !important;
+}
+
+.smb-dispad-main-cont {
+    margin: auto;
+    width: 365px;
+    height: 250px;
+}
+
+.smb-dispad-slideshow-cont {
+    height: 250px;
+    width: 365px;
+    position: absolute;
+    bottom: 0;
+    /* display: none; */
+}
+
+.smb-dispad-header-cont {
+    /* position: absolute; */
+    /* top: 10px; */
+}
+
+.smb-dispad-item-cont {
+    height: 250px;
+    background: #f7f7f7;
+    /* position: absolute; */
+    /* bottom: 0; */
+}
+
+.smb-dispad-adcont {
+    background: #000;
+    /* max-width: 400px; */
+    /* height: 250px; */
+    /* display: none; */
+}
+
+.smb-dispad-adunit-cont {
+    text-align: center;
+}
+
+.smb-dispad-displayad-cont {
+    width: 300px;
+}
+
+.smb-dispad-loader {
+    width: 42px;
+    position: absolute;
+    top: 52%;
+    left: 45%
+}
+
+
+.smb-dispad-displayad-cont {
+    position: relative;
+}
+
+.smb-dispad-adcont-backdrop {
+    position: absolute;
+    width: 300px;
+    height: 250px;
+    background-color: #353535;
+    /* background: linear-gradient(-20deg, #F74D1A, #FD8038); */
+    z-index: -2;
+}
+
+.smb-dispad-adcont-backdrop-logo {
+    background-image: url('//saambaa.com/assets/image/smb-970-logo.png');
+    width: 213px;
+    height: 45px;
+    background-size: 213px 45px;
+    position: absolute;
+    bottom: 50%;
+    left: 15%;
+    z-index: -1;
+}
+
+.smb-dispad-adcont-backdrop-text {
+    color: white;
+    position: absolute;
+    top: 54%;
+    left: 31%;
+    z-index: -1;
+    font-size: 19px;
+    font-weight: 100;
+}
+
+.smb-dispad-footer-cont {
+    position: absolute;
+    right: 1%;
+    bottom: 0;
+    /* height: 30px; */
+    text-align: right !important;
+    display: table !important;
+    /* width: 100%; */
+    /* padding: 2px 0; */
+}
+
+#smb-dispad-footer-text {
+    margin: 0;
+    padding: 0;
+    text-align: right;
+    font-family: 'CNN Sans Display Regular';
+    font-size: 14px;
+    color: #f8f8f8;
+    font-weight: normal !important;
+}
+
+.smb-dispad-powered-by {
+    display: table-cell !important;
+    vertical-align: middle !important;
+    font-size: 14px !important;
+    color: #bdbec3 !important;
+    padding-right: 10px !important
+}
+
+.smb-dispad-powered-by img {
+    vertical-align: top
+}
+
+.smb-dispad-item {
+    max-width: 365px;
+    height: 250px;
+    overflow: hidden;
+    position: relative;
+}
+
+.smb-dispad-item a:visited {
+    text-decoration: none;
+}
+
+.smb-dispad-item img {
+    position: absolute;
+    width: 120%;
+    height: auto;
+    left: -10%;
+}
+
+.smb-dispad-img-caption-clickmore {
+    position: absolute;
+    bottom: 107px;
+    left: 0;
+    margin-right: 10px;
+    margin-bottom: 0px !important;
+    padding: 4px 20px 4px 14px;
+    background: #fff;
+    color: #000;
+    font-size: .9em !important;
+    line-height: 1em;
+    border-top-right-radius: 4em;
+    border-bottom-right-radius: 4em;
+    visibility: hidden;
+    text-align: left
+}
+
+.smb-dispad-img-caption-clickmore p {
+    margin: 0;
+    margin-bottom: 0px !important;
+    font-family: 'CNN Sans Display Regular' !important;
+    font-size: .9em !important;
+    line-height: normal !important;
+}
+
+.smb-dispad-img-caption-cont {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    margin-right: 15px;
+    padding: 5px 14px;
+    padding-right: 25px;
+    background: #fff;
+    color: #000;
+    border-top-right-radius: 4em;
+    border-bottom-right-radius: 4em;
+    visibility: hidden;
+    text-align: left
+}
+
+.smb-dispad-img-caption {
+    visibility: hidden
+}
+
+.smb-dispad-img-caption p {
+    padding: 0 0 3px;
+    margin: 0;
+    overflow: hidden;
+    white-space: normal;
+    text-overflow: ellipsis;
+    font-family: 'CNN Sans Display Regular' !important;
+    margin-bottom: 0px !important;
+    font-weight: normal;
+}
+
+.smb-dispad-img-caption-title {
+    font-size: .9em !important;
+    line-height: 1.1em !important;
+    max-height: 3.3em;
+    color: #474747 !important;
+}
+
+.smb-dispad-img-caption-detail {
+    font-size: .8em !important;
+    line-height: 1em !important;
+    max-height: 2em;
+    color: #7e8393 !important;
+}
+
+.smb-dispad-img-caption-detail span {
+    color: #a3a3a3;
+    font-style: italic;
+    font-size: .7em;
+    line-height: 1.5em;
+    font-weight: normal;
+    font-family: 'CNN Sans Display Regular';
+}
+
+@keyframes smb-kenburns {
+    from {
+        transform: translate(0%, 20%) scale(1.4)
+    }
+    to {
+        transform: translate(40%, 25%) scale(2)
+    }
+}
+
+.smb-dispad-markets {
+    display: block;
+    vertical-align: middle;
+    padding: 0;
+    margin: 0 70px;
+}
+
+.smb-dispad-markets select {
+    margin: 0;
+}
+
+.smb-dispad-adcont {
+    background: #000;
+    height: 250px;
+    display: none
+}
+
+.smb-dispad-adunit-cont {
+    text-align: center
+}
+
+.custom-select {
+    max-width: none;
+    padding: 0 5px
+}
+
+.custom-select:hover {
+    border: none
+}
+
+.custom-select select {
+    text-transform: uppercase;
+    font-size: .9em;
+    padding: 0 10px;
+    line-height: 20px;
+    height: 22px;
+}
+
+.custom-select::after {
+    font-family: "Glyphicons Halflings";
+    color: #444855;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    content: "\e252";
+    margin-top: -9px;
+    overflow: unset;
+    right: 1em;
+}
+
+.custom-select select,
+.custom-select select:focus {
+    background-color: #f7f7f7;
+    border: 1px solid #dfdfdf;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -khtml-border-radius: 8px;
+    border-radius: 8px;
+}
+
+.custom-select select:focus {
+    box-shadow: none
+}
+
+.staticCaption {
+    visibility: visible !important;
+}
+
+/* Animations */
+
+@keyframes fadeIn {
+    from {
+        transform: scale3d(0, 0, 0);
+        opacity: 0;
+    }
+    80% {
+        transform: scale3d(1.05, 1.05, 1.05);
+        opacity: 1;
+    }
+    100% {
+        transform: scale3d(1, 1, 1);
+    }
+}
+
+.fadeIn {
+    animation-name: fadeIn;
+    animation-duration: 1.5s;
+    visibility: visible !important;
+}
+
+@keyframes slideInLeft {
+    from {
+        transform: translate3d(-100%, 0, 0);
+        visibility: visible !important;
+        ;
+    }
+    to {
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+.slideInLeft {
+    animation-name: slideInLeft;
+    animation-duration: 1s;
+    -webkit-animation-duration: 1s;
+    visibility: visible !important;
+}
+
+@keyframes slideInUp {
+    from {
+        transform: translate3d(0, 100%, 0);
+        visibility: visible;
+    }
+    to {
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+.slideInUp {
+    animation-name: slideInUp;
+    -webkit-animation-name: slideInUp;
+    animation-duration: .5s;
+    animation-duration: .5s;
+    -webkit-animation-duration: .5s;
+    visibility: visible !important;
+}
+
+@keyframes kenBurns {
+    from {
+        transform: scale3d(1.2, 1.2, 1.2) translate3d(0, 7%, 0);
+        ;
+    }
+    100% {
+        transform: scale3d(1.7, 1.7, 1.7) translate3d(22%, 10%, 0);
+        ;
+    }
+}
+
+.kenBurns {
+    animation-name: kenBurns;
+    -webkit-animation-name: kenBurns;
+}

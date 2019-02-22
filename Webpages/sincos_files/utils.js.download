@@ -1,0 +1,653 @@
+UTILS_JS = "Loaded" ;
+
+if (!window.console) console = {log: function() {}};
+
+String.prototype.trim = function() {
+  a = this.replace(/^\s+/, '');
+  return a.replace(/\s+$/, '');
+};
+
+   function newAjaxRequest() {
+      var xmlhttp = null;
+      if(window.XMLHttpRequest){
+          xmlhttp=new XMLHttpRequest();
+          if(xmlhttp.overrideMimeType){
+          xmlhttp.overrideMimeType('text/xml');
+          }
+      } else if( window.ActiveXObject ) {
+          try {
+            xmlhttp=new ActiveXObject("Msxml2.XMLHTTP");
+      } catch(e) {
+         try{
+            xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+         } catch(e) {
+             }
+          }
+       }
+       return xmlhttp ;
+   }
+   
+       function getProps( obj ) {
+          var propList = '';
+          for ( var props in obj ) {
+              propList += (props + "=" + obj[props] + " " );
+          }
+          return propList ;
+       }
+       
+       function dumpProps( obj ) {
+          alert( getProps( obj ) );
+       }
+  
+
+       function propNames( obj ) {
+          var propList = '';
+          for ( var props in obj ) {
+              propList += (props + " ");
+          }
+          return propList;
+       }
+
+
+       function dumpPropNames( obj ) {
+          alert( propNames( obj ) );
+       }
+ 
+
+       function getScrollBarWidth() {
+         return 18;
+         // this can be calculated by measuring the difference in 
+         // a textarea's offsetHeight when changing wrap from off to soft.
+       }
+       function getCellPadding() {
+          return 4;
+       }
+       
+       
+    function findPos(obj) {
+        var curleft = curtop = 0;
+    
+        if (obj.offsetParent) {
+           do {
+                curleft += obj.offsetLeft;
+                curtop += obj.offsetTop;
+           } while (obj = obj.offsetParent);
+        }   
+        return {x:curleft, y:curtop};
+    }
+       
+
+       function getCssRule( selectorText ) {
+         for ( var s=0; s<document.styleSheets.length; s++ ) {
+          var theRules ;
+          if (document.styleSheets[s].cssRules) {
+             theRules = document.styleSheets[s].cssRules;
+          } else if (document.styleSheets[s].rules) {
+             theRules = document.styleSheets[s].rules;
+          }
+          else {
+             continue;
+          }
+          for ( var r=0; r<theRules.length; r++ ) {
+             var rule = theRules[r];
+             if ( rule.selectorText == selectorText ) {
+                 return rule;
+             }
+          }
+          // didn't find an exact match, let's look for one ignoring case (cause IE converts types to uppercase)
+          selectorText = selectorText.toLowerCase();
+          for ( var r=0; r<theRules.length; r++ ) {
+             var rule = theRules[r];
+             if ( rule.selectorText.toLowerCase() == selectorText ) {
+                 return rule;
+             }
+          }
+         }
+         alert( 'did not find rule named ' + selectorText );
+         return null ;
+      }
+
+
+      var ENTER_KEY = 13;
+      var SHIFT_KEY = 16;
+      var ESC_KEY = 27;
+      var SPACEBAR_KEY = 32;
+      var LEFT_ARROW_KEY = 37;
+      var UP_ARROW_KEY = 38;
+      var RIGHT_ARROW_KEY = 39;
+      var DOWN_ARROW_KEY = 40;
+      var C_KEY = 67;
+      var D_KEY = 68;
+      var H_KEY = 72;
+      var I_KEY = 73;
+      var J_KEY = 74;
+      var K_KEY = 75;
+      var L_KEY = 76;
+      var R_KEY = 82;
+      var W_KEY = 87;
+      var X_KEY = 88;
+      var SEMICOLON_KEY = 186;
+      
+         
+      function keyCode( event ) {
+        if( window.event ) {
+            return event.keyCode;
+        }
+        else if( event.which ) {
+            return event.which;
+        }
+        return 0;
+     }
+
+     function randomInteger( min, max ) {
+          return Math.floor( Math.random() * (max-min)) + min ;
+     }
+     
+     function getSelectedValue( selectObj ) {
+         return selectObj.options[ selectObj.selectedIndex ].value;
+     }
+     
+     function setSelectedValue( selectObj, value ) {
+          for ( var i =0; i<selectObj.options.length; i++ ) {
+              if ( selectObj.options[i].value == value ) {
+                   selectObj.selectedIndex = i;
+                   return ;
+              }
+          }
+          alert( 'value ' + value + ' not found.' );
+     }
+
+
+     function sendAjaxHighScoreMessage( studyStackId, gameId, score ) {
+          updateAjaxHighScoreMessage( studyStackId, gameId, score, true ) ;
+     }
+
+     function updateAjaxHighScoreMessage( studyStackId, gameId, score, doUpdate ) {
+       var xmlhttp = newAjaxRequest();
+       xmlhttp.onreadystatechange = function() {
+           if (xmlhttp.readyState==4 && doUpdate ) {
+              try {
+                  var highScoreContent = xmlhttp.responseText;
+                  document.getElementById( 'highScoreContainer' ).innerHTML = highScoreContent ;
+                  document.getElementById( 'highScoreFrame' ).style.display = 'inline';
+              }
+              catch (err ) {
+              }    
+           }
+       }
+       
+       var url = '/highScores.jsp?studyStackId=' + studyStackId + '&gameId=' + gameId + '&score=' + score + '&doUpdate=' + doUpdate ;
+       xmlhttp.open('GET', url, true);
+       xmlhttp.send( 'text=123' );
+   }
+
+   function markGameComplete( studyStackId, gameId ) {
+       if ( (completionBits & gameId) == 0 ) {
+           showDidItDot( gameId );
+           sendAjaxMarkGameComplete( studyStackId, gameId );
+           completionBits |= gameId ;
+           var audio = new Audio('nicebeep.mp3');
+           audio.play();
+       }
+   }
+
+
+     function sendAjaxMarkGameComplete( studyStackId, gameId ) {
+       var xmlhttp = newAjaxRequest();
+       xmlhttp.open('POST', '/ajaxMarkGameComplete.jsp', true );
+       xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+       var params = 'studyStackId=' + studyStackId + '&gameId=' + gameId ;
+       xmlhttp.send( params );
+    }
+
+
+    var lastKeepAliveTime = 0;
+
+     function sendKeepAlive() {
+       var now = new Date().getTime();
+       if ( now - lastKeepAliveTime > 60 * 1000 ) {
+           var xmlhttp = newAjaxRequest();
+           var url = '/keepAlive.jsp';
+           xmlhttp.open('GET', url, true);
+           xmlhttp.send( '1' );
+           lastKeepAliveTime = now ;
+           if ( console && console.log ) {
+               console.log( 'keep alive sent at ' + now )
+           }
+       }
+   }
+
+
+
+     function sendAjaxSaveSessionMessage( studyStackId, sessionData ) {
+       var xmlhttp = newAjaxRequest();
+       var url = '/saveSessionState.jsp';
+       var params = 'studyStackId=' + studyStackId + '&sessionData=' + sessionData ;
+       xmlhttp.open('POST', url, true );
+       xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+       xmlhttp.send( params );
+   }
+
+
+     function sendAjaxSaveUserVar( varName, varValue ) {
+       var xmlhttp = newAjaxRequest();
+       var url = 'saveUserVar.jsp';
+       var params = 'varName=' + varName + '&varValue=' + varValue ;
+       xmlhttp.open('POST', url, true );
+       xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+       xmlhttp.send( params );
+   }
+
+
+
+   function facebook_onlogin() {
+     window.location.href = 'fbConnector.jsp';
+   }
+   function showLabel( obj ) {
+      if ( obj && obj.value.length == 0 ) {
+          var labelObj = document.getElementById( obj.id + "Label" );
+          if ( labelObj ) {
+             labelObj.style.display = "inline";
+          }
+      }
+      else {
+          hideLabel( obj );
+      }
+   }
+  
+   function hideLabel( obj ) {
+      if ( obj ) {
+          var labelObj = document.getElementById( obj.id + "Label" );
+          if ( labelObj ) {
+               labelObj.style.display = "none";
+          }
+      }
+   }
+
+   function enableObject( obj, enable  ) {
+      if ( obj ) {
+           obj.disabled = !enable ;
+      }
+   }
+
+   var uniqueStatus;
+   function checkUniqueValue( value, table, column, originalValue, buttonObj ) {
+       uniqueStatus = document.getElementById( "uniqueStatus" );
+       if ( value == originalValue ) {
+           uniqueStatus.innerHTML = '';
+           enableObject( buttonObj, true );
+           return ;
+       }
+       if ( value == '' ) {
+           showUniqueStatus( uniqueStatus, false, buttonObj );
+           return ;
+       }
+       uniqueStatus.innerHTML = "<img style='height:24px' src='images/spinner.gif' alt='checking'/>";
+       var xmlhttp = newAjaxRequest();
+       xmlhttp.onreadystatechange = function() {
+           if (xmlhttp.readyState==4) {
+              try {
+                  var count = xmlhttp.responseText ;
+                  showUniqueStatus( uniqueStatus, count <= 0, buttonObj );
+              }
+              catch (err ) {
+              }
+           }
+       }
+       var url = "/countRecords.jsp" +
+                  "?table=" + table +
+                  "&column=" + column + "&value=" + escape(value);
+       xmlhttp.open('GET', url, true);
+       xmlhttp.send( 'text=text' );
+    }
+   
+    function showUniqueStatus( obj, available, buttonObj ) {
+       if ( !available ) {
+             obj.innerHTML = "taken";
+             obj.style.color = '#dd2222';
+       }
+       else {
+             obj.innerHTML = "available" ;
+             obj.style.color = '#669900';
+       }
+       enableObject( buttonObj, available );
+    }
+
+    function deindexSet( studyStackId, successFunc ) {
+       var xmlhttp = newAjaxRequest();
+       xmlhttp.onreadystatechange = function() {
+           if (xmlhttp.readyState==4) {
+              try {
+                  var response = xmlhttp.responseText;
+                  if ( parseInt( response.trim()) == 1 ) {
+                     successFunc();
+                  }
+              }
+              catch (err ) {
+              }
+           }
+       }
+       var url = '/DeindexStack.jsp?studyStackId=' + studyStackId  ;
+       xmlhttp.open('GET', url, true);
+       xmlhttp.send( 'text=123' );
+   }
+
+    function deleteUserAndStacks( userId, successFunc ) {
+       var xmlhttp = newAjaxRequest();
+       xmlhttp.onreadystatechange = function() {
+           if (xmlhttp.readyState==4) {
+              try {
+                  var response = xmlhttp.responseText;
+                  if ( parseInt( response.trim()) == 1 ) {
+                      if ( successFunc ) {
+                          successFunc();
+                      }
+                  }
+              }
+              catch (err ) {
+              }
+           }
+       }
+       var url = '/DeleteUser.jsp?userId=' + userId + '&deleteStacks=Y'  ;
+       xmlhttp.open('GET', url, true);
+       xmlhttp.send( 'text=123' );
+   }
+
+    function deleteScores( studyStackId, gameId ) {
+       var xmlhttp = newAjaxRequest();
+       xmlhttp.onreadystatechange = function() {
+           if (xmlhttp.readyState==4) {
+              try {
+                  var highScoreContent = xmlhttp.responseText;
+                  var highScoreContainer = document.getElementById( 'highScoreContainer' );
+                  if ( highScoreContainer != null ) {
+                        highScoreContainer.innerHTML = '' ;
+                        document.getElementById( 'highScoreFrame' ).style.display = 'inline';
+                  }
+                  else {
+                        location.reload();
+                  }
+              }
+              catch (err ) {
+              }
+           }
+       }
+       var url = '/deleteHighScores.jsp?studyStackId=' + studyStackId + '&gameId=' + gameId ;
+       xmlhttp.open('GET', url, true);
+       xmlhttp.send( 'text=123' );
+   }
+
+   function hide( obj ) {
+      if ( obj != null ) {
+          obj.style.display = 'none';
+      }
+   }
+
+   function debug( message ) {
+   }
+
+function createCookie(name,value,days,extra) {
+	if (days) {
+		var date = new Date();
+		date.setTime(date.getTime()+(days*24*60*60*1000));
+		var expires = "; expires="+date.toGMTString();
+	}
+	else var expires = "";
+	var cookie =  name+"="+value+expires+"; path=/";
+        if ( extra ) {
+            cookie += extra ;
+        }
+        console.log( 'createCookie ' + cookie );
+	document.cookie = cookie ;
+}
+
+function readCookie(name) {
+	var nameEQ = name + "=";
+	var ca = document.cookie.split(';');
+	for(var i=0;i < ca.length;i++) {
+		var c = ca[i];
+		while (c.charAt(0)==' ') c = c.substring(1,c.length);
+		if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+	}
+	return null;
+}
+
+function eraseCookie(name) {
+	createCookie(name,"",-1);
+	createCookie(name,"",-1, "; domain=.studystack.com");
+}
+
+function deleteCookiesStartingWith( prefix ) {
+     console.log( 'deleteCookiesStartingWith ' + prefix );
+     var split = document.cookie.split(';');
+     for (var i = 0; i < split.length; i++) {
+          var name = split[i].split("=")[0].trim();
+          console.log( '2 cookie name=' + name );
+          if ( name.substring(0, prefix.length)==prefix ) {
+               console.log( 'deleting cookie:' + name + ' value=' + readCookie( name ) );
+               eraseCookie( name );
+          }
+     }
+}
+
+
+   function removeUrlParameter( url, paramName ) {
+        var start = url.indexOf( '&' + paramName + '=' );
+        if ( start<0 ) {
+            start = url.indexOf( '?' + paramName + '=' );
+            if ( start<0 ) {
+                return url ;
+            }
+        }
+        var end = url.indexOf( '&', start + 1 );
+        if ( end > 0 ) {
+            url = url.substr( 0, start ) + url.substr( end );
+        }
+        else {
+             url = url.substr( 0, start );
+        }
+        if ( url.indexOf( '?' ) < 0 && url.indexOf( '&' ) == start ) {
+             url = url.substr( 0, start ) + '?' + url.substr( start + 1 );
+        }
+        return url ;
+   }
+
+   function addUrlParameter( url, paramName, paramValue ) {
+       if ( url.indexOf( '?' ) < 0 ) {
+             url = url + '?' + paramName + '=' + paramValue ;
+       }
+       else {
+             url = url + '&' + paramName + '=' + paramValue ;
+       }
+       return url ;
+   }
+
+   function setUrlParameter( url, paramName, paramValue ) {
+        var start = url.indexOf( '&' + paramName + '=' );
+        if ( start<0 ) {
+            start = url.indexOf( '?' + paramName + '=' );
+        }
+        var end = url.indexOf( '&', start+1 );
+        if ( start < 0 || end < 0) {
+            return addUrlParameter( removeUrlParameter(url, paramName), paramName, paramValue );
+        }
+        return url.substr( 0, start + paramName.length + 2 ) + paramValue + url.substr( end );
+   }
+
+   function uiEventForAdFlips() {
+       if ( typeof(flipAdsPeriodically) == typeof(Function) ) {
+          flipAdsPeriodically();
+       }
+       sendKeepAlive();
+   }
+
+  function killEvent( event ) {
+    if ( !event ) {
+        return ;
+    }
+    if(event.preventDefault){
+         event.preventDefault();
+    }
+    if (event.stopPropagation) {
+        event.stopPropagation();
+    } 
+ }
+
+function msieversion() 
+{
+    var ua = window.navigator.userAgent;
+    var msie = ua.indexOf("MSIE ");
+
+    if (msie > 0) // If Internet Explorer, return version number
+    {
+        var ver =  (parseInt(ua.substring(msie + 5, ua.indexOf(".", msie))));
+        console.log( 'msie ver=' + ver );
+        return ver ;
+    }
+    return 0 ;
+
+}
+
+
+    function characterCount( str ) {
+         return toCharacters( str ).length ;
+    }
+
+    function toCharacters( str ) {
+	var index = 0;
+	var length = str.length;
+	var output = [];
+	for (; index < length - 1; ++index) {
+		var charCode = str.charCodeAt(index);
+		if (charCode >= 0xD800 && charCode <= 0xDBFF) {
+			charCode = str.charCodeAt(index + 1);
+			if (charCode >= 0xDC00 && charCode <= 0xDFFF) {
+				output.push(str.slice(index, index + 2));
+				++index;
+				continue;
+			}
+		}
+		output.push(str.charAt(index));
+	}
+	output.push(str.charAt(index));
+	return output;
+    }
+
+    function subCharacters( characters, start, length ) {
+        var result = '' ;
+        for ( var c=0; c<length; c++ ) {
+            result = result + characters[start+c];
+        } 
+        return result ;
+    }
+
+
+     // These constants are duplicated in StudyStackDatabase.java
+     var BUGMATCH_GAMEID = 1 << 0;    // 1
+     var HUNGRYBUG_GAMEID = 1 << 1;   // 2
+     var FLASHCARD_GAMEID = 1 << 2;   // 4
+     var MATCHING_GAMEID = 1 << 3;    // 8
+     var HANGMAN_GAMEID = 1 << 4;     // 16
+     var CROSSWORD_GAMEID = 1 << 5;   // 32
+     var TYPEIN_GAMEID = 1 << 6;      // 64
+     var QUIZ_GAMEID = 1 << 7;        // 128
+     var TEST_GAMEID = 1 << 8;        // 256
+     var STUDYSTACK_GAMEID = 1 << 9;  // 512
+     var STUDYTABLE_GAMEID = 1 << 10; // 1024
+     var UNSCRAMBLE_GAMEID = 1 << 11; // 2048
+     var CHOPPED_GAMEID = 1 << 12;    // 4096
+     var TARGETS_GAMEID = 1 << 13;    // 8192
+
+
+
+     function menuItemOnClick( event ) {
+         event.target.className = 'menuImage selectedMenu';
+     }
+     function markItemActive( id ) {
+          document.getElementById( id + "MenuImage" ).className = 'menuImage selectedMenu';
+     }
+     function showDidItDot( gameId ) {
+         var parent = document.getElementById( "gameMenuId." + gameId );
+         var dot = document.createElement( "div" );
+         dot.className = "didItDot" ;
+         parent.appendChild( dot );
+    }
+
+     function addMenu( id, gameId, title, url, hint, dataUri) {
+         var menuItemElement = document.createElement( 'a' );
+         menuItemElement.className = 'menuItem';
+         menuItemElement.title = hint;
+         menuItemElement.href = url + studyStackId ;
+         menuItemElement.id = 'gameMenuId.' + gameId ;
+
+         var imgElement = document.createElement( 'img' );
+         imgElement.id = id + 'MenuImage' ;
+         imgElement.className = 'menuImage';
+         imgElement.src = dataUri ;
+         imgElement.onclick = menuItemOnClick ;
+         menuItemElement.appendChild( imgElement );
+ 
+         var titleElement = document.createElement( 'div' );
+         titleElement.appendChild( document.createTextNode( title ) );
+         titleElement.className = 'menuTitle' ;
+         menuItemElement.appendChild( titleElement );
+
+         document.getElementById( 'menuContainer' ).appendChild( menuItemElement );
+         
+     }
+
+     function initStudyMenu( activeId ) {
+
+     addMenu( "flashcard", FLASHCARD_GAMEID, "Flashcards", "flashcard-", "Study using flashcards to flip through data one card at a time", 
+"data:image/svg+xml,%3Csvg%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20x%3D%220px%22%20y%3D%220px%22%0D%0A%09%20viewBox%3D%220%200%20512%20512%22%20style%3D%22enable-background%3Anew%200%200%20512%20512%3B%22%20xml%3Aspace%3D%22preserve%22%3E%0D%0A%3Cg%20id%3D%22Flashcards%22%3E%0D%0A%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M476.782%2C147.369L196.257%2C87.005l-4.523%2C21.043l-30.592-6.583l-15.867%2C73.672l-54.369-11.699%0D%0A%09%09l-20.778%2C96.496H35.218v165.061h286.938v-42.975l14.547%2C3.133l15.855-73.665l54.381%2C11.694l4.53-21.049l30.585%2C6.588%0D%0A%09%09L476.782%2C147.369z%20M316.155%2C418.995H41.218V265.934h27.617h247.32v114.793V418.995z%20M332.101%2C378.024l-9.945-2.141V259.934H76.265%0D%0A%09%09l19.244-89.369l268.793%2C57.839L332.101%2C378.024z%20M402.333%2C316.053l-48.504-10.43l17.602-81.823l-220.289-47.407l14.602-67.799%0D%0A%09%09l24.73%2C5.321l-0.001%2C0.006l244.064%2C52.511l-28.941%2C134.436l0.006%2C0.001L402.333%2C316.053z%20M412.731%2C296.268l28.934-134.439%0D%0A%09%09L197.6%2C109.311l3.262-15.176l268.791%2C57.838l-32.201%2C149.62L412.731%2C296.268z%22%2F%3E%0D%0A%3C%2Fg%3E%0D%0A%3Cg%20id%3D%22Layer_1%22%3E%0D%0A%3C%2Fg%3E%0D%0A%3C%2Fsvg%3E%0D%0A" );
+
+     addMenu( "matching", MATCHING_GAMEID, "Matching", "picmatch-", "Study by matching data", 
+"data:image/svg+xml,%3Csvg%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20x%3D%220px%22%20y%3D%220px%22%0D%0A%09%20viewBox%3D%220%200%20512%20512%22%20style%3D%22enable-background%3Anew%200%200%20512%20512%3B%22%20xml%3Aspace%3D%22preserve%22%3E%0D%0A%3Cg%20id%3D%22Matching%22%3E%0D%0A%09%3Cg%3E%0D%0A%09%09%3Cg%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M180%2C70.537H86v94h94V70.537z%20M174%2C158.537H92v-82h82V158.537z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M133%2C302.537c25.916%2C0%2C47-21.084%2C47-47s-21.084-47-47-47s-47%2C21.084-47%2C47%0D%0A%09%09%09%09S107.084%2C302.537%2C133%2C302.537z%20M133%2C214.537c22.607%2C0%2C41%2C18.393%2C41%2C41s-18.393%2C41-41%2C41s-41-18.393-41-41%0D%0A%09%09%09%09S110.393%2C214.537%2C133%2C214.537z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M84.146%2C440.537h97.709L133%2C342.828L84.146%2C440.537z%20M93.854%2C434.537L133%2C356.246l39.146%2C78.291%0D%0A%09%09%09%09H93.854z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M367%2C164.537c25.916%2C0%2C47-21.084%2C47-47s-21.084-47-47-47s-47%2C21.084-47%2C47%0D%0A%09%09%09%09S341.084%2C164.537%2C367%2C164.537z%20M367%2C76.537c22.607%2C0%2C41%2C18.393%2C41%2C41s-18.393%2C41-41%2C41s-41-18.393-41-41%0D%0A%09%09%09%09S344.393%2C76.537%2C367%2C76.537z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M367%2C204.828l-48.854%2C97.709h97.707L367%2C204.828z%20M367%2C218.246l39.146%2C78.291h-78.293L367%2C218.246%0D%0A%09%09%09%09z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M320%2C440.537h94v-94h-94V440.537z%20M326%2C352.537h82v82h-82V352.537z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M189%2C241.537c3.357%2C0%2C6.226-2.069%2C7.413-5H258v-104h44.262c0.889%2C3.449%2C4.011%2C6%2C7.738%2C6%0D%0A%09%09%09%09c4.418%2C0%2C8-3.582%2C8-8s-3.582-8-8-8c-2.959%2C0-5.537%2C1.611-6.921%2C4H252v104h-55.587c-1.187-2.931-4.057-5-7.413-5%0D%0A%09%09%09%09c-4.418%2C0-8%2C3.582-8%2C8S184.582%2C241.537%2C189%2C241.537z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M322%2C276.537c4.418%2C0%2C8-3.582%2C8-8s-3.582-8-8-8c-3.726%2C0-6.848%2C2.551-7.738%2C6H252v126h-73.079%0D%0A%09%09%09%09c-1.384-2.389-3.962-4-6.921-4c-4.418%2C0-8%2C3.582-8%2C8s3.582%2C8%2C8%2C8c3.726%2C0%2C6.848-2.551%2C7.738-6H258v-126h57.079%0D%0A%09%09%09%09C316.463%2C274.926%2C319.041%2C276.537%2C322%2C276.537z%22%2F%3E%0D%0A%09%09%3C%2Fg%3E%0D%0A%09%3C%2Fg%3E%0D%0A%3C%2Fg%3E%0D%0A%3Cg%20id%3D%22Layer_1%22%3E%0D%0A%3C%2Fg%3E%0D%0A%3C%2Fsvg%3E%0D%0A" );
+
+     addMenu( "hangman", HANGMAN_GAMEID, "Hangman",  "hangman-", "Play the classic guessing game",
+"data:image/svg+xml,%3Csvg%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20x%3D%220px%22%20y%3D%220px%22%0D%0A%09%20viewBox%3D%220%200%20512%20512%22%20style%3D%22enable-background%3Anew%200%200%20512%20512%3B%22%20xml%3Aspace%3D%22preserve%22%3E%0D%0A%3Cg%20id%3D%22Hangman%22%3E%0D%0A%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M419.147%2C419.269l-50.932-88.216v-61.802l47.33%2C32.295l3.121-4.574l-50.451-34.424v-14.839%0D%0A%09%09c24.163-1.437%2C43.381-21.542%2C43.381-46.058c0-23.647-17.879-43.185-40.828-45.833V95.501H129.232v323.768H69v6h371v-6H419.147z%0D%0A%09%09%20M365.447%2C337.329l47.308%2C81.939H318.14L365.447%2C337.329z%20M406.061%2C201.65c0%2C22.395-18.219%2C40.613-40.613%2C40.613%0D%0A%09%09s-40.613-18.219-40.613-40.613s18.219-40.614%2C40.613-40.614S406.061%2C179.256%2C406.061%2C201.65z%20M134.768%2C101.036h230.465v54.47%0D%0A%09%09c-25.348%2C0.117-45.934%2C20.769-45.934%2C46.144c0%2C24.516%2C19.218%2C44.621%2C43.381%2C46.058v14.839l-50.451%2C34.424l3.121%2C4.574l47.33-32.295%0D%0A%09%09v61.802l-50.932%2C88.216h-176.98V101.036z%22%2F%3E%0D%0A%3C%2Fg%3E%0D%0A%3Cg%20id%3D%22Layer_1%22%3E%0D%0A%3C%2Fg%3E%0D%0A%3C%2Fsvg%3E%0D%0A" ) ;
+
+     addMenu( "crossword", CROSSWORD_GAMEID, "Crossword", "crossword-", "Display a crossword puzzle",
+"data:image/svg+xml,%3Csvg%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20x%3D%220px%22%20y%3D%220px%22%0D%0A%09%20viewBox%3D%220%200%20512%20512%22%20style%3D%22enable-background%3Anew%200%200%20512%20512%3B%22%20xml%3Aspace%3D%22preserve%22%3E%0D%0A%3Cg%20id%3D%22Crossword%22%3E%0D%0A%09%3Cg%3E%0D%0A%09%09%3Cg%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M174%2C144.537h66v-66h-66V144.537z%20M180%2C84.537h54v54h-54V84.537z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M174%2C222.537h66v-66h-66V222.537z%20M180%2C162.537h54v54h-54V162.537z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M174%2C300.537h66v-66h-66V300.537z%20M180%2C240.537h54v54h-54V240.537z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M254%2C300.537h66v-66h-66V300.537z%20M260%2C240.537h54v54h-54V240.537z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M94%2C300.537h66v-66H94V300.537z%20M100%2C240.537h54v54h-54V240.537z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M334%2C234.537v66h66v-66H334z%20M394%2C294.537h-54v-54h54V294.537z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M174%2C378.537h66v-66h-66V378.537z%20M180%2C318.537h54v54h-54V318.537z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M174%2C456.537h66v-66h-66V456.537z%20M180%2C396.537h54v54h-54V396.537z%22%2F%3E%0D%0A%09%09%09%3Cpolygon%20style%3D%22fill%3A%23FFFFFF%3B%22%20points%3D%22135.793%2C278.889%20128.895%2C253.195%20124.244%2C253.195%20117.348%2C278.889%20110.848%2C253.195%20%0D%0A%09%09%09%09104.301%2C253.195%20113.848%2C286.537%20120.096%2C286.537%20126.545%2C261.943%20133.043%2C286.537%20139.291%2C286.537%20148.789%2C253.195%20%0D%0A%09%09%09%09142.24%2C253.195%20%09%09%09%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M207.096%2C252.646c-9.998%2C0-17.047%2C7.297-17.047%2C17.246c0%2C9.945%2C7.049%2C17.244%2C17.047%2C17.244%0D%0A%09%09%09%09s17.045-7.299%2C17.045-17.244C224.141%2C259.943%2C217.094%2C252.646%2C207.096%2C252.646z%20M207.096%2C281.939%0D%0A%09%09%09%09c-6.748%2C0-11.047-5.199-11.047-12.047c0-6.898%2C4.299-12.049%2C11.047-12.049c6.697%2C0%2C11.047%2C5.15%2C11.047%2C12.049%0D%0A%09%09%09%09C218.143%2C276.74%2C213.793%2C281.939%2C207.096%2C281.939z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M200.447%2C338.043c0-2.498%2C2.199-4.148%2C5.648-4.148c3.5%2C0%2C7.049%2C1.199%2C9.648%2C3.799l3.35-4.35%0D%0A%09%09%09%09c-3.1-2.998-7.299-4.648-12.498-4.648c-7.297%2C0-12.146%2C4.248-12.146%2C9.748c0%2C12.297%2C19.445%2C7.947%2C19.445%2C14.945%0D%0A%09%09%09%09c0%2C2.199-1.898%2C4.551-6.699%2C4.551c-4.648%2C0-8.246-2.15-10.547-4.6l-3.248%2C4.498c2.949%2C3.148%2C7.396%2C5.299%2C13.547%2C5.299%0D%0A%09%09%09%09c8.996%2C0%2C12.896-4.748%2C12.896-10.297C219.844%2C340.393%2C200.447%2C344.24%2C200.447%2C338.043z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M200.447%2C416.043c0-2.498%2C2.199-4.148%2C5.648-4.148c3.5%2C0%2C7.049%2C1.199%2C9.648%2C3.799l3.35-4.35%0D%0A%09%09%09%09c-3.1-2.998-7.299-4.648-12.498-4.648c-7.297%2C0-12.146%2C4.248-12.146%2C9.748c0%2C12.297%2C19.445%2C7.947%2C19.445%2C14.945%0D%0A%09%09%09%09c0%2C2.199-1.898%2C4.551-6.699%2C4.551c-4.648%2C0-8.246-2.15-10.547-4.6l-3.248%2C4.498c2.949%2C3.148%2C7.396%2C5.299%2C13.547%2C5.299%0D%0A%09%09%09%09c8.996%2C0%2C12.896-4.748%2C12.896-10.297C219.844%2C418.393%2C200.447%2C422.24%2C200.447%2C416.043z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M301.094%2C261.643c0-6.148-4.301-10.447-10.898-10.447h-14.646v33.342h5.85V272.09h5.797%0D%0A%09%09%09%09l7.398%2C12.447h6.75l-8.148-13.098C297.193%2C270.791%2C301.094%2C267.592%2C301.094%2C261.643z%20M281.398%2C266.941v-10.598h7.998%0D%0A%09%09%09%09c3.299%2C0%2C5.697%2C2.1%2C5.697%2C5.299s-2.398%2C5.299-5.697%2C5.299H281.398z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M219.094%2C183.643c0-6.148-4.301-10.447-10.898-10.447h-14.646v33.342h5.85V194.09h5.797%0D%0A%09%09%09%09l7.398%2C12.447h6.75l-8.148-13.097C215.193%2C192.79%2C219.094%2C189.591%2C219.094%2C183.643z%20M199.398%2C188.941v-10.598h7.998%0D%0A%09%09%09%09c3.299%2C0%2C5.697%2C2.1%2C5.697%2C5.299s-2.398%2C5.299-5.697%2C5.299H199.398z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M209.545%2C101.844c3.6%2C0%2C6.799%2C2.1%2C8.398%2C4.85l4.998-2.55c-2.498-3.999-6.648-7.498-13.396-7.498%0D%0A%09%09%09%09c-9.848%2C0-17.496%2C6.998-17.496%2C17.246c0%2C10.247%2C7.648%2C17.245%2C17.496%2C17.245c6.748%2C0%2C10.848-3.499%2C13.396-7.498l-4.998-2.549%0D%0A%09%09%09%09c-1.6%2C2.799-4.799%2C4.849-8.398%2C4.849c-6.598%2C0-11.496-5.049-11.496-12.047C198.049%2C106.893%2C202.947%2C101.844%2C209.545%2C101.844z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M383.393%2C267.893c0-9.799-7.049-16.697-17.447-16.697h-12.396v33.342h12.396%0D%0A%09%09%09%09C376.344%2C284.537%2C383.393%2C277.689%2C383.393%2C267.893z%20M359.398%2C256.344h6.547c7.449%2C0%2C11.447%2C5.1%2C11.447%2C11.549%0D%0A%09%09%09%09c0%2C6.297-4.197%2C11.496-11.447%2C11.496h-6.547V256.344z%22%2F%3E%0D%0A%09%09%3C%2Fg%3E%0D%0A%09%3C%2Fg%3E%0D%0A%3C%2Fg%3E%0D%0A%3Cg%20id%3D%22Layer_1%22%3E%0D%0A%3C%2Fg%3E%0D%0A%3C%2Fsvg%3E%0D%0A" );
+
+     addMenu( "typeIn", TYPEIN_GAMEID, "Type In", "fillin-", "Type-in-the-blank activity",
+"data:image/svg+xml,%3Csvg%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20x%3D%220px%22%20y%3D%220px%22%0D%0A%09%20viewBox%3D%220%200%20512%20512%22%20style%3D%22enable-background%3Anew%200%200%20512%20512%3B%22%20xml%3Aspace%3D%22preserve%22%3E%0D%0A%3Cg%20id%3D%22Type_In%22%3E%0D%0A%09%3Cg%3E%0D%0A%09%09%3Cg%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M67.801%2C147.709v219.254H453V147.709H67.801z%20M447%2C360.963H73.801V153.709H447V360.963z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M152.563%2C339.654h195.646v-29.727H152.563V339.654z%20M158.563%2C315.928h183.646v17.727H158.563%0D%0A%09%09%09%09V315.928z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M134.865%2C309.928h-29.609v29.727h29.609V309.928z%20M128.865%2C333.654h-17.609v-17.727h17.609%0D%0A%09%09%09%09V333.654z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M365.816%2C339.654h29.729v-29.727h-29.729V339.654z%20M371.816%2C315.928h17.729v17.727h-17.729%0D%0A%09%09%09%09V315.928z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M271.055%2C292.201h29.727v-29.729h-29.727V292.201z%20M277.055%2C268.473h17.727v17.729h-17.727%0D%0A%09%09%09%09V268.473z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M223.747%2C292.201h29.608v-29.729h-29.608V292.201z%20M229.747%2C268.473h17.608v17.729h-17.608%0D%0A%09%09%09%09V268.473z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M176.291%2C292.201h29.728v-29.729h-29.728V292.201z%20M182.291%2C268.473h17.728v17.729h-17.728%0D%0A%09%09%09%09V268.473z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M128.836%2C292.201h29.728v-29.729h-29.728V292.201z%20M134.836%2C268.473h17.728v17.729h-17.728%0D%0A%09%09%09%09V268.473z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M300.781%2C218.473h-29.727v29.729h29.727V218.473z%20M294.781%2C242.201h-17.727v-17.729h17.727%0D%0A%09%09%09%09V242.201z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M319.055%2C248.201h29.727v-29.729h-29.727V248.201z%20M325.055%2C224.473h17.727v17.729h-17.727%0D%0A%09%09%09%09V224.473z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M253.355%2C218.473h-29.608v29.729h29.608V218.473z%20M247.355%2C242.201h-17.608v-17.729h17.608%0D%0A%09%09%09%09V242.201z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M206.019%2C218.473h-29.728v29.729h29.728V218.473z%20M200.019%2C242.201h-17.728v-17.729h17.728%0D%0A%09%09%09%09V242.201z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M158.563%2C218.473h-29.728v29.729h29.728V218.473z%20M152.563%2C242.201h-17.728v-17.729h17.728%0D%0A%09%09%09%09V242.201z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M324.51%2C175.165h-29.729v29.608h29.729V175.165z%20M318.51%2C198.773h-17.729v-17.608h17.729V198.773z%0D%0A%09%09%09%09%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M372.51%2C175.165h-29.729v29.608h29.729V175.165z%20M366.51%2C198.773h-17.729v-17.608h17.729V198.773z%0D%0A%09%09%09%09%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M414.51%2C175.165h-29.729v29.608h29.729V175.165z%20M408.51%2C198.773h-17.729v-17.608h17.729V198.773z%0D%0A%09%09%09%09%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M319.373%2C291.336h71.035v-73.307h-29.58v43.578h-41.455V291.336z%20M325.373%2C267.607h41.455v-43.578%0D%0A%09%09%09%09h17.58v61.307h-59.035V267.607z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M277.055%2C175.165h-29.729v29.608h29.729V175.165z%20M271.055%2C198.773h-17.729v-17.608h17.729%0D%0A%09%09%09%09V198.773z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M229.747%2C175.165h-29.729v29.608h29.729V175.165z%20M223.747%2C198.773h-17.729v-17.608h17.729%0D%0A%09%09%09%09V198.773z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M182.291%2C175.165h-29.728v29.608h29.728V175.165z%20M176.291%2C198.773h-17.728v-17.608h17.728%0D%0A%09%09%09%09V198.773z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M134.865%2C175.165h-29.609v29.608h29.609V175.165z%20M128.865%2C198.773h-17.609v-17.608h17.609%0D%0A%09%09%09%09V198.773z%22%2F%3E%0D%0A%09%09%3C%2Fg%3E%0D%0A%09%3C%2Fg%3E%0D%0A%3C%2Fg%3E%0D%0A%3Cg%20id%3D%22Layer_1%22%3E%0D%0A%3C%2Fg%3E%0D%0A%3C%2Fsvg%3E%0D%0A" );
+
+     addMenu( "quiz", QUIZ_GAMEID, "Quiz", "quiz-", "Take a multiple choice quiz to see how you score",
+"data:image/svg+xml,%3Csvg%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20x%3D%220px%22%20y%3D%220px%22%0D%0A%09%20viewBox%3D%220%200%20512%20512%22%20style%3D%22enable-background%3Anew%200%200%20512%20512%3B%22%20xml%3Aspace%3D%22preserve%22%3E%0D%0A%3Cg%20id%3D%22Quiz%22%3E%0D%0A%09%3Cg%3E%0D%0A%09%09%3Cg%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M178%2C72.537v100h256v-100H178z%20M428%2C166.537H184v-88h244V166.537z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M178%2C312.537h256v-100H178V312.537z%20M184%2C218.537h244v88H184V218.537z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M178%2C452.537h256v-100H178V452.537z%20M184%2C358.537h244v88H184V358.537z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M94.33%2C316.875c-12.237%2C0-22.576%2C10.338-22.576%2C22.576s10.339%2C22.576%2C22.576%2C22.576%0D%0A%09%09%09%09c12.238%2C0%2C22.577-10.338%2C22.577-22.576S106.568%2C316.875%2C94.33%2C316.875z%20M94.33%2C356.027c-8.985%2C0-16.576-7.592-16.576-16.576%0D%0A%09%09%09%09s7.591-16.576%2C16.576-16.576s16.577%2C7.592%2C16.577%2C16.576S103.315%2C356.027%2C94.33%2C356.027z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M96.009%2C163.619c-25.542%2C0-48.017%2C10.221-63.283%2C28.78l-1.635%2C1.986l22.801%2C25.522l2.22-2.74%0D%0A%09%09%09%09c10.059-12.424%2C22.011-18.464%2C36.541-18.464c14.758%2C0%2C23.568%2C6.406%2C23.568%2C17.136c0%2C9.27-8.444%2C15.293-18.222%2C22.266%0D%0A%09%09%09%09c-12.564%2C8.963-26.805%2C19.119-26.805%2C39.26c0%2C10.078%2C3.801%2C19.047%2C10.993%2C25.938l1.302%2C1.248l31.413-10.352l-4.092-3.463%0D%0A%09%09%09%09c-2.997-2.535-5.09-6.768-5.09-10.293c0-9.482%2C8.874-15.799%2C19.149-23.113c13.771-9.803%2C30.91-22.002%2C30.91-46.804%0D%0A%09%09%09%09C155.78%2C182.47%2C131.76%2C163.619%2C96.009%2C163.619z%20M121.391%2C252.441c-11.144%2C7.934-21.67%2C15.426-21.67%2C28.002%0D%0A%09%09%09%09c0%2C3.785%2C1.429%2C7.826%2C3.827%2C11.18l-18.46%2C6.084c-5.239-5.592-7.894-12.426-7.894-20.342c0-17.051%2C12.348-25.857%2C24.289-34.375%0D%0A%09%09%09%09c10.664-7.605%2C20.737-14.791%2C20.737-27.15c0-10.673-7.744-23.136-29.568-23.136c-15.363%2C0-28.131%2C5.898-38.93%2C18.01%0D%0A%09%09%09%09l-14.699-16.455c14.055-15.911%2C34.187-24.64%2C56.985-24.64c32.162%2C0%2C53.771%2C16.439%2C53.771%2C40.907%0D%0A%09%09%09%09C149.78%2C232.234%2C135.348%2C242.508%2C121.391%2C252.441z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M219.545%2C393.844c3.6%2C0%2C6.799%2C2.1%2C8.398%2C4.85l4.998-2.551c-2.498-3.998-6.648-7.496-13.396-7.496%0D%0A%09%09%09%09c-9.848%2C0-17.496%2C6.996-17.496%2C17.246c0%2C10.246%2C7.648%2C17.244%2C17.496%2C17.244c6.748%2C0%2C10.848-3.498%2C13.396-7.498l-4.998-2.549%0D%0A%09%09%09%09c-1.6%2C2.799-4.799%2C4.85-8.398%2C4.85c-6.598%2C0-11.496-5.051-11.496-12.047C208.049%2C398.893%2C212.947%2C393.844%2C219.545%2C393.844z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M223.645%2C263.342c3.1-0.65%2C5.799-3.449%2C5.799-7.648c0-4.699-3.4-8.498-9.498-8.498h-16.396v33.342%0D%0A%09%09%09%09h16.846c6.248%2C0%2C9.697-3.848%2C9.697-8.998C230.092%2C267.439%2C227.193%2C263.893%2C223.645%2C263.342z%20M209.398%2C252.344h9.348%0D%0A%09%09%09%09c2.998%2C0%2C4.697%2C1.85%2C4.697%2C4.35s-1.699%2C4.299-4.697%2C4.299h-9.348V252.344z%20M218.996%2C275.389h-9.598v-9.248h9.598%0D%0A%09%09%09%09c3.348%2C0%2C5.098%2C2.1%2C5.098%2C4.6C224.094%2C273.639%2C222.195%2C275.389%2C218.996%2C275.389z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M209.148%2C136.139h15.295l2.449%2C6.398h6.648l-13.096-33.342h-7.299l-13.096%2C33.342h6.648%0D%0A%09%09%09%09L209.148%2C136.139z%20M216.797%2C115.094l5.998%2C15.896h-11.998L216.797%2C115.094z%22%2F%3E%0D%0A%09%09%3C%2Fg%3E%0D%0A%09%3C%2Fg%3E%0D%0A%3C%2Fg%3E%0D%0A%3Cg%20id%3D%22Layer_1%22%3E%0D%0A%3C%2Fg%3E%0D%0A%3C%2Fsvg%3E%0D%0A" );
+
+     addMenu( "test", TEST_GAMEID, "Test", "test-", "Take a test of matching and fill-in-the-blank questions to see how you score",
+"data:image/svg+xml,%3Csvg%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20x%3D%220px%22%20y%3D%220px%22%0D%0A%09%20viewBox%3D%220%200%20512%20512%22%20style%3D%22enable-background%3Anew%200%200%20512%20512%3B%22%20xml%3Aspace%3D%22preserve%22%3E%0D%0A%3Cg%20id%3D%22Test%22%3E%0D%0A%09%3Cg%3E%0D%0A%09%09%3Cg%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M315.891%2C221.08H188.95v20.229h126.94V221.08z%20M309.891%2C235.309H194.95v-8.229h114.94V235.309z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M160.494%2C241.309h20.229V221.08h-20.229V241.309z%20M166.494%2C227.08h8.229v8.229h-8.229V227.08z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M160.494%2C198.624h20.229v-20.229h-20.229V198.624z%20M166.494%2C184.396h8.229v8.229h-8.229V184.396z%22%0D%0A%09%09%09%09%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M280.32%2C263.766h-91.37v20.229h91.37V263.766z%20M274.32%2C277.994h-79.37v-8.229h79.37V277.994z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M160.494%2C283.994h20.229v-20.229h-20.229V283.994z%20M166.494%2C269.766h8.229v8.229h-8.229V269.766z%22%0D%0A%09%09%09%09%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M315.891%2C306.451H188.95v20.227h126.94V306.451z%20M309.891%2C320.678H194.95v-8.227h114.94V320.678z%22%0D%0A%09%09%09%09%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M160.494%2C326.678h20.229v-20.227h-20.229V326.678z%20M166.494%2C312.451h8.229v8.227h-8.229V312.451z%22%0D%0A%09%09%09%09%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M188.95%2C369.363h91.37v-20.229h-91.37V369.363z%20M194.95%2C355.135h79.37v8.229h-79.37V355.135z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M160.494%2C369.363h20.229v-20.229h-20.229V369.363z%20M166.494%2C355.135h8.229v8.229h-8.229V355.135z%22%0D%0A%09%09%09%09%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M280.32%2C178.396h-77.142v20.229h77.142V178.396z%20M274.32%2C192.624h-65.142v-8.229h65.142V192.624z%22%0D%0A%09%09%09%09%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M416.66%2C292.354l4.416-4.42l21.166-21.164l-15.521-15.532l-11.289%2C11.289l-0.001-0.001%0D%0A%09%09%09%09l-14.307%2C14.305l0.002%2C0.002l-14.093%2C14.093V88.912c0-5.577-4.537-10.114-10.115-10.114h-78.256h-3.445H280.32v-4.114%0D%0A%09%09%09%09c0-21.269-17.303-38.571-38.57-38.571c-21.269%2C0-38.571%2C17.303-38.571%2C38.571v4.114h-14.896h-3.445h-78.256%0D%0A%09%09%09%09c-5.577%2C0-10.114%2C4.537-10.114%2C10.114v199.195v170.74c0%2C5.576%2C4.537%2C10.113%2C10.114%2C10.113h270.337%0D%0A%09%09%09%09c5.578%2C0%2C10.115-4.537%2C10.115-10.113V321.974l29.625-29.623L416.66%2C292.354z%20M426.721%2C259.725l7.037%2C7.041l-7.044%2C7.044%0D%0A%09%09%09%09l-7.039-7.039L426.721%2C259.725z%20M416.655%2C283.868l-7.041-7.037l5.819-5.819l7.035%2C7.037l-3.802%2C3.807L416.655%2C283.868z%0D%0A%09%09%09%09%20M381.033%2C88.912v208.013l-22.457%2C22.457V117.368c0-5.577-4.537-10.114-10.115-10.114h-32.114l-8.212-21.896%0D%0A%09%09%09%09c-0.072-0.191-0.154-0.375-0.236-0.56h69.019C379.188%2C84.798%2C381.033%2C86.644%2C381.033%2C88.912z%20M318.299%2C390.703l34.277-34.275%0D%0A%09%09%09%09v73.962c0%2C2.27-1.846%2C4.115-4.115%2C4.115H135.037c-2.269%2C0-4.114-1.846-4.114-4.115v-169.85v-0.891V117.368%0D%0A%09%09%09%09c0-2.269%2C1.846-4.114%2C4.114-4.114h29.865l-10.886%2C29.029c-1.154%2C3.107-0.719%2C6.586%2C1.167%2C9.309%0D%0A%09%09%09%09c1.892%2C2.723%2C4.999%2C4.348%2C8.312%2C4.348h156.512c3.309%2C0%2C6.416-1.623%2C8.324-4.356c1.881-2.73%2C2.313-6.21%2C1.15-9.309l-10.884-29.021%0D%0A%09%09%09%09h29.864c2.27%2C0%2C4.115%2C1.846%2C4.115%2C4.114v208.014l-49.799%2C49.799v15.521H318.299z%20M188.282%2C84.798h20.896V74.684%0D%0A%09%09%09%09c0-17.96%2C14.611-32.571%2C32.571-32.571c17.959%2C0%2C32.57%2C14.611%2C32.57%2C32.571v10.114h20.896h3.445c1.705%2C0%2C3.256%2C1.075%2C3.857%2C2.671%0D%0A%09%09%09%09l21.344%2C56.912c0.473%2C1.262%2C0.295%2C2.681-0.465%2C3.782c-0.775%2C1.112-2.045%2C1.776-3.393%2C1.776H163.494%0D%0A%09%09%09%09c-1.349%2C0-2.613-0.662-3.382-1.769c-0.768-1.107-0.944-2.527-0.476-3.789l21.342-56.909c0.603-1.6%2C2.153-2.675%2C3.858-2.675%0D%0A%09%09%09%09H188.282z%20M381.033%2C458.848c0%2C2.268-1.846%2C4.113-4.115%2C4.113H106.581c-2.269%2C0-4.114-1.846-4.114-4.113v-170.74V88.912%0D%0A%09%09%09%09c0-2.269%2C1.846-4.114%2C4.114-4.114H175.6c-0.083%2C0.186-0.165%2C0.372-0.238%2C0.563l-8.21%2C21.893h-32.115%0D%0A%09%09%09%09c-5.577%2C0-10.114%2C4.537-10.114%2C10.114V259.65v0.891v169.85c0%2C5.578%2C4.537%2C10.115%2C10.114%2C10.115h213.424%0D%0A%09%09%09%09c5.578%2C0%2C10.115-4.537%2C10.115-10.115v-79.962l22.457-22.455V458.848z%20M315.814%2C384.703h-7.037v-7.037l96.594-96.593l7.041%2C7.036%0D%0A%09%09%09%09L315.814%2C384.703z%22%2F%3E%0D%0A%09%09%3C%2Fg%3E%0D%0A%09%3C%2Fg%3E%0D%0A%3C%2Fg%3E%0D%0A%3Cg%20id%3D%22Layer_1%22%3E%0D%0A%3C%2Fg%3E%0D%0A%3C%2Fsvg%3E%0D%0A" );
+
+     addMenu( "studyStack", STUDYSTACK_GAMEID, "StudyStack", "studystack-", "Study using a StudyStack - similar to flashcards",
+"data:image/svg+xml,%3Csvg%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20x%3D%220px%22%20y%3D%220px%22%0D%0A%09%20viewBox%3D%220%200%20512%20512%22%20style%3D%22enable-background%3Anew%200%200%20512%20512%3B%22%20xml%3Aspace%3D%22preserve%22%3E%0D%0A%3Cg%20id%3D%22StudyStack%22%3E%0D%0A%09%3Cg%3E%0D%0A%09%09%3Cg%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M43.927%2C97.117c0%2C5.46%2C1.756%2C10.593%2C4.942%2C14.457c3.76%2C4.551%2C9.295%2C7.059%2C15.585%2C7.059H239.35%0D%0A%09%09%09%09v-6.957h-3.247c-3.136-9.648-3.136-20.041%2C0-29.69c1.135%2C0%2C2.226%2C0%2C3.247%2C0V75.03H64.455%0D%0A%09%09%09%09C51.123%2C75.03%2C43.927%2C86.409%2C43.927%2C97.117z%20M233.677%2C81.988c-2.986%2C9.672-2.986%2C20.018%2C0%2C29.69H65.845%0D%0A%09%09%09%09c-20.453%2C0-19.43-29.69%2C0-29.69C81.405%2C81.988%2C190.738%2C81.988%2C233.677%2C81.988z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M218.822%2C124.747H43.927v6.957h3.247c3.136%2C9.648%2C3.136%2C20.041%2C0%2C29.69c-1.135%2C0-2.226%2C0-3.247%2C0%0D%0A%09%09%09%09v6.958h174.895c13.331%2C0%2C20.528-11.379%2C20.528-22.088c0-5.46-1.756-10.593-4.942-14.457%0D%0A%09%09%09%09C230.647%2C127.255%2C225.112%2C124.747%2C218.822%2C124.747z%20M217.432%2C161.394c-15.56%2C0-124.893%2C0-167.832%2C0%0D%0A%09%09%09%09c2.986-9.672%2C2.986-20.018%2C0-29.69h167.832C237.884%2C131.704%2C236.861%2C161.394%2C217.432%2C161.394z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M464%2C81.988V75.03H289.105c-13.331%2C0-20.528%2C11.379-20.528%2C22.088%0D%0A%09%09%09%09c0%2C5.46%2C1.756%2C10.593%2C4.942%2C14.457c3.76%2C4.551%2C9.295%2C7.059%2C15.585%2C7.059H464v-6.957h-3.247c-3.136-9.648-3.136-20.041%2C0-29.69%0D%0A%09%09%09%09C461.888%2C81.988%2C462.979%2C81.988%2C464%2C81.988z%20M458.327%2C111.677H290.495c-20.453%2C0-19.43-29.69%2C0-29.69%0D%0A%09%09%09%09c15.56%2C0%2C124.893%2C0%2C167.832%2C0C455.341%2C91.659%2C455.341%2C102.006%2C458.327%2C111.677z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M443.472%2C124.747H268.577v6.957h3.247c3.136%2C9.648%2C3.136%2C20.041%2C0%2C29.69c-1.135%2C0-2.226%2C0-3.247%2C0%0D%0A%09%09%09%09v6.958h174.895c13.331%2C0%2C20.528-11.379%2C20.528-22.088c0-5.46-1.756-10.593-4.942-14.457%0D%0A%09%09%09%09C455.298%2C127.255%2C449.763%2C124.747%2C443.472%2C124.747z%20M442.082%2C161.394c-15.56%2C0-124.893%2C0-167.832%2C0%0D%0A%09%09%09%09c2.986-9.672%2C2.986-20.018%2C0-29.69h167.832C462.535%2C131.704%2C461.512%2C161.394%2C442.082%2C161.394z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M43.927%2C231.284c0%2C5.46%2C1.756%2C10.593%2C4.942%2C14.457c3.76%2C4.551%2C9.295%2C7.059%2C15.585%2C7.059H239.35%0D%0A%09%09%09%09v-6.957h-3.247c-3.136-9.648-3.136-20.041%2C0-29.69c1.135%2C0%2C2.226%2C0%2C3.247%2C0v-6.958H64.455%0D%0A%09%09%09%09C51.123%2C209.196%2C43.927%2C220.575%2C43.927%2C231.284z%20M233.677%2C216.154c-2.986%2C9.672-2.986%2C20.018%2C0%2C29.69H65.845%0D%0A%09%09%09%09c-20.453%2C0-19.43-29.69%2C0-29.69C81.405%2C216.154%2C190.738%2C216.154%2C233.677%2C216.154z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M218.822%2C258.914H43.927v6.957h3.247c3.136%2C9.648%2C3.136%2C20.041%2C0%2C29.69c-1.135%2C0-2.226%2C0-3.247%2C0%0D%0A%09%09%09%09v6.958h174.895c13.331%2C0%2C20.528-11.379%2C20.528-22.088c0-5.46-1.756-10.593-4.942-14.457%0D%0A%09%09%09%09C230.647%2C261.422%2C225.112%2C258.914%2C218.822%2C258.914z%20M217.432%2C295.56c-15.56%2C0-124.893%2C0-167.832%2C0%0D%0A%09%09%09%09c2.986-9.672%2C2.986-20.018%2C0-29.69h167.832C237.884%2C265.87%2C236.861%2C295.56%2C217.432%2C295.56z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M268.577%2C231.284c0%2C5.46%2C1.756%2C10.593%2C4.942%2C14.457c3.76%2C4.551%2C9.295%2C7.059%2C15.585%2C7.059H464%0D%0A%09%09%09%09v-6.957h-3.247c-3.136-9.648-3.136-20.041%2C0-29.69c1.135%2C0%2C2.226%2C0%2C3.247%2C0v-6.958H289.105%0D%0A%09%09%09%09C275.774%2C209.196%2C268.577%2C220.575%2C268.577%2C231.284z%20M458.327%2C216.154c-2.986%2C9.672-2.986%2C20.018%2C0%2C29.69H290.495%0D%0A%09%09%09%09c-20.453%2C0-19.43-29.69%2C0-29.69C306.055%2C216.154%2C415.389%2C216.154%2C458.327%2C216.154z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M443.472%2C258.914H268.577v6.957h3.247c3.136%2C9.648%2C3.136%2C20.041%2C0%2C29.69c-1.135%2C0-2.226%2C0-3.247%2C0%0D%0A%09%09%09%09v6.958h174.895c13.331%2C0%2C20.528-11.379%2C20.528-22.088c0-5.46-1.756-10.593-4.942-14.457%0D%0A%09%09%09%09C455.298%2C261.422%2C449.763%2C258.914%2C443.472%2C258.914z%20M442.082%2C295.56c-15.56%2C0-124.893%2C0-167.832%2C0%0D%0A%09%09%09%09c2.986-9.672%2C2.986-20.018%2C0-29.69h167.832C462.535%2C265.87%2C461.512%2C295.56%2C442.082%2C295.56z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M43.927%2C365.451c0%2C5.46%2C1.756%2C10.593%2C4.942%2C14.457c3.76%2C4.551%2C9.295%2C7.059%2C15.585%2C7.059H239.35%0D%0A%09%09%09%09v-6.957h-3.247c-3.136-9.648-3.136-20.041%2C0-29.69c1.135%2C0%2C2.226%2C0%2C3.247%2C0v-6.958H64.455%0D%0A%09%09%09%09C51.123%2C343.363%2C43.927%2C354.742%2C43.927%2C365.451z%20M233.677%2C350.321c-2.986%2C9.672-2.986%2C20.018%2C0%2C29.69H65.845%0D%0A%09%09%09%09c-20.453%2C0-19.43-29.69%2C0-29.69C81.405%2C350.321%2C190.738%2C350.321%2C233.677%2C350.321z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M218.822%2C393.08H43.927v6.957h3.247c3.136%2C9.648%2C3.136%2C20.041%2C0%2C29.69c-1.135%2C0-2.226%2C0-3.247%2C0%0D%0A%09%09%09%09v6.958h174.895c13.331%2C0%2C20.528-11.379%2C20.528-22.088c0-5.46-1.756-10.593-4.942-14.457%0D%0A%09%09%09%09C230.647%2C395.588%2C225.112%2C393.08%2C218.822%2C393.08z%20M217.432%2C429.727c-15.56%2C0-124.893%2C0-167.832%2C0%0D%0A%09%09%09%09c2.986-9.672%2C2.986-20.018%2C0-29.69h167.832C237.884%2C400.037%2C236.861%2C429.727%2C217.432%2C429.727z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M268.577%2C365.451c0%2C5.46%2C1.756%2C10.593%2C4.942%2C14.457c3.76%2C4.551%2C9.295%2C7.059%2C15.585%2C7.059H464%0D%0A%09%09%09%09v-6.957h-3.247c-3.136-9.648-3.136-20.041%2C0-29.69c1.135%2C0%2C2.226%2C0%2C3.247%2C0v-6.958H289.105%0D%0A%09%09%09%09C275.774%2C343.363%2C268.577%2C354.742%2C268.577%2C365.451z%20M458.327%2C350.321c-2.986%2C9.672-2.986%2C20.018%2C0%2C29.69H290.495%0D%0A%09%09%09%09c-20.453%2C0-19.43-29.69%2C0-29.69C306.055%2C350.321%2C415.389%2C350.321%2C458.327%2C350.321z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M443.472%2C393.08H268.577v6.957h3.247c3.136%2C9.648%2C3.136%2C20.041%2C0%2C29.69c-1.135%2C0-2.226%2C0-3.247%2C0%0D%0A%09%09%09%09v6.958h174.895c13.331%2C0%2C20.528-11.379%2C20.528-22.088c0-5.46-1.756-10.593-4.942-14.457%0D%0A%09%09%09%09C455.298%2C395.588%2C449.763%2C393.08%2C443.472%2C393.08z%20M442.082%2C429.727c-15.56%2C0-124.893%2C0-167.832%2C0%0D%0A%09%09%09%09c2.986-9.672%2C2.986-20.018%2C0-29.69h167.832C462.535%2C400.037%2C461.512%2C429.727%2C442.082%2C429.727z%22%2F%3E%0D%0A%09%09%3C%2Fg%3E%0D%0A%09%3C%2Fg%3E%0D%0A%3C%2Fg%3E%0D%0A%3Cg%20id%3D%22Layer_1%22%3E%0D%0A%3C%2Fg%3E%0D%0A%3C%2Fsvg%3E%0D%0A" );
+
+     addMenu( "studyTable", STUDYTABLE_GAMEID, "Study Table", "studytable-", "Study all the data at once - click in the table to show or hide the item",
+"data:image/svg+xml,%3Csvg%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20x%3D%220px%22%20y%3D%220px%22%0D%0A%09%20viewBox%3D%220%200%20512%20512%22%20style%3D%22enable-background%3Anew%200%200%20512%20512%3B%22%20xml%3Aspace%3D%22preserve%22%3E%0D%0A%3Cg%20id%3D%22Study_Table%22%3E%0D%0A%09%3Cg%3E%0D%0A%09%09%3Cg%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M163%2C110.537h176c1.656%2C0%2C3-1.343%2C3-3s-1.344-3-3-3H163c-1.657%2C0-3%2C1.343-3%2C3%0D%0A%09%09%09%09S161.343%2C110.537%2C163%2C110.537z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M73%2C77.537v370h368v-370H73z%20M435%2C83.537v42.21H79v-42.21H435z%20M183%2C406.537v-34h154v34H183z%0D%0A%09%09%09%09%20M337%2C412.537v29H183v-29H337z%20M183%2C326.537v-34h154v34H183z%20M337%2C332.537v34H183v-34H337z%20M183%2C286.537v-34h154v34H183z%0D%0A%09%09%09%09%20M183%2C246.537v-34h154v34H183z%20M183%2C206.537v-34h154v34H183z%20M183%2C166.537v-34.79h154v34.79H183z%20M177%2C166.537H79v-34.79h98%0D%0A%09%09%09%09V166.537z%20M177%2C172.537v34H79v-34H177z%20M177%2C212.537v34H79v-34H177z%20M177%2C252.537v34H79v-34H177z%20M177%2C292.537v34H79v-34H177z%0D%0A%09%09%09%09%20M177%2C332.537v34H79v-34H177z%20M177%2C372.537v34H79v-34H177z%20M343%2C372.537h92v34h-92V372.537z%20M343%2C366.537v-34h92v34H343z%0D%0A%09%09%09%09%20M343%2C326.537v-34h92v34H343z%20M343%2C286.537v-34h92v34H343z%20M343%2C246.537v-34h92v34H343z%20M343%2C206.537v-34h92v34H343z%0D%0A%09%09%09%09%20M343%2C166.537v-34.79h92v34.79H343z%20M79%2C412.537h98v29H79V412.537z%20M343%2C441.537v-29h92v29H343z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M107%2C152.537h42c1.657%2C0%2C3-1.343%2C3-3s-1.343-3-3-3h-42c-1.657%2C0-3%2C1.343-3%2C3%0D%0A%09%09%09%09S105.343%2C152.537%2C107%2C152.537z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M107%2C192.537h42c1.657%2C0%2C3-1.343%2C3-3s-1.343-3-3-3h-42c-1.657%2C0-3%2C1.343-3%2C3%0D%0A%09%09%09%09S105.343%2C192.537%2C107%2C192.537z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M107%2C232.537h42c1.657%2C0%2C3-1.343%2C3-3s-1.343-3-3-3h-42c-1.657%2C0-3%2C1.343-3%2C3%0D%0A%09%09%09%09S105.343%2C232.537%2C107%2C232.537z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M107%2C272.537h42c1.657%2C0%2C3-1.344%2C3-3s-1.343-3-3-3h-42c-1.657%2C0-3%2C1.344-3%2C3%0D%0A%09%09%09%09S105.343%2C272.537%2C107%2C272.537z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M107%2C312.537h42c1.657%2C0%2C3-1.344%2C3-3s-1.343-3-3-3h-42c-1.657%2C0-3%2C1.344-3%2C3%0D%0A%09%09%09%09S105.343%2C312.537%2C107%2C312.537z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M107%2C352.537h42c1.657%2C0%2C3-1.344%2C3-3s-1.343-3-3-3h-42c-1.657%2C0-3%2C1.344-3%2C3%0D%0A%09%09%09%09S105.343%2C352.537%2C107%2C352.537z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M107%2C392.537h42c1.657%2C0%2C3-1.344%2C3-3s-1.343-3-3-3h-42c-1.657%2C0-3%2C1.344-3%2C3%0D%0A%09%09%09%09S105.343%2C392.537%2C107%2C392.537z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M149%2C426.537h-42c-1.657%2C0-3%2C1.344-3%2C3s1.343%2C3%2C3%2C3h42c1.657%2C0%2C3-1.344%2C3-3%0D%0A%09%09%09%09S150.657%2C426.537%2C149%2C426.537z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M409%2C146.537h-42c-1.656%2C0-3%2C1.343-3%2C3s1.344%2C3%2C3%2C3h42c1.656%2C0%2C3-1.343%2C3-3%0D%0A%09%09%09%09S410.656%2C146.537%2C409%2C146.537z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M409%2C186.537h-42c-1.656%2C0-3%2C1.343-3%2C3s1.344%2C3%2C3%2C3h42c1.656%2C0%2C3-1.343%2C3-3%0D%0A%09%09%09%09S410.656%2C186.537%2C409%2C186.537z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M409%2C226.537h-42c-1.656%2C0-3%2C1.343-3%2C3s1.344%2C3%2C3%2C3h42c1.656%2C0%2C3-1.343%2C3-3%0D%0A%09%09%09%09S410.656%2C226.537%2C409%2C226.537z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M409%2C266.537h-42c-1.656%2C0-3%2C1.344-3%2C3s1.344%2C3%2C3%2C3h42c1.656%2C0%2C3-1.344%2C3-3%0D%0A%09%09%09%09S410.656%2C266.537%2C409%2C266.537z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M409%2C306.537h-42c-1.656%2C0-3%2C1.344-3%2C3s1.344%2C3%2C3%2C3h42c1.656%2C0%2C3-1.344%2C3-3%0D%0A%09%09%09%09S410.656%2C306.537%2C409%2C306.537z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M409%2C346.537h-42c-1.656%2C0-3%2C1.344-3%2C3s1.344%2C3%2C3%2C3h42c1.656%2C0%2C3-1.344%2C3-3%0D%0A%09%09%09%09S410.656%2C346.537%2C409%2C346.537z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M409%2C386.537h-42c-1.656%2C0-3%2C1.344-3%2C3s1.344%2C3%2C3%2C3h42c1.656%2C0%2C3-1.344%2C3-3%0D%0A%09%09%09%09S410.656%2C386.537%2C409%2C386.537z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M409%2C426.537h-42c-1.656%2C0-3%2C1.344-3%2C3s1.344%2C3%2C3%2C3h42c1.656%2C0%2C3-1.344%2C3-3%0D%0A%09%09%09%09S410.656%2C426.537%2C409%2C426.537z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M311%2C146.537H209c-1.657%2C0-3%2C1.343-3%2C3s1.343%2C3%2C3%2C3h102c1.656%2C0%2C3-1.343%2C3-3%0D%0A%09%09%09%09S312.656%2C146.537%2C311%2C146.537z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M311%2C186.537H209c-1.657%2C0-3%2C1.343-3%2C3s1.343%2C3%2C3%2C3h102c1.656%2C0%2C3-1.343%2C3-3%0D%0A%09%09%09%09S312.656%2C186.537%2C311%2C186.537z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M311%2C226.537H209c-1.657%2C0-3%2C1.343-3%2C3s1.343%2C3%2C3%2C3h102c1.656%2C0%2C3-1.343%2C3-3%0D%0A%09%09%09%09S312.656%2C226.537%2C311%2C226.537z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M311%2C266.537H209c-1.657%2C0-3%2C1.344-3%2C3s1.343%2C3%2C3%2C3h102c1.656%2C0%2C3-1.344%2C3-3%0D%0A%09%09%09%09S312.656%2C266.537%2C311%2C266.537z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M311%2C306.537H209c-1.657%2C0-3%2C1.344-3%2C3s1.343%2C3%2C3%2C3h102c1.656%2C0%2C3-1.344%2C3-3%0D%0A%09%09%09%09S312.656%2C306.537%2C311%2C306.537z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M209%2C352.537h102c1.656%2C0%2C3-1.344%2C3-3s-1.344-3-3-3H209c-1.657%2C0-3%2C1.344-3%2C3%0D%0A%09%09%09%09S207.343%2C352.537%2C209%2C352.537z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M311%2C386.537H209c-1.657%2C0-3%2C1.344-3%2C3s1.343%2C3%2C3%2C3h102c1.656%2C0%2C3-1.344%2C3-3%0D%0A%09%09%09%09S312.656%2C386.537%2C311%2C386.537z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M209%2C432.537h102c1.656%2C0%2C3-1.344%2C3-3s-1.344-3-3-3H209c-1.657%2C0-3%2C1.344-3%2C3%0D%0A%09%09%09%09S207.343%2C432.537%2C209%2C432.537z%22%2F%3E%0D%0A%09%09%3C%2Fg%3E%0D%0A%09%3C%2Fg%3E%0D%0A%3C%2Fg%3E%0D%0A%3Cg%20id%3D%22Layer_1%22%3E%0D%0A%3C%2Fg%3E%0D%0A%3C%2Fsvg%3E%0D%0A" );
+
+     addMenu( "bugMatch", BUGMATCH_GAMEID, "Bug Match", "bugmatch-", "Chase down the correct answer to earn points",
+"data:image/svg+xml,%3Csvg%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20x%3D%220px%22%20y%3D%220px%22%0D%0A%09%20viewBox%3D%220%200%20512%20512%22%20style%3D%22enable-background%3Anew%200%200%20512%20512%3B%22%20xml%3Aspace%3D%22preserve%22%3E%0D%0A%3Cg%20id%3D%22Bug_Match%22%3E%0D%0A%09%3Cg%3E%0D%0A%09%09%3Cg%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M434%2C93.537H200c-1.657%2C0-3%2C1.343-3%2C3v50c0%2C1.657%2C1.343%2C3%2C3%2C3h234c1.656%2C0%2C3-1.343%2C3-3v-50%0D%0A%09%09%09%09C437%2C94.88%2C435.656%2C93.537%2C434%2C93.537z%20M431%2C143.537H203v-44h228V143.537z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M434%2C223.537H200c-1.657%2C0-3%2C1.343-3%2C3v50c0%2C1.657%2C1.343%2C3%2C3%2C3h234c1.656%2C0%2C3-1.343%2C3-3v-50%0D%0A%09%09%09%09C437%2C224.88%2C435.656%2C223.537%2C434%2C223.537z%20M431%2C273.537H203v-44h228V273.537z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M434%2C351.537H200c-1.657%2C0-3%2C1.344-3%2C3v50c0%2C1.656%2C1.343%2C3%2C3%2C3h234c1.656%2C0%2C3-1.344%2C3-3v-50%0D%0A%09%09%09%09C437%2C352.881%2C435.656%2C351.537%2C434%2C351.537z%20M431%2C401.537H203v-44h228V401.537z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M126.576%2C118.641c-0.7-0.876-1.834-1.286-2.931-1.067l-17.014%2C3.403%0D%0A%09%09%09%09c-0.222-0.652-0.48-1.284-0.785-1.886l14.646-11.717l7.854%2C6.873c1.247%2C1.091%2C3.144%2C0.964%2C4.233-0.282%0D%0A%09%09%09%09c1.091-1.247%2C0.965-3.143-0.282-4.233l-9.744-8.526c-1.093-0.956-2.714-0.989-3.85-0.085l-10.352%2C8.282%0D%0A%09%09%09%09c0.775-2.018%2C1.219-4.227%2C1.219-6.548c0-4.268-1.468-8.147-3.851-11.067l2.923-9.354c0.494-1.581-0.387-3.264-1.969-3.758%0D%0A%09%09%09%09c-1.584-0.492-3.264%2C0.386-3.758%2C1.969l-2.224%2C7.117c-1.75-0.839-3.674-1.305-5.693-1.305c-2.08%2C0-4.056%2C0.502-5.848%2C1.39%0D%0A%09%09%09%09L86.9%2C80.642c-0.495-1.582-2.181-2.46-3.759-1.968c-1.581%2C0.494-2.462%2C2.177-1.968%2C3.759l2.974%2C9.515%0D%0A%09%09%09%09c-2.305%2C2.901-3.719%2C6.716-3.719%2C10.905c0%2C2.321%2C0.444%2C4.531%2C1.219%2C6.548l-10.352-8.282c-1.134-0.904-2.755-0.871-3.85%2C0.085%0D%0A%09%09%09%09l-9.744%2C8.526c-1.247%2C1.091-1.373%2C2.986-0.282%2C4.233c1.089%2C1.246%2C2.985%2C1.373%2C4.233%2C0.282l7.854-6.873l14.646%2C11.717%0D%0A%09%09%09%09c-0.305%2C0.603-0.563%2C1.234-0.785%2C1.886l-17.014-3.403c-1.094-0.226-2.229%2C0.191-2.931%2C1.067l-9.744%2C12.181%0D%0A%09%09%09%09c-1.035%2C1.294-0.825%2C3.182%2C0.469%2C4.217c0.553%2C0.442%2C1.215%2C0.657%2C1.872%2C0.657c0.88%2C0%2C1.752-0.386%2C2.345-1.126l8.604-10.755%0D%0A%09%09%09%09l15.601%2C3.12c0.126%2C2.152%2C0.687%2C4.197%2C1.621%2C6.015l-20.406%2C5.371c-1.023%2C0.27-1.83%2C1.059-2.121%2C2.077l-4.872%2C17.053%0D%0A%09%09%09%09c-0.455%2C1.593%2C0.468%2C3.254%2C2.061%2C3.709c0.275%2C0.078%2C0.553%2C0.116%2C0.826%2C0.116c1.305%2C0%2C2.506-0.859%2C2.883-2.177l4.402-15.41%0D%0A%09%09%09%09l14.099-3.711c-1.079%2C2.415-1.682%2C5.116-1.682%2C7.943c0%2C9.714%2C7.007%2C17.616%2C15.619%2C17.616s15.619-7.902%2C15.619-17.616%0D%0A%09%09%09%09c0-2.827-0.603-5.528-1.682-7.943l14.099%2C3.711l4.402%2C15.41c0.377%2C1.317%2C1.578%2C2.177%2C2.883%2C2.177%0D%0A%09%09%09%09c0.273%2C0%2C0.551-0.038%2C0.826-0.116c1.593-0.455%2C2.516-2.116%2C2.061-3.709l-4.872-17.053c-0.291-1.019-1.098-1.808-2.121-2.077%0D%0A%09%09%09%09l-20.406-5.371c0.934-1.819%2C1.495-3.863%2C1.621-6.015l15.601-3.12l8.604%2C10.755c0.593%2C0.741%2C1.465%2C1.126%2C2.345%2C1.126%0D%0A%09%09%09%09c0.657%2C0%2C1.319-0.215%2C1.872-0.657c1.294-1.035%2C1.504-2.923%2C0.469-4.217L126.576%2C118.641z%20M95%2C159.537%0D%0A%09%09%09%09c-5.304%2C0-9.619-5.211-9.619-11.616c0-4.45%2C2.163-8.569%2C5.512-10.494c0.846-0.485%2C1.402-1.353%2C1.492-2.323%0D%0A%09%09%09%09c0.09-0.972-0.298-1.926-1.039-2.559c-1.76-1.502-2.81-3.95-2.81-6.549c0-3.387%2C1.76-6.415%2C4.379-7.534%0D%0A%09%09%09%09c1.143-0.489%2C1.866-1.632%2C1.818-2.874s-0.857-2.326-2.034-2.726c-3.692-1.253-6.271-5.368-6.271-10.01%0D%0A%09%09%09%09c0-3.224%2C1.216-6.111%2C3.121-8.02c0.001-0.001%2C0.001-0.001%2C0.002-0.002c1.482-1.484%2C3.381-2.377%2C5.448-2.377%0D%0A%09%09%09%09c1.763%2C0%2C3.403%2C0.65%2C4.767%2C1.762c0.261%2C0.423%2C0.619%2C0.789%2C1.069%2C1.042c1.678%2C1.899%2C2.736%2C4.597%2C2.736%2C7.595%0D%0A%09%09%09%09c0%2C4.642-2.578%2C8.757-6.271%2C10.01c-1.177%2C0.399-1.986%2C1.483-2.034%2C2.726s0.676%2C2.385%2C1.818%2C2.874%0D%0A%09%09%09%09c2.619%2C1.119%2C4.379%2C4.147%2C4.379%2C7.534c0%2C2.599-1.05%2C5.047-2.81%2C6.549c-0.741%2C0.633-1.129%2C1.587-1.039%2C2.559%0D%0A%09%09%09%09c0.09%2C0.971%2C0.646%2C1.838%2C1.492%2C2.323c3.349%2C1.925%2C5.512%2C6.044%2C5.512%2C10.494C104.619%2C154.326%2C100.304%2C159.537%2C95%2C159.537z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M126.576%2C246.641c-0.7-0.876-1.834-1.287-2.931-1.067l-17.014%2C3.403%0D%0A%09%09%09%09c-0.222-0.652-0.48-1.284-0.785-1.886l14.646-11.717l7.854%2C6.873c1.247%2C1.091%2C3.144%2C0.963%2C4.233-0.282%0D%0A%09%09%09%09c1.091-1.247%2C0.965-3.143-0.282-4.233l-9.744-8.526c-1.093-0.956-2.714-0.989-3.85-0.085l-10.352%2C8.282%0D%0A%09%09%09%09c0.775-2.018%2C1.219-4.227%2C1.219-6.548c0-4.268-1.468-8.147-3.851-11.067l2.923-9.354c0.494-1.581-0.387-3.264-1.969-3.758%0D%0A%09%09%09%09c-1.584-0.494-3.264%2C0.386-3.758%2C1.969l-2.224%2C7.117c-1.75-0.839-3.674-1.305-5.693-1.305c-2.08%2C0-4.056%2C0.502-5.848%2C1.39%0D%0A%09%09%09%09l-2.251-7.202c-0.495-1.582-2.181-2.462-3.759-1.968c-1.581%2C0.494-2.462%2C2.177-1.968%2C3.759l2.974%2C9.515%0D%0A%09%09%09%09c-2.305%2C2.901-3.719%2C6.716-3.719%2C10.905c0%2C2.321%2C0.444%2C4.531%2C1.219%2C6.548l-10.352-8.282c-1.134-0.904-2.755-0.871-3.85%2C0.085%0D%0A%09%09%09%09l-9.744%2C8.526c-1.247%2C1.091-1.373%2C2.986-0.282%2C4.233c1.089%2C1.245%2C2.985%2C1.373%2C4.233%2C0.282l7.854-6.873l14.646%2C11.717%0D%0A%09%09%09%09c-0.305%2C0.603-0.563%2C1.234-0.785%2C1.886l-17.014-3.403c-1.094-0.226-2.229%2C0.191-2.931%2C1.067l-9.744%2C12.181%0D%0A%09%09%09%09c-1.035%2C1.294-0.825%2C3.182%2C0.469%2C4.217c0.553%2C0.442%2C1.215%2C0.657%2C1.872%2C0.657c0.88%2C0%2C1.752-0.386%2C2.345-1.126l8.604-10.755%0D%0A%09%09%09%09l15.601%2C3.12c0.126%2C2.152%2C0.687%2C4.197%2C1.621%2C6.015l-20.406%2C5.371c-1.023%2C0.27-1.83%2C1.059-2.121%2C2.077l-4.872%2C17.053%0D%0A%09%09%09%09c-0.455%2C1.593%2C0.468%2C3.254%2C2.061%2C3.709c0.275%2C0.078%2C0.553%2C0.116%2C0.826%2C0.116c1.305%2C0%2C2.506-0.859%2C2.883-2.177l4.402-15.41%0D%0A%09%09%09%09l14.099-3.711c-1.079%2C2.415-1.682%2C5.116-1.682%2C7.943c0%2C9.714%2C7.007%2C17.616%2C15.619%2C17.616s15.619-7.902%2C15.619-17.616%0D%0A%09%09%09%09c0-2.827-0.603-5.528-1.682-7.943l14.099%2C3.711l4.402%2C15.41c0.377%2C1.317%2C1.578%2C2.177%2C2.883%2C2.177%0D%0A%09%09%09%09c0.273%2C0%2C0.551-0.038%2C0.826-0.116c1.593-0.455%2C2.516-2.116%2C2.061-3.709l-4.872-17.053c-0.291-1.019-1.098-1.808-2.121-2.077%0D%0A%09%09%09%09l-20.406-5.371c0.934-1.819%2C1.495-3.863%2C1.621-6.015l15.601-3.12l8.604%2C10.755c0.593%2C0.741%2C1.465%2C1.126%2C2.345%2C1.126%0D%0A%09%09%09%09c0.657%2C0%2C1.319-0.215%2C1.872-0.657c1.294-1.035%2C1.504-2.923%2C0.469-4.217L126.576%2C246.641z%20M95%2C287.537%0D%0A%09%09%09%09c-5.304%2C0-9.619-5.211-9.619-11.616c0-4.45%2C2.163-8.569%2C5.512-10.494c0.846-0.485%2C1.402-1.353%2C1.492-2.323%0D%0A%09%09%09%09c0.09-0.972-0.298-1.926-1.039-2.559c-1.76-1.502-2.81-3.95-2.81-6.549c0-3.387%2C1.76-6.415%2C4.379-7.534%0D%0A%09%09%09%09c1.143-0.489%2C1.866-1.632%2C1.818-2.874s-0.857-2.326-2.034-2.726c-3.692-1.253-6.271-5.368-6.271-10.01%0D%0A%09%09%09%09c0-3.224%2C1.216-6.111%2C3.121-8.02c0.001-0.001%2C0.001-0.001%2C0.002-0.002c1.482-1.484%2C3.381-2.377%2C5.448-2.377%0D%0A%09%09%09%09c1.763%2C0%2C3.403%2C0.65%2C4.767%2C1.762c0.261%2C0.423%2C0.619%2C0.789%2C1.069%2C1.042c1.678%2C1.899%2C2.736%2C4.597%2C2.736%2C7.595%0D%0A%09%09%09%09c0%2C4.642-2.578%2C8.757-6.271%2C10.01c-1.177%2C0.399-1.986%2C1.483-2.034%2C2.726s0.676%2C2.385%2C1.818%2C2.874%0D%0A%09%09%09%09c2.619%2C1.119%2C4.379%2C4.147%2C4.379%2C7.534c0%2C2.599-1.05%2C5.047-2.81%2C6.549c-0.741%2C0.633-1.129%2C1.587-1.039%2C2.559%0D%0A%09%09%09%09c0.09%2C0.971%2C0.646%2C1.838%2C1.492%2C2.323c3.349%2C1.925%2C5.512%2C6.044%2C5.512%2C10.494C104.619%2C282.326%2C100.304%2C287.537%2C95%2C287.537z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M126.576%2C374.641c-0.7-0.877-1.834-1.287-2.931-1.068l-17.014%2C3.403%0D%0A%09%09%09%09c-0.222-0.652-0.48-1.283-0.785-1.886l14.647-11.716l7.854%2C6.873c1.247%2C1.09%2C3.144%2C0.963%2C4.233-0.283%0D%0A%09%09%09%09c1.091-1.246%2C0.965-3.141-0.282-4.232l-9.744-8.525c-1.093-0.955-2.714-0.992-3.85-0.084l-10.353%2C8.282%0D%0A%09%09%09%09c0.775-2.018%2C1.219-4.228%2C1.219-6.549c0-4.268-1.468-8.148-3.851-11.068l2.923-9.354c0.494-1.582-0.387-3.264-1.969-3.758%0D%0A%09%09%09%09c-1.584-0.495-3.264%2C0.386-3.758%2C1.969l-2.224%2C7.117c-1.75-0.839-3.674-1.305-5.693-1.305c-2.08%2C0-4.056%2C0.502-5.848%2C1.389%0D%0A%09%09%09%09l-2.251-7.202c-0.495-1.583-2.181-2.464-3.759-1.969c-1.581%2C0.494-2.462%2C2.178-1.968%2C3.758l2.975%2C9.516%0D%0A%09%09%09%09c-2.305%2C2.901-3.72%2C6.716-3.72%2C10.906c0%2C2.322%2C0.444%2C4.531%2C1.219%2C6.549l-10.353-8.282c-1.134-0.908-2.755-0.871-3.85%2C0.084%0D%0A%09%09%09%09l-9.744%2C8.525c-1.247%2C1.092-1.373%2C2.986-0.282%2C4.232c1.089%2C1.25%2C2.985%2C1.373%2C4.233%2C0.283l7.854-6.873l14.647%2C11.716%0D%0A%09%09%09%09c-0.305%2C0.603-0.563%2C1.234-0.785%2C1.886l-17.014-3.403c-1.098-0.221-2.23%2C0.191-2.931%2C1.068l-9.744%2C12.182%0D%0A%09%09%09%09c-1.035%2C1.293-0.825%2C3.182%2C0.469%2C4.215c0.554%2C0.443%2C1.215%2C0.658%2C1.872%2C0.658c0.88%2C0%2C1.752-0.385%2C2.345-1.127l8.604-10.754%0D%0A%09%09%09%09l15.601%2C3.119c0.126%2C2.153%2C0.687%2C4.198%2C1.622%2C6.017l-20.406%2C5.37c-1.023%2C0.27-1.83%2C1.059-2.121%2C2.076l-4.872%2C17.053%0D%0A%09%09%09%09c-0.455%2C1.594%2C0.468%2C3.254%2C2.061%2C3.709c0.275%2C0.078%2C0.553%2C0.115%2C0.826%2C0.115c1.305%2C0%2C2.506-0.857%2C2.883-2.176l4.402-15.41%0D%0A%09%09%09%09l14.1-3.711c-1.08%2C2.415-1.683%2C5.117-1.683%2C7.943c0%2C9.715%2C7.007%2C17.617%2C15.619%2C17.617s15.619-7.902%2C15.619-17.617%0D%0A%09%09%09%09c0-2.827-0.603-5.528-1.683-7.943l14.1%2C3.711l4.402%2C15.41c0.377%2C1.318%2C1.578%2C2.176%2C2.883%2C2.176c0.273%2C0%2C0.551-0.037%2C0.826-0.115%0D%0A%09%09%09%09c1.593-0.455%2C2.516-2.115%2C2.061-3.709l-4.872-17.053c-0.291-1.018-1.098-1.807-2.121-2.076l-20.406-5.37%0D%0A%09%09%09%09c0.935-1.819%2C1.496-3.865%2C1.622-6.017l15.601-3.119l8.604%2C10.754c0.593%2C0.742%2C1.465%2C1.127%2C2.345%2C1.127%0D%0A%09%09%09%09c0.657%2C0%2C1.319-0.215%2C1.872-0.658c1.294-1.033%2C1.504-2.922%2C0.469-4.215L126.576%2C374.641z%20M95%2C415.537%0D%0A%09%09%09%09c-5.304%2C0-9.619-5.211-9.619-11.617c0-4.449%2C2.164-8.568%2C5.512-10.492c0.846-0.486%2C1.402-1.354%2C1.492-2.324%0D%0A%09%09%09%09s-0.297-1.926-1.039-2.559c-1.759-1.502-2.81-3.951-2.81-6.549c0-3.387%2C1.76-6.414%2C4.379-7.535%0D%0A%09%09%09%09c1.143-0.488%2C1.866-1.631%2C1.818-2.873s-0.856-2.326-2.034-2.725c-3.691-1.254-6.271-5.369-6.271-10.01%0D%0A%09%09%09%09c0-5.734%2C3.845-10.398%2C8.571-10.398c1.763%2C0%2C3.404%2C0.65%2C4.768%2C1.762c0.261%2C0.422%2C0.618%2C0.787%2C1.067%2C1.04%0D%0A%09%09%09%09c1.679%2C1.899%2C2.737%2C4.598%2C2.737%2C7.597c0%2C4.641-2.579%2C8.756-6.271%2C10.01c-1.178%2C0.398-1.986%2C1.482-2.034%2C2.725%0D%0A%09%09%09%09s0.676%2C2.385%2C1.818%2C2.873c2.619%2C1.121%2C4.379%2C4.148%2C4.379%2C7.535c0%2C2.598-1.051%2C5.047-2.81%2C6.549%0D%0A%09%09%09%09c-0.742%2C0.633-1.129%2C1.588-1.039%2C2.559s0.646%2C1.838%2C1.492%2C2.324c3.348%2C1.924%2C5.512%2C6.043%2C5.512%2C10.492%0D%0A%09%09%09%09C104.619%2C410.326%2C100.304%2C415.537%2C95%2C415.537z%22%2F%3E%0D%0A%09%09%3C%2Fg%3E%0D%0A%09%3C%2Fg%3E%0D%0A%3C%2Fg%3E%0D%0A%3Cg%20id%3D%22Layer_1%22%3E%0D%0A%3C%2Fg%3E%0D%0A%3C%2Fsvg%3E%0D%0A" );
+
+     addMenu( "hungryBug", HUNGRYBUG_GAMEID, "Hungry Bug", "hungrybug-", "Eat the correct answer to earn points",
+"data:image/svg+xml,%3Csvg%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20x%3D%220px%22%20y%3D%220px%22%0D%0A%09%20viewBox%3D%220%200%20512%20512%22%20style%3D%22enable-background%3Anew%200%200%20512%20512%3B%22%20xml%3Aspace%3D%22preserve%22%3E%0D%0A%3Cg%20id%3D%22Hungry_Bug%22%3E%0D%0A%09%3Cg%3E%0D%0A%09%09%3Cg%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M464%2C265.037c0-44.939-36.561-81.5-81.5-81.5s-81.5%2C36.561-81.5%2C81.5%0D%0A%09%09%09%09c0%2C1.536%2C0.055%2C3.061%2C0.14%2C4.575c-12.493%2C0.511-24.722%2C3.893-35.651%2C9.864c-7.693-4.208-15.942-7.109-24.578-8.643%0D%0A%09%09%09%09c-1.649-5.858-3.945-11.492-6.845-16.796c6.499-11.901%2C9.934-25.344%2C9.934-39c0-34.391-21.075-64.468-52.922-76.336%0D%0A%09%09%09%09l47.076-47.076c2.483%2C1.822%2C5.536%2C2.913%2C8.845%2C2.913c8.271%2C0%2C15-6.729%2C15-15s-6.729-15-15-15s-15%2C6.729-15%2C15%0D%0A%09%09%09%09c0%2C2.793%2C0.781%2C5.401%2C2.116%2C7.642l-49.429%2C49.429c-14.862-4.194-31.072-4.047-45.922%2C0.452L90.659%2C88.954%0D%0A%09%09%09%09C92.745%2C86.378%2C94%2C83.103%2C94%2C79.537c0-8.271-6.729-15-15-15s-15%2C6.729-15%2C15s6.729%2C15%2C15%2C15c2.532%2C0%2C4.916-0.636%2C7.01-1.748%0D%0A%09%09%09%09l46.467%2C46.467C101.499%2C151.503%2C81%2C181.367%2C81%2C215.037c0%2C13.657%2C3.436%2C27.101%2C9.934%2C39.001C84.435%2C265.939%2C81%2C279.381%2C81%2C293.037%0D%0A%09%09%09%09c0%2C39.221%2C28.704%2C73.342%2C67.079%2C80.204c9.881%2C35.007%2C41.841%2C59.296%2C78.421%2C59.296c13.656%2C0%2C27.1-3.437%2C39.001-9.933%0D%0A%09%09%09%09c11.902%2C6.497%2C25.344%2C9.933%2C38.999%2C9.933c27.598%2C0%2C52.879-13.656%2C68.025-36.621c3.263%2C0.405%2C6.606%2C0.621%2C9.975%2C0.621%0D%0A%09%09%09%09c44.939%2C0%2C81.5-36.561%2C81.5-81.5c0-8.556-1.326-16.959-3.917-25C462.674%2C281.996%2C464%2C273.593%2C464%2C265.037z%20M382.5%2C189.537%0D%0A%09%09%09%09c41.631%2C0%2C75.5%2C33.869%2C75.5%2C75.5c0%2C5.27-0.537%2C10.476-1.602%2C15.561c-0.043-0.093-0.091-0.183-0.134-0.275%0D%0A%09%09%09%09c-0.189-0.402-0.388-0.798-0.583-1.196c-0.258-0.527-0.517-1.055-0.786-1.575c-0.209-0.404-0.425-0.802-0.639-1.201%0D%0A%09%09%09%09c-0.272-0.505-0.545-1.008-0.827-1.506c-0.225-0.398-0.455-0.791-0.686-1.184c-0.288-0.49-0.58-0.976-0.877-1.459%0D%0A%09%09%09%09c-0.238-0.387-0.48-0.771-0.724-1.153c-0.307-0.48-0.62-0.955-0.937-1.428c-0.248-0.371-0.498-0.741-0.752-1.107%0D%0A%09%09%09%09c-0.331-0.477-0.669-0.947-1.01-1.416c-0.254-0.349-0.506-0.7-0.766-1.045c-0.362-0.481-0.732-0.954-1.104-1.426%0D%0A%09%09%09%09c-0.252-0.32-0.5-0.643-0.756-0.959c-0.413-0.51-0.838-1.009-1.263-1.507c-0.227-0.266-0.448-0.537-0.678-0.8%0D%0A%09%09%09%09c-0.579-0.661-1.17-1.311-1.768-1.952c-0.085-0.091-0.167-0.187-0.253-0.278c-0.69-0.733-1.394-1.451-2.11-2.156%0D%0A%09%09%09%09c-0.202-0.199-0.411-0.39-0.615-0.587c-0.518-0.499-1.037-0.997-1.567-1.482c-0.272-0.249-0.552-0.49-0.828-0.736%0D%0A%09%09%09%09c-0.473-0.421-0.946-0.841-1.428-1.25c-0.305-0.259-0.615-0.511-0.924-0.765c-0.466-0.384-0.933-0.766-1.406-1.139%0D%0A%09%09%09%09c-0.324-0.255-0.652-0.505-0.98-0.755c-0.47-0.359-0.942-0.713-1.419-1.062c-0.339-0.247-0.679-0.49-1.022-0.732%0D%0A%09%09%09%09c-0.48-0.339-0.963-0.672-1.449-1c-0.346-0.234-0.693-0.466-1.044-0.694c-0.497-0.324-0.999-0.641-1.504-0.955%0D%0A%09%09%09%09c-0.348-0.216-0.694-0.433-1.045-0.643c-0.524-0.315-1.053-0.619-1.584-0.922c-0.341-0.194-0.679-0.392-1.023-0.581%0D%0A%09%09%09%09c-0.569-0.314-1.146-0.616-1.723-0.916c-0.312-0.163-0.621-0.331-0.936-0.489c-0.689-0.348-1.386-0.68-2.086-1.008%0D%0A%09%09%09%09c-0.209-0.098-0.415-0.203-0.626-0.3c-0.918-0.421-1.845-0.826-2.78-1.214c-0.165-0.068-0.334-0.13-0.499-0.197%0D%0A%09%09%09%09c-0.766-0.312-1.535-0.616-2.311-0.905c-0.325-0.121-0.655-0.231-0.982-0.348c-0.623-0.223-1.246-0.444-1.875-0.651%0D%0A%09%09%09%09c-0.378-0.125-0.759-0.24-1.139-0.359c-0.586-0.184-1.173-0.366-1.764-0.537c-0.405-0.117-0.813-0.226-1.22-0.337%0D%0A%09%09%09%09c-0.574-0.156-1.148-0.309-1.726-0.453c-0.421-0.105-0.843-0.204-1.265-0.302c-0.574-0.133-1.149-0.26-1.727-0.381%0D%0A%09%09%09%09c-0.429-0.09-0.858-0.176-1.289-0.259c-0.58-0.112-1.162-0.215-1.745-0.314c-0.431-0.073-0.862-0.146-1.296-0.212%0D%0A%09%09%09%09c-0.595-0.091-1.193-0.172-1.791-0.25c-0.425-0.056-0.85-0.114-1.277-0.162c-0.623-0.071-1.25-0.13-1.877-0.187%0D%0A%09%09%09%09c-0.406-0.037-0.81-0.079-1.217-0.11c-0.695-0.053-1.393-0.089-2.092-0.125c-0.342-0.017-0.682-0.043-1.025-0.056%0D%0A%09%09%09%09c-1.043-0.04-2.09-0.062-3.141-0.062c-0.873%2C0-1.743%2C0.014-2.61%2C0.041c-0.29%2C0.009-0.577%2C0.028-0.866%2C0.04%0D%0A%09%09%09%09c-0.577%2C0.024-1.155%2C0.046-1.73%2C0.082c-0.343%2C0.021-0.683%2C0.054-1.025%2C0.079c-0.518%2C0.039-1.037%2C0.074-1.553%2C0.123%0D%0A%09%09%09%09c-0.37%2C0.035-0.737%2C0.08-1.105%2C0.12c-0.485%2C0.052-0.971%2C0.101-1.453%2C0.162c-0.382%2C0.048-0.761%2C0.107-1.142%2C0.16%0D%0A%09%09%09%09c-0.467%2C0.065-0.934%2C0.127-1.399%2C0.201c-0.386%2C0.061-0.769%2C0.132-1.154%2C0.198c-0.455%2C0.079-0.912%2C0.154-1.365%2C0.24%0D%0A%09%09%09%09c-0.388%2C0.074-0.774%2C0.157-1.16%2C0.236c-0.446%2C0.091-0.893%2C0.18-1.336%2C0.279c-0.389%2C0.087-0.776%2C0.182-1.163%2C0.275%0D%0A%09%09%09%09c-0.436%2C0.104-0.873%2C0.205-1.307%2C0.316c-0.39%2C0.1-0.776%2C0.208-1.164%2C0.313c-0.428%2C0.116-0.857%2C0.23-1.282%2C0.353%0D%0A%09%09%09%09c-0.387%2C0.112-0.77%2C0.232-1.155%2C0.349c-0.422%2C0.129-0.845%2C0.256-1.265%2C0.392c-0.385%2C0.124-0.766%2C0.256-1.149%2C0.386%0D%0A%09%09%09%09c-0.414%2C0.141-0.828%2C0.28-1.24%2C0.428c-0.384%2C0.137-0.764%2C0.282-1.145%2C0.425c-0.405%2C0.152-0.811%2C0.303-1.213%2C0.462%0D%0A%09%09%09%09c-0.379%2C0.149-0.756%2C0.305-1.133%2C0.461c-0.4%2C0.165-0.801%2C0.329-1.198%2C0.5c-0.373%2C0.16-0.743%2C0.327-1.113%2C0.493%0D%0A%09%09%09%09c-0.395%2C0.177-0.79%2C0.354-1.182%2C0.538c-0.369%2C0.173-0.736%2C0.351-1.103%2C0.53c-0.386%2C0.188-0.772%2C0.376-1.156%2C0.57%0D%0A%09%09%09%09c-0.365%2C0.185-0.728%2C0.375-1.09%2C0.565c-0.38%2C0.2-0.759%2C0.4-1.135%2C0.605c-0.36%2C0.197-0.717%2C0.398-1.074%2C0.6%0D%0A%09%09%09%09c-0.372%2C0.211-0.743%2C0.422-1.112%2C0.639c-0.354%2C0.208-0.705%2C0.42-1.056%2C0.633c-0.366%2C0.222-0.73%2C0.446-1.093%2C0.674%0D%0A%09%09%09%09c-0.347%2C0.219-0.692%2C0.441-1.036%2C0.666c-0.359%2C0.234-0.717%2C0.47-1.072%2C0.709c-0.34%2C0.229-0.678%2C0.462-1.014%2C0.697%0D%0A%09%09%09%09c-0.352%2C0.245-0.703%2C0.493-1.051%2C0.744c-0.333%2C0.24-0.663%2C0.483-0.992%2C0.728c-0.345%2C0.257-0.689%2C0.517-1.031%2C0.779%0D%0A%09%09%09%09c-0.325%2C0.25-0.648%2C0.503-0.97%2C0.758c-0.337%2C0.268-0.673%2C0.539-1.006%2C0.812c-0.318%2C0.261-0.633%2C0.523-0.947%2C0.789%0D%0A%09%09%09%09c-0.33%2C0.279-0.657%2C0.561-0.983%2C0.846c-0.31%2C0.271-0.619%2C0.544-0.926%2C0.82c-0.321%2C0.29-0.64%2C0.583-0.957%2C0.878%0D%0A%09%09%09%09c-0.302%2C0.281-0.602%2C0.563-0.9%2C0.849c-0.313%2C0.301-0.623%2C0.605-0.932%2C0.911c-0.294%2C0.291-0.587%2C0.583-0.877%2C0.879%0D%0A%09%09%09%09c-0.305%2C0.311-0.605%2C0.626-0.906%2C0.942c-0.285%2C0.301-0.57%2C0.603-0.851%2C0.908c-0.295%2C0.32-0.585%2C0.645-0.875%2C0.971%0D%0A%09%09%09%09c-0.278%2C0.312-0.556%2C0.624-0.829%2C0.941c-0.285%2C0.331-0.566%2C0.666-0.847%2C1.001c-0.268%2C0.321-0.536%2C0.641-0.8%2C0.967%0D%0A%09%09%09%09c-0.278%2C0.343-0.551%2C0.69-0.823%2C1.038c-0.258%2C0.328-0.515%2C0.656-0.768%2C0.989c-0.268%2C0.353-0.531%2C0.71-0.793%2C1.068%0D%0A%09%09%09%09c-0.249%2C0.338-0.498%2C0.676-0.742%2C1.019c-0.259%2C0.363-0.511%2C0.732-0.765%2C1.101c-0.237%2C0.345-0.476%2C0.69-0.709%2C1.039%0D%0A%09%09%09%09c-0.065%2C0.098-0.133%2C0.192-0.198%2C0.29c-0.14-0.017-0.283-0.026-0.423-0.042c-0.837-0.099-1.683-0.181-2.534-0.254%0D%0A%09%09%09%09c-0.277-0.024-0.55-0.055-0.829-0.076c-1.123-0.084-2.258-0.146-3.405-0.185c-0.049-0.002-0.097-0.006-0.147-0.008%0D%0A%09%09%09%09c-0.09-1.499-0.135-3.019-0.135-4.544C307%2C223.406%2C340.869%2C189.537%2C382.5%2C189.537z%20M247%2C70.537c4.963%2C0%2C9%2C4.037%2C9%2C9s-4.037%2C9-9%2C9%0D%0A%09%09%09%09s-9-4.037-9-9S242.037%2C70.537%2C247%2C70.537z%20M70%2C79.537c0-4.963%2C4.037-9%2C9-9s9%2C4.037%2C9%2C9s-4.037%2C9-9%2C9S70%2C84.5%2C70%2C79.537z%0D%0A%09%09%09%09%20M138.857%2C143.307c7.603-2.501%2C15.557-3.77%2C23.643-3.77c7.583%2C0%2C15.045%2C1.112%2C22.18%2C3.308%0D%0A%09%09%09%09c31.893%2C9.796%2C53.32%2C38.809%2C53.32%2C72.192c0%2C13.182-3.445%2C26.151-9.964%2C37.509c-13.424%2C23.434-38.536%2C37.991-65.536%2C37.991%0D%0A%09%09%09%09c-2.531%2C0-5.046-0.128-7.536-0.379c-1.66-0.167-3.309-0.39-4.945-0.665c-0.818-0.138-1.632-0.289-2.443-0.453%0D%0A%09%09%09%09c-1.622-0.329-3.229-0.71-4.819-1.143c-12.722-3.462-24.359-10.208-33.687-19.529c-4.664-4.66-8.75-9.964-12.106-15.822%0D%0A%09%09%09%09l-0.024-0.042c-6.502-11.346-9.94-24.3-9.94-37.466C87%2C182.354%2C107.841%2C153.527%2C138.857%2C143.307z%20M87%2C293.037%0D%0A%09%09%09%09c0-11.456%2C2.602-22.752%2C7.562-32.967c0.009%2C0.014%2C0.019%2C0.027%2C0.028%2C0.041c0.145%2C0.218%2C0.297%2C0.43%2C0.444%2C0.646%0D%0A%09%09%09%09c0.346%2C0.51%2C0.693%2C1.02%2C1.049%2C1.521c0.192%2C0.269%2C0.391%2C0.532%2C0.586%2C0.799c0.321%2C0.439%2C0.642%2C0.88%2C0.971%2C1.312%0D%0A%09%09%09%09c0.214%2C0.281%2C0.435%2C0.557%2C0.653%2C0.835c0.32%2C0.409%2C0.64%2C0.818%2C0.968%2C1.22c0.231%2C0.283%2C0.467%2C0.561%2C0.701%2C0.84%0D%0A%09%09%09%09c0.324%2C0.387%2C0.648%2C0.774%2C0.979%2C1.154c0.244%2C0.281%2C0.493%2C0.557%2C0.741%2C0.835c0.332%2C0.371%2C0.664%2C0.741%2C1.002%2C1.105%0D%0A%09%09%09%09c0.253%2C0.273%2C0.51%2C0.542%2C0.767%2C0.811c0.343%2C0.359%2C0.687%2C0.716%2C1.036%2C1.069c0.261%2C0.264%2C0.525%2C0.525%2C0.79%2C0.786%0D%0A%09%09%09%09c0.353%2C0.347%2C0.709%2C0.692%2C1.068%2C1.033c0.269%2C0.255%2C0.539%2C0.508%2C0.811%2C0.759c0.364%2C0.336%2C0.732%2C0.669%2C1.102%2C0.998%0D%0A%09%09%09%09c0.275%2C0.245%2C0.551%2C0.489%2C0.829%2C0.73c0.377%2C0.327%2C0.759%2C0.649%2C1.142%2C0.968c0.278%2C0.232%2C0.556%2C0.464%2C0.837%2C0.693%0D%0A%09%09%09%09c0.394%2C0.32%2C0.792%2C0.634%2C1.192%2C0.946c0.278%2C0.218%2C0.556%2C0.437%2C0.837%2C0.651c0.413%2C0.315%2C0.832%2C0.622%2C1.251%2C0.929%0D%0A%09%09%09%09c0.274%2C0.201%2C0.547%2C0.404%2C0.824%2C0.601c0.442%2C0.315%2C0.891%2C0.622%2C1.339%2C0.928c0.261%2C0.178%2C0.519%2C0.359%2C0.781%2C0.534%0D%0A%09%09%09%09c0.49%2C0.327%2C0.987%2C0.643%2C1.484%2C0.959c0.227%2C0.144%2C0.451%2C0.293%2C0.68%2C0.435c0.606%2C0.377%2C1.218%2C0.742%2C1.834%2C1.103%0D%0A%09%09%09%09c0.125%2C0.073%2C0.248%2C0.151%2C0.373%2C0.223c0.754%2C0.437%2C1.515%2C0.862%2C2.283%2C1.275c0.026%2C0.014%2C0.052%2C0.026%2C0.078%2C0.04%0D%0A%09%09%09%09c0.73%2C0.392%2C1.467%2C0.772%2C2.209%2C1.141c0.221%2C0.11%2C0.445%2C0.213%2C0.666%2C0.32c0.549%2C0.267%2C1.099%2C0.533%2C1.655%2C0.788%0D%0A%09%09%09%09c0.284%2C0.13%2C0.571%2C0.253%2C0.856%2C0.38c0.499%2C0.222%2C0.999%2C0.445%2C1.503%2C0.657c0.313%2C0.132%2C0.63%2C0.257%2C0.945%2C0.385%0D%0A%09%09%09%09c0.481%2C0.196%2C0.962%2C0.391%2C1.447%2C0.577c0.334%2C0.128%2C0.67%2C0.251%2C1.006%2C0.375c0.471%2C0.174%2C0.942%2C0.347%2C1.417%2C0.513%0D%0A%09%09%09%09c0.348%2C0.122%2C0.698%2C0.238%2C1.049%2C0.355c0.468%2C0.156%2C0.936%2C0.31%2C1.407%2C0.458c0.358%2C0.112%2C0.718%2C0.221%2C1.078%2C0.328%0D%0A%09%09%09%09c0.467%2C0.14%2C0.936%2C0.276%2C1.406%2C0.407c0.366%2C0.102%2C0.733%2C0.201%2C1.1%2C0.299c0.469%2C0.124%2C0.939%2C0.243%2C1.411%2C0.359%0D%0A%09%09%09%09c0.372%2C0.091%2C0.745%2C0.181%2C1.119%2C0.267c0.472%2C0.109%2C0.945%2C0.212%2C1.419%2C0.312c0.376%2C0.08%2C0.752%2C0.159%2C1.129%2C0.233%0D%0A%09%09%09%09c0.478%2C0.094%2C0.957%2C0.181%2C1.437%2C0.267c0.377%2C0.067%2C0.753%2C0.135%2C1.131%2C0.197c0.487%2C0.08%2C0.977%2C0.151%2C1.466%2C0.222%0D%0A%09%09%09%09c0.373%2C0.054%2C0.745%2C0.11%2C1.119%2C0.159c0.503%2C0.066%2C1.008%2C0.122%2C1.513%2C0.178c0.363%2C0.041%2C0.726%2C0.085%2C1.091%2C0.12%0D%0A%09%09%09%09c0.529%2C0.052%2C1.06%2C0.092%2C1.591%2C0.134c0.343%2C0.027%2C0.685%2C0.059%2C1.028%2C0.081c0.587%2C0.038%2C1.175%2C0.063%2C1.764%2C0.089%0D%0A%09%09%09%09c0.291%2C0.013%2C0.58%2C0.032%2C0.871%2C0.041c0.88%2C0.029%2C1.762%2C0.044%2C2.646%2C0.044s1.766-0.016%2C2.646-0.044%0D%0A%09%09%09%09c0.291-0.009%2C0.58-0.029%2C0.871-0.041c0.589-0.026%2C1.177-0.051%2C1.764-0.089c0.345-0.023%2C0.689-0.055%2C1.034-0.082%0D%0A%09%09%09%09c0.528-0.041%2C1.057-0.082%2C1.583-0.133c0.369-0.036%2C0.737-0.081%2C1.106-0.122c0.499-0.056%2C0.999-0.111%2C1.496-0.176%0D%0A%09%09%09%09c0.38-0.05%2C0.758-0.107%2C1.136-0.161c0.484-0.07%2C0.967-0.141%2C1.449-0.22c0.384-0.063%2C0.766-0.132%2C1.149-0.2%0D%0A%09%09%09%09c0.473-0.084%2C0.946-0.17%2C1.417-0.263c0.384-0.076%2C0.766-0.156%2C1.149-0.237c0.467-0.099%2C0.933-0.2%2C1.398-0.307%0D%0A%09%09%09%09c0.382-0.088%2C0.762-0.179%2C1.143-0.273c0.462-0.113%2C0.922-0.23%2C1.381-0.352c0.378-0.1%2C0.755-0.202%2C1.132-0.307%0D%0A%09%09%09%09c0.457-0.128%2C0.911-0.26%2C1.365-0.396c0.375-0.112%2C0.75-0.225%2C1.123-0.342c0.452-0.142%2C0.902-0.29%2C1.352-0.44%0D%0A%09%09%09%09c0.368-0.123%2C0.735-0.245%2C1.101-0.373c0.453-0.158%2C0.902-0.323%2C1.352-0.489c0.359-0.132%2C0.718-0.263%2C1.074-0.401%0D%0A%09%09%09%09c0.455-0.175%2C0.907-0.359%2C1.359-0.542c0.344-0.14%2C0.689-0.276%2C1.031-0.421c0.466-0.196%2C0.927-0.402%2C1.389-0.607%0D%0A%09%09%09%09c0.324-0.144%2C0.649-0.283%2C0.97-0.431c0.49-0.225%2C0.975-0.461%2C1.46-0.695c0.287-0.139%2C0.578-0.273%2C0.863-0.415%0D%0A%09%09%09%09c0.594-0.296%2C1.182-0.603%2C1.768-0.913c0.172-0.091%2C0.347-0.177%2C0.518-0.269c0.753-0.405%2C1.499-0.822%2C2.239-1.25%0D%0A%09%09%09%09c0.227-0.131%2C0.449-0.27%2C0.675-0.404c0.512-0.303%2C1.024-0.606%2C1.53-0.92c0.289-0.179%2C0.572-0.367%2C0.859-0.55%0D%0A%09%09%09%09c0.436-0.278%2C0.873-0.556%2C1.303-0.842c0.307-0.204%2C0.608-0.415%2C0.912-0.624c0.404-0.277%2C0.809-0.554%2C1.209-0.838%0D%0A%09%09%09%09c0.31-0.221%2C0.616-0.448%2C0.923-0.673c0.385-0.282%2C0.77-0.565%2C1.15-0.854c0.311-0.237%2C0.618-0.479%2C0.926-0.72%0D%0A%09%09%09%09c0.368-0.289%2C0.736-0.578%2C1.1-0.873c0.308-0.25%2C0.612-0.504%2C0.916-0.758c0.357-0.298%2C0.712-0.598%2C1.064-0.902%0D%0A%09%09%09%09c0.301-0.26%2C0.599-0.524%2C0.896-0.789c0.347-0.309%2C0.692-0.621%2C1.033-0.936c0.293-0.27%2C0.584-0.542%2C0.873-0.817%0D%0A%09%09%09%09c0.338-0.321%2C0.673-0.645%2C1.005-0.972c0.284-0.279%2C0.567-0.56%2C0.847-0.843c0.329-0.333%2C0.653-0.67%2C0.977-1.009%0D%0A%09%09%09%09c0.274-0.287%2C0.548-0.574%2C0.818-0.866c0.322-0.347%2C0.638-0.699%2C0.954-1.052c0.262-0.293%2C0.525-0.585%2C0.783-0.882%0D%0A%09%09%09%09c0.316-0.364%2C0.626-0.734%2C0.936-1.104c0.248-0.296%2C0.498-0.589%2C0.742-0.889c0.315-0.386%2C0.621-0.779%2C0.929-1.172%0D%0A%09%09%09%09c0.229-0.292%2C0.461-0.581%2C0.687-0.877c0.324-0.425%2C0.639-0.858%2C0.955-1.29c0.199-0.272%2C0.402-0.54%2C0.598-0.815%0D%0A%09%09%09%09c0.365-0.512%2C0.719-1.033%2C1.073-1.555c0.138-0.203%2C0.281-0.403%2C0.417-0.608c0.011-0.016%2C0.022-0.031%2C0.032-0.047%0D%0A%09%09%09%09c2.188%2C4.506%2C3.923%2C9.242%2C5.177%2C14.144c1.543%2C5.938%2C2.345%2C12.168%2C2.384%2C18.515v0.311c0%2C39.499-30.839%2C72.587-70.196%2C75.327%0D%0A%09%09%09%09c-4.196%2C0.272-8.449%2C0.217-12.675-0.189c-1.409-0.135-2.815-0.31-4.215-0.524l-0.033-0.005%0D%0A%09%09%09%09C114.461%2C362.036%2C87%2C329.967%2C87%2C293.037z%20M154.601%2C374.155c0.251%2C0.024%2C0.502%2C0.035%2C0.753%2C0.057%0D%0A%09%09%09%09c0.635%2C0.055%2C1.27%2C0.103%2C1.906%2C0.143c0.437%2C0.028%2C0.873%2C0.054%2C1.31%2C0.075c0.701%2C0.034%2C1.401%2C0.056%2C2.101%2C0.071%0D%0A%09%09%09%09c0.387%2C0.009%2C0.773%2C0.019%2C1.16%2C0.022c0.223%2C0.002%2C0.448%2C0.013%2C0.671%2C0.013c0.563%2C0%2C1.131-0.017%2C1.698-0.028%0D%0A%09%09%09%09c0.274-0.005%2C0.548-0.006%2C0.822-0.013c1.064-0.031%2C2.128-0.076%2C3.188-0.145c42.5-2.959%2C75.792-38.676%2C75.792-81.313v-0.338%0D%0A%09%09%09%09c-0.007-1.168-0.047-2.33-0.102-3.49c-0.013-0.278-0.027-0.556-0.043-0.834c-0.066-1.147-0.148-2.291-0.261-3.429%0D%0A%09%09%09%09c-0.01-0.102-0.024-0.203-0.035-0.305c-0.109-1.064-0.243-2.122-0.393-3.176c-0.036-0.255-0.072-0.509-0.11-0.763%0D%0A%09%09%09%09c-0.171-1.125-0.362-2.245-0.579-3.355c-0.008-0.04-0.013-0.081-0.021-0.121c7.572%2C1.62%2C14.804%2C4.395%2C21.552%2C8.273%0D%0A%09%09%09%09C287.443%2C298.925%2C302%2C324.037%2C302%2C351.037c0%2C4.218-0.355%2C8.391-1.044%2C12.48c-0.163%2C0.965-0.35%2C1.924-0.549%2C2.88%0D%0A%09%09%09%09c-0.428%2C2.048-0.942%2C4.071-1.535%2C6.067c-0.144%2C0.485-0.294%2C0.969-0.448%2C1.451c-3.67%2C11.495-10.044%2C21.996-18.593%2C30.552%0D%0A%09%09%09%09c-4.66%2C4.664-9.964%2C8.751-15.823%2C12.107l-0.042%2C0.024c-11.345%2C6.501-24.3%2C9.939-37.466%2C9.939%0D%0A%09%09%09%09C193.504%2C426.537%2C164.551%2C405.213%2C154.601%2C374.155z%20M304.5%2C426.537c-11.455%2C0-22.752-2.602-32.967-7.561%0D%0A%09%09%09%09c0.013-0.008%2C0.025-0.017%2C0.037-0.026c0.241-0.16%2C0.475-0.328%2C0.713-0.49c0.486-0.331%2C0.973-0.661%2C1.451-1.001%0D%0A%09%09%09%09c0.286-0.204%2C0.566-0.416%2C0.85-0.623c0.422-0.309%2C0.846-0.617%2C1.261-0.934c0.294-0.224%2C0.583-0.456%2C0.874-0.684%0D%0A%09%09%09%09c0.395-0.31%2C0.791-0.619%2C1.179-0.935c0.296-0.241%2C0.586-0.488%2C0.878-0.733c0.374-0.313%2C0.747-0.626%2C1.114-0.946%0D%0A%09%09%09%09c0.293-0.255%2C0.582-0.515%2C0.871-0.774c0.357-0.32%2C0.714-0.64%2C1.065-0.966c0.286-0.265%2C0.568-0.534%2C0.85-0.803%0D%0A%09%09%09%09c0.345-0.329%2C0.689-0.66%2C1.028-0.995c0.277-0.274%2C0.551-0.551%2C0.824-0.829c0.334-0.34%2C0.665-0.682%2C0.993-1.027%0D%0A%09%09%09%09c0.267-0.282%2C0.532-0.565%2C0.795-0.85c0.323-0.351%2C0.643-0.704%2C0.96-1.06c0.257-0.288%2C0.512-0.577%2C0.764-0.868%0D%0A%09%09%09%09c0.315-0.363%2C0.624-0.731%2C0.932-1.099c0.244-0.292%2C0.487-0.584%2C0.727-0.879c0.307-0.378%2C0.608-0.76%2C0.907-1.143%0D%0A%09%09%09%09c0.23-0.294%2C0.462-0.588%2C0.688-0.886c0.3-0.394%2C0.593-0.793%2C0.885-1.193c0.215-0.294%2C0.432-0.586%2C0.643-0.882%0D%0A%09%09%09%09c0.297-0.418%2C0.587-0.841%2C0.876-1.264c0.195-0.285%2C0.394-0.569%2C0.586-0.856c0.305-0.457%2C0.599-0.921%2C0.894-1.384%0D%0A%09%09%09%09c0.166-0.26%2C0.336-0.517%2C0.498-0.778c0.342-0.551%2C0.673-1.108%2C1.003-1.667c0.106-0.18%2C0.218-0.358%2C0.323-0.539%0D%0A%09%09%09%09c0.432-0.746%2C0.853-1.499%2C1.261-2.259c0.058-0.107%2C0.111-0.216%2C0.168-0.324c0.346-0.65%2C0.686-1.304%2C1.014-1.964%0D%0A%09%09%09%09c0.127-0.255%2C0.246-0.515%2C0.371-0.772c0.25-0.515%2C0.499-1.03%2C0.738-1.55c0.14-0.306%2C0.273-0.615%2C0.41-0.923%0D%0A%09%09%09%09c0.212-0.477%2C0.424-0.954%2C0.628-1.435c0.139-0.331%2C0.272-0.665%2C0.407-0.998c0.188-0.464%2C0.377-0.927%2C0.556-1.394%0D%0A%09%09%09%09c0.134-0.347%2C0.261-0.697%2C0.39-1.046c0.169-0.458%2C0.337-0.916%2C0.498-1.377c0.125-0.358%2C0.245-0.718%2C0.365-1.078%0D%0A%09%09%09%09c0.153-0.458%2C0.304-0.917%2C0.449-1.378c0.115-0.366%2C0.225-0.733%2C0.335-1.1c0.137-0.46%2C0.271-0.92%2C0.401-1.383%0D%0A%09%09%09%09c0.104-0.373%2C0.205-0.747%2C0.304-1.121c0.122-0.462%2C0.24-0.926%2C0.354-1.39c0.093-0.378%2C0.183-0.755%2C0.271-1.135%0D%0A%09%09%09%09c0.108-0.467%2C0.21-0.936%2C0.309-1.406c0.08-0.379%2C0.16-0.759%2C0.235-1.139c0.093-0.474%2C0.18-0.951%2C0.265-1.427%0D%0A%09%09%09%09c0.068-0.38%2C0.136-0.759%2C0.199-1.141c0.079-0.484%2C0.15-0.97%2C0.221-1.456c0.055-0.376%2C0.111-0.751%2C0.16-1.129%0D%0A%09%09%09%09c0.065-0.499%2C0.121-1.001%2C0.177-1.502c0.041-0.367%2C0.086-0.734%2C0.122-1.102c0.051-0.524%2C0.091-1.05%2C0.132-1.576%0D%0A%09%09%09%09c0.027-0.348%2C0.06-0.694%2C0.082-1.043c0.038-0.584%2C0.063-1.17%2C0.089-1.756c0.013-0.292%2C0.032-0.584%2C0.042-0.877%0D%0A%09%09%09%09c0.029-0.88%2C0.044-1.761%2C0.044-2.645c0-0.884-0.016-1.766-0.044-2.646c-0.01-0.293-0.029-0.584-0.042-0.877%0D%0A%09%09%09%09c-0.026-0.586-0.05-1.172-0.089-1.756c-0.023-0.348-0.055-0.695-0.082-1.042c-0.041-0.526-0.081-1.053-0.133-1.577%0D%0A%09%09%09%09c-0.036-0.368-0.081-0.734-0.122-1.101c-0.056-0.502-0.112-1.003-0.177-1.503c-0.049-0.377-0.106-0.752-0.16-1.128%0D%0A%09%09%09%09c-0.071-0.487-0.142-0.973-0.221-1.457c-0.062-0.381-0.131-0.76-0.198-1.139c-0.085-0.477-0.172-0.954-0.265-1.429%0D%0A%09%09%09%09c-0.075-0.38-0.154-0.759-0.235-1.138c-0.1-0.47-0.202-0.94-0.309-1.407c-0.087-0.379-0.178-0.756-0.27-1.133%0D%0A%09%09%09%09c-0.114-0.466-0.232-0.93-0.355-1.393c-0.099-0.374-0.2-0.747-0.304-1.119c-0.129-0.462-0.263-0.923-0.401-1.382%0D%0A%09%09%09%09c-0.11-0.368-0.221-0.736-0.336-1.103c-0.144-0.46-0.295-0.918-0.447-1.375c-0.12-0.361-0.241-0.722-0.366-1.082%0D%0A%09%09%09%09c-0.161-0.46-0.329-0.917-0.497-1.374c-0.129-0.35-0.257-0.701-0.391-1.049c-0.18-0.466-0.368-0.929-0.556-1.392%0D%0A%09%09%09%09c-0.135-0.333-0.268-0.668-0.408-0.999c-0.202-0.479-0.413-0.953-0.624-1.427c-0.138-0.311-0.272-0.623-0.414-0.932%0D%0A%09%09%09%09c-0.236-0.515-0.484-1.024-0.73-1.533c-0.127-0.262-0.249-0.527-0.379-0.788c-0.321-0.646-0.654-1.285-0.993-1.921%0D%0A%09%09%09%09c-0.065-0.121-0.125-0.245-0.19-0.366c-0.407-0.758-0.827-1.509-1.258-2.254c-0.112-0.194-0.232-0.384-0.346-0.578%0D%0A%09%09%09%09c-0.322-0.545-0.644-1.089-0.979-1.627c-0.169-0.271-0.345-0.538-0.517-0.808c-0.289-0.453-0.577-0.907-0.875-1.354%0D%0A%09%09%09%09c-0.196-0.295-0.4-0.585-0.6-0.877c-0.285-0.416-0.569-0.831-0.861-1.242c-0.216-0.303-0.438-0.602-0.658-0.902%0D%0A%09%09%09%09c-0.287-0.392-0.574-0.784-0.869-1.17c-0.232-0.305-0.469-0.606-0.705-0.907c-0.294-0.375-0.588-0.749-0.888-1.119%0D%0A%09%09%09%09c-0.245-0.303-0.495-0.602-0.745-0.901c-0.302-0.362-0.606-0.722-0.915-1.079c-0.257-0.297-0.516-0.59-0.778-0.883%0D%0A%09%09%09%09c-0.313-0.351-0.628-0.699-0.946-1.045c-0.268-0.29-0.538-0.579-0.81-0.865c-0.323-0.34-0.648-0.676-0.977-1.011%0D%0A%09%09%09%09c-0.278-0.283-0.557-0.564-0.839-0.843c-0.334-0.33-0.673-0.657-1.013-0.981c-0.286-0.273-0.573-0.546-0.863-0.816%0D%0A%09%09%09%09c-0.346-0.321-0.698-0.637-1.05-0.952c-0.294-0.263-0.587-0.527-0.886-0.787c-0.361-0.314-0.729-0.622-1.096-0.93%0D%0A%09%09%09%09c-0.298-0.25-0.595-0.502-0.897-0.748c-0.381-0.311-0.77-0.614-1.157-0.918c-0.298-0.233-0.592-0.47-0.894-0.7%0D%0A%09%09%09%09c-0.412-0.314-0.831-0.619-1.249-0.925c-0.286-0.21-0.568-0.423-0.857-0.629c-0.481-0.343-0.971-0.675-1.46-1.008%0D%0A%09%09%09%09c-0.235-0.16-0.466-0.325-0.703-0.483c-0.013-0.009-0.026-0.018-0.039-0.027c10.18-4.944%2C21.443-7.546%2C32.967-7.562%0D%0A%09%09%09%09c0.967%2C0%2C1.932%2C0.02%2C2.894%2C0.056c2.751%2C0.104%2C5.475%2C0.354%2C8.133%2C0.752c34.465%2C5.028%2C60.834%2C32.775%2C64.127%2C67.483%0D%0A%09%09%09%09c0.23%2C2.345%2C0.346%2C4.771%2C0.346%2C7.208c0%2C3.56-0.249%2C7.095-0.739%2C10.583c-1.471%2C10.464-5.119%2C20.502-10.763%2C29.483%0D%0A%09%09%09%09C354.59%2C413.291%2C330.664%2C426.537%2C304.5%2C426.537z%20M382.5%2C390.537c-2.199%2C0-4.389-0.094-6.545-0.281%0D%0A%09%09%09%09c0.086-0.156%2C0.165-0.315%2C0.25-0.471c0.191-0.353%2C0.378-0.708%2C0.564-1.064c0.234-0.447%2C0.464-0.896%2C0.69-1.348%0D%0A%09%09%09%09c0.181-0.363%2C0.359-0.726%2C0.535-1.091c0.218-0.453%2C0.43-0.908%2C0.639-1.365c0.168-0.367%2C0.336-0.734%2C0.498-1.104%0D%0A%09%09%09%09c0.205-0.467%2C0.402-0.936%2C0.599-1.406c0.151-0.362%2C0.305-0.724%2C0.451-1.088c0.2-0.501%2C0.39-1.005%2C0.581-1.509%0D%0A%09%09%09%09c0.128-0.338%2C0.26-0.674%2C0.383-1.014c0.227-0.628%2C0.441-1.26%2C0.653-1.893c0.073-0.219%2C0.153-0.437%2C0.225-0.657%0D%0A%09%09%09%09c0.274-0.845%2C0.534-1.694%2C0.78-2.547c0.087-0.302%2C0.165-0.607%2C0.249-0.91c0.156-0.566%2C0.312-1.132%2C0.456-1.701%0D%0A%09%09%09%09c0.09-0.357%2C0.172-0.717%2C0.258-1.075c0.124-0.52%2C0.248-1.041%2C0.361-1.564c0.082-0.377%2C0.158-0.756%2C0.235-1.135%0D%0A%09%09%09%09c0.103-0.509%2C0.204-1.018%2C0.298-1.53c0.071-0.387%2C0.137-0.775%2C0.203-1.163c0.086-0.509%2C0.167-1.019%2C0.242-1.53%0D%0A%09%09%09%09c0.058-0.387%2C0.113-0.775%2C0.165-1.164c0.07-0.522%2C0.133-1.046%2C0.193-1.57c0.043-0.378%2C0.087-0.755%2C0.125-1.134%0D%0A%09%09%09%09c0.055-0.548%2C0.1-1.097%2C0.144-1.647c0.029-0.357%2C0.06-0.713%2C0.084-1.071c0.041-0.609%2C0.069-1.219%2C0.096-1.83%0D%0A%09%09%09%09c0.013-0.3%2C0.032-0.599%2C0.042-0.899c0.03-0.911%2C0.048-1.824%2C0.048-2.739c0-2.632-0.125-5.253-0.373-7.783%0D%0A%09%09%09%09c-0.109-1.147-0.242-2.286-0.397-3.418c-0.052-0.381-0.121-0.757-0.178-1.136c-0.113-0.748-0.224-1.496-0.357-2.237%0D%0A%09%09%09%09c-0.081-0.454-0.18-0.901-0.268-1.352c-0.13-0.658-0.255-1.317-0.4-1.969c-0.107-0.482-0.23-0.958-0.346-1.437%0D%0A%09%09%09%09c-0.148-0.613-0.292-1.228-0.454-1.836c-0.131-0.492-0.276-0.978-0.416-1.466c-0.168-0.585-0.332-1.172-0.512-1.751%0D%0A%09%09%09%09c-0.154-0.496-0.321-0.985-0.484-1.477c-0.187-0.563-0.372-1.127-0.571-1.685c-0.176-0.495-0.364-0.983-0.549-1.473%0D%0A%09%09%09%09c-0.206-0.544-0.411-1.088-0.628-1.626c-0.198-0.493-0.407-0.979-0.615-1.467c-0.224-0.525-0.448-1.05-0.682-1.57%0D%0A%09%09%09%09c-0.22-0.488-0.449-0.971-0.679-1.454c-0.241-0.508-0.484-1.015-0.736-1.517c-0.241-0.482-0.491-0.959-0.741-1.436%0D%0A%09%09%09%09c-0.259-0.492-0.52-0.981-0.788-1.467c-0.262-0.474-0.53-0.944-0.802-1.413c-0.275-0.475-0.554-0.948-0.838-1.417%0D%0A%09%09%09%09c-0.283-0.467-0.571-0.93-0.863-1.39c-0.29-0.458-0.585-0.912-0.884-1.363c-0.304-0.459-0.612-0.914-0.925-1.366%0D%0A%09%09%09%09c-0.305-0.44-0.615-0.876-0.928-1.31c-0.325-0.449-0.652-0.896-0.985-1.339c-0.319-0.423-0.644-0.841-0.971-1.258%0D%0A%09%09%09%09c-0.345-0.439-0.691-0.877-1.044-1.308c-0.332-0.405-0.671-0.804-1.01-1.203c-0.365-0.429-0.731-0.857-1.105-1.278%0D%0A%09%09%09%09c-0.344-0.387-0.696-0.767-1.047-1.148c-0.385-0.417-0.77-0.835-1.164-1.244c-0.356-0.369-0.719-0.73-1.082-1.092%0D%0A%09%09%09%09c-0.405-0.405-0.809-0.811-1.223-1.208c-0.365-0.35-0.74-0.691-1.112-1.034c-0.426-0.393-0.85-0.789-1.285-1.173%0D%0A%09%09%09%09c-0.372-0.329-0.754-0.648-1.133-0.97c-0.449-0.382-0.894-0.767-1.351-1.14c-0.377-0.307-0.764-0.603-1.147-0.903%0D%0A%09%09%09%09c-0.472-0.371-0.941-0.746-1.422-1.107c-0.376-0.282-0.761-0.551-1.142-0.826c-0.502-0.363-0.999-0.731-1.51-1.082%0D%0A%09%09%09%09c-0.354-0.244-0.718-0.474-1.076-0.713c-0.55-0.366-1.095-0.737-1.655-1.09c-0.194-0.122-0.394-0.235-0.588-0.356%0D%0A%09%09%09%09c-1.371-0.849-2.77-1.656-4.195-2.424c-0.274-0.148-0.543-0.305-0.819-0.45c-0.555-0.291-1.121-0.563-1.683-0.841%0D%0A%09%09%09%09c-0.425-0.211-0.846-0.429-1.276-0.633c-0.531-0.251-1.072-0.485-1.609-0.725c-0.473-0.211-0.942-0.43-1.42-0.632%0D%0A%09%09%09%09c-0.524-0.222-1.056-0.428-1.586-0.64c-0.503-0.201-1.003-0.407-1.511-0.598c-0.523-0.197-1.053-0.378-1.581-0.565%0D%0A%09%09%09%09c-0.526-0.186-1.049-0.375-1.58-0.55c-0.521-0.172-1.049-0.33-1.575-0.492c-0.549-0.169-1.098-0.34-1.652-0.498%0D%0A%09%09%09%09c-0.518-0.148-1.042-0.283-1.565-0.42c-0.572-0.151-1.144-0.302-1.722-0.441c-0.516-0.124-1.036-0.237-1.555-0.351%0D%0A%09%09%09%09c-0.398-0.088-0.791-0.187-1.191-0.269c0.035-0.049%2C0.068-0.1%2C0.103-0.148c0.197-0.275%2C0.399-0.544%2C0.599-0.816%0D%0A%09%09%09%09c0.268-0.364%2C0.534-0.729%2C0.807-1.087c0.206-0.27%2C0.417-0.535%2C0.626-0.801c0.276-0.352%2C0.551-0.703%2C0.832-1.049%0D%0A%09%09%09%09c0.214-0.263%2C0.432-0.522%2C0.649-0.782c0.285-0.341%2C0.571-0.682%2C0.861-1.018c0.22-0.254%2C0.443-0.505%2C0.666-0.755%0D%0A%09%09%09%09c0.296-0.333%2C0.593-0.665%2C0.895-0.992c0.226-0.245%2C0.455-0.488%2C0.684-0.73c0.305-0.323%2C0.613-0.644%2C0.924-0.961%0D%0A%09%09%09%09c0.232-0.237%2C0.466-0.472%2C0.701-0.705c0.317-0.315%2C0.636-0.627%2C0.957-0.935c0.236-0.226%2C0.473-0.451%2C0.711-0.674%0D%0A%09%09%09%09c0.329-0.307%2C0.66-0.611%2C0.994-0.912c0.239-0.216%2C0.478-0.431%2C0.72-0.643c0.341-0.3%2C0.686-0.595%2C1.033-0.889%0D%0A%09%09%09%09c0.241-0.204%2C0.481-0.409%2C0.724-0.609c0.356-0.294%2C0.716-0.583%2C1.078-0.87c0.24-0.19%2C0.478-0.382%2C0.72-0.57%0D%0A%09%09%09%09c0.376-0.292%2C0.756-0.576%2C1.137-0.86c0.233-0.174%2C0.465-0.35%2C0.701-0.522c0.403-0.293%2C0.812-0.579%2C1.22-0.864%0D%0A%09%09%09%09c0.219-0.153%2C0.436-0.309%2C0.656-0.459c0.449-0.306%2C0.905-0.604%2C1.36-0.9c0.185-0.121%2C0.368-0.245%2C0.555-0.364%0D%0A%09%09%09%09c0.556-0.354%2C1.117-0.699%2C1.682-1.038c0.091-0.055%2C0.18-0.112%2C0.271-0.166c1.325-0.789%2C2.675-1.536%2C4.046-2.241%0D%0A%09%09%09%09c0.178-0.092%2C0.36-0.178%2C0.539-0.268c0.502-0.253%2C1.006-0.505%2C1.514-0.747c0.239-0.114%2C0.48-0.221%2C0.72-0.332%0D%0A%09%09%09%09c0.453-0.21%2C0.907-0.42%2C1.365-0.621c0.268-0.118%2C0.539-0.23%2C0.809-0.344c0.434-0.184%2C0.868-0.368%2C1.305-0.545%0D%0A%09%09%09%09c0.289-0.116%2C0.58-0.227%2C0.87-0.34c0.423-0.164%2C0.847-0.328%2C1.273-0.485c0.303-0.112%2C0.609-0.218%2C0.914-0.326%0D%0A%09%09%09%09c0.418-0.147%2C0.836-0.293%2C1.257-0.433c0.315-0.105%2C0.631-0.206%2C0.947-0.307c0.416-0.132%2C0.832-0.262%2C1.251-0.388%0D%0A%09%09%09%09c0.323-0.097%2C0.647-0.19%2C0.972-0.283c0.416-0.119%2C0.834-0.234%2C1.253-0.345c0.329-0.087%2C0.658-0.173%2C0.988-0.256%0D%0A%09%09%09%09c0.42-0.106%2C0.842-0.207%2C1.265-0.306c0.331-0.077%2C0.663-0.154%2C0.996-0.227c0.424-0.093%2C0.85-0.181%2C1.276-0.266%0D%0A%09%09%09%09c0.336-0.068%2C0.672-0.135%2C1.009-0.198c0.427-0.08%2C0.857-0.154%2C1.286-0.226c0.338-0.057%2C0.676-0.115%2C1.016-0.168%0D%0A%09%09%09%09c0.435-0.068%2C0.872-0.128%2C1.31-0.188c0.336-0.046%2C0.671-0.094%2C1.008-0.136c0.449-0.056%2C0.9-0.103%2C1.35-0.15%0D%0A%09%09%09%09c0.329-0.035%2C0.656-0.073%2C0.986-0.103c0.472-0.044%2C0.947-0.078%2C1.421-0.113c0.309-0.023%2C0.618-0.05%2C0.928-0.069%0D%0A%09%09%09%09c0.528-0.033%2C1.057-0.054%2C1.587-0.075c0.26-0.011%2C0.518-0.027%2C0.779-0.035c0.791-0.024%2C1.583-0.038%2C2.378-0.038%0D%0A%09%09%09%09c32.492%2C0%2C61.264%2C20.678%2C71.596%2C51.455c2.59%2C7.712%2C3.904%2C15.802%2C3.904%2C24.045C458%2C356.668%2C424.131%2C390.537%2C382.5%2C390.537z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M163%2C262.537c18.147%2C0%2C35.073-9.768%2C44.171-25.49l-5.193-3.006%0D%0A%09%09%09%09c-8.029%2C13.876-22.964%2C22.496-38.978%2C22.496s-30.948-8.62-38.978-22.496l-5.193%2C3.006%0D%0A%09%09%09%09C127.927%2C252.77%2C144.853%2C262.537%2C163%2C262.537z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M135%2C208.537c8.271%2C0%2C15-6.729%2C15-15s-6.729-15-15-15s-15%2C6.729-15%2C15%0D%0A%09%09%09%09S126.729%2C208.537%2C135%2C208.537z%20M135%2C184.537c4.963%2C0%2C9%2C4.037%2C9%2C9s-4.037%2C9-9%2C9s-9-4.037-9-9S130.037%2C184.537%2C135%2C184.537z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M189%2C208.537c8.271%2C0%2C15-6.729%2C15-15s-6.729-15-15-15s-15%2C6.729-15%2C15%0D%0A%09%09%09%09S180.729%2C208.537%2C189%2C208.537z%20M189%2C184.537c4.963%2C0%2C9%2C4.037%2C9%2C9s-4.037%2C9-9%2C9s-9-4.037-9-9S184.037%2C184.537%2C189%2C184.537z%22%2F%3E%0D%0A%09%09%3C%2Fg%3E%0D%0A%09%3C%2Fg%3E%0D%0A%3C%2Fg%3E%0D%0A%3Cg%20id%3D%22Layer_1%22%3E%0D%0A%3C%2Fg%3E%0D%0A%3C%2Fsvg%3E%0D%0A" );
+
+     addMenu( "unscramble", UNSCRAMBLE_GAMEID, "Unscramble", "wordscramble-", "Play a word scramble game",
+"data:image/svg+xml,%3Csvg%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20x%3D%220px%22%20y%3D%220px%22%0D%0A%09%20viewBox%3D%220%200%20512%20512%22%20style%3D%22enable-background%3Anew%200%200%20512%20512%3B%22%20xml%3Aspace%3D%22preserve%22%3E%0D%0A%3Cg%20id%3D%22Unscramble%22%3E%0D%0A%09%3Cg%3E%0D%0A%09%09%3Cpolygon%20style%3D%22fill%3A%23FFFFFF%3B%22%20points%3D%22139.701%2C148.209%20130.869%2C115.315%20124.918%2C115.315%20116.086%2C148.209%20107.768%2C115.315%20%0D%0A%09%09%0999.385%2C115.315%20111.607%2C158%20119.607%2C158%20127.861%2C126.515%20136.182%2C158%20144.182%2C158%20156.34%2C115.315%20147.957%2C115.315%20%09%09%22%2F%3E%0D%0A%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M380.215%2C158.792c13.203%2C0%2C22.51-9.638%2C22.51-22.773s-9.307-22.773-22.51-22.773%0D%0A%09%09%09c-13.201%2C0-22.508%2C9.638-22.508%2C22.773S367.014%2C158.792%2C380.215%2C158.792z%20M380.215%2C120.11c8.846%2C0%2C14.59%2C6.799%2C14.59%2C15.908%0D%0A%09%09%09c0%2C9.044-5.744%2C15.908-14.59%2C15.908c-8.91%2C0-14.588-6.864-14.588-15.908C365.627%2C126.909%2C371.305%2C120.11%2C380.215%2C120.11z%22%2F%3E%0D%0A%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M142.246%2C360.691c0-7.873-5.504-13.375-13.951-13.375h-18.752V390h7.488v-15.934h7.424L133.926%2C390%0D%0A%09%09%09h8.639l-10.43-16.766C137.254%2C372.402%2C142.246%2C368.305%2C142.246%2C360.691z%20M117.031%2C367.473v-13.566h10.238%0D%0A%09%09%09c4.225%2C0%2C7.297%2C2.688%2C7.297%2C6.785c0%2C4.094-3.072%2C6.781-7.297%2C6.781H117.031z%22%2F%3E%0D%0A%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M383.414%2C349.316h-15.871V392h15.871c13.311%2C0%2C22.334-8.768%2C22.334-21.311%0D%0A%09%09%09S396.725%2C349.316%2C383.414%2C349.316z%20M383.414%2C385.408h-8.383v-29.502h8.383c9.535%2C0%2C14.656%2C6.527%2C14.656%2C14.783%0D%0A%09%09%09C398.07%2C378.754%2C392.693%2C385.408%2C383.414%2C385.408z%22%2F%3E%0D%0A%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M59%2C208h138V70H59V208z%20M65%2C76h126v126H65V76z%22%2F%3E%0D%0A%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M219%2C288h62v-62h-62V288z%20M225%2C232h50v50h-50V232z%22%2F%3E%0D%0A%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M315%2C70v138h138V70H315z%20M447%2C202H321V76h126V202z%22%2F%3E%0D%0A%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M59%2C442h138V304H59V442z%20M65%2C310h126v126H65V310z%22%2F%3E%0D%0A%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M315%2C442h138V304H315V442z%20M321%2C310h126v126H321V310z%22%2F%3E%0D%0A%09%3C%2Fg%3E%0D%0A%3C%2Fg%3E%0D%0A%3Cg%20id%3D%22Layer_1%22%3E%0D%0A%3C%2Fg%3E%0D%0A%3C%2Fsvg%3E%0D%0A" );
+
+     addMenu( "chopped", CHOPPED_GAMEID, "Chopped", "choppedupwords-", "Build words from chunks of chopped up words",
+"data:image/svg+xml,%3Csvg%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20x%3D%220px%22%20y%3D%220px%22%0D%0A%09%20viewBox%3D%220%200%20512%20512%22%20style%3D%22enable-background%3Anew%200%200%20512%20512%3B%22%20xml%3Aspace%3D%22preserve%22%3E%0D%0A%3Cg%20id%3D%22Chopped%22%3E%0D%0A%09%3Cg%3E%0D%0A%09%09%3Cg%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M415.965%2C104.294c1.426-0.846%2C1.895-2.687%2C1.049-4.111s-2.686-1.892-4.111-1.049l-16.178%2C9.603%0D%0A%09%09%09%09c-0.383-0.178-0.806-0.284-1.256-0.284H84.72V50.76c0-1.657-1.343-3-3-3s-3%2C1.343-3%2C3v57.693H41.388c-1.657%2C0-3%2C1.343-3%2C3%0D%0A%09%09%09%09s1.343%2C3%2C3%2C3H78.72v183.048l-10.297%2C6.112c-1.425%2C0.846-1.895%2C2.688-1.049%2C4.111c0.561%2C0.945%2C1.559%2C1.469%2C2.583%2C1.469%0D%0A%09%09%09%09c0.521%2C0%2C1.048-0.135%2C1.528-0.42l7.234-4.294v15.949c0%2C1.656%2C1.343%2C3%2C3%2C3s3-1.344%2C3-3v-19.51L415.965%2C104.294z%20M84.72%2C114.453%0D%0A%09%09%09%09h302.375L84.72%2C293.94V114.453z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M463%2C404.734h-37.332V221.686l10.297-6.112c1.426-0.846%2C1.895-2.687%2C1.049-4.111%0D%0A%09%09%09%09c-0.846-1.424-2.686-1.892-4.111-1.049l-7.234%2C4.294V198.76c0-1.657-1.344-3-3-3s-3%2C1.343-3%2C3v19.51L88.423%2C414.895%0D%0A%09%09%09%09c-1.425%2C0.846-1.895%2C2.688-1.049%2C4.111c0.561%2C0.945%2C1.559%2C1.469%2C2.583%2C1.469c0.521%2C0%2C1.048-0.135%2C1.528-0.42l16.179-9.603%0D%0A%09%09%09%09c0.383%2C0.177%2C0.805%2C0.283%2C1.255%2C0.283h310.749v57.693c0%2C1.656%2C1.344%2C3%2C3%2C3s3-1.344%2C3-3v-57.693H463c1.656%2C0%2C3-1.344%2C3-3%0D%0A%09%09%09%09S464.656%2C404.734%2C463%2C404.734z%20M117.295%2C404.734l302.373-179.486v179.486H117.295z%22%2F%3E%0D%0A%09%09%09%3Cpolygon%20style%3D%22fill%3A%23FFFFFF%3B%22%20points%3D%22155.182%2C191.615%20144.076%2C150.252%20136.593%2C150.252%20125.486%2C191.615%20115.025%2C150.252%20%0D%0A%09%09%09%09104.482%2C150.252%20119.854%2C203.928%20129.913%2C203.928%20140.294%2C164.334%20150.756%2C203.928%20160.815%2C203.928%20176.105%2C150.252%20%0D%0A%09%09%09%09165.563%2C150.252%20%09%09%09%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M205.789%2C149.365c-16.095%2C0-27.441%2C11.75-27.441%2C27.764c0%2C16.016%2C11.347%2C27.764%2C27.441%2C27.764%0D%0A%09%09%09%09s27.442-11.748%2C27.442-27.764C233.231%2C161.115%2C221.884%2C149.365%2C205.789%2C149.365z%20M205.789%2C196.523%0D%0A%09%09%09%09c-10.864%2C0-17.785-8.369-17.785-19.395c0-11.105%2C6.921-19.395%2C17.785-19.395c10.784%2C0%2C17.785%2C8.289%2C17.785%2C19.395%0D%0A%09%09%09%09C223.574%2C188.154%2C216.573%2C196.523%2C205.789%2C196.523z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M326.836%2C351.07c0-9.898-6.92-16.818-17.543-16.818h-23.578v53.676h9.414v-20.039h9.336%0D%0A%09%09%09%09l11.91%2C20.039h10.863l-13.117-21.084C320.559%2C365.797%2C326.836%2C360.646%2C326.836%2C351.07z%20M295.129%2C359.6v-17.061h12.875%0D%0A%09%09%09%09c5.313%2C0%2C9.176%2C3.381%2C9.176%2C8.531s-3.863%2C8.529-9.176%2C8.529H295.129z%22%2F%3E%0D%0A%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M356.199%2C334.252h-19.957v53.676h19.957c16.738%2C0%2C28.086-11.025%2C28.086-26.799%0D%0A%09%09%09%09C384.285%2C345.357%2C372.938%2C334.252%2C356.199%2C334.252z%20M356.199%2C379.639h-10.543v-37.1h10.543c11.992%2C0%2C18.43%2C8.209%2C18.43%2C18.59%0D%0A%09%09%09%09C374.629%2C371.27%2C367.869%2C379.639%2C356.199%2C379.639z%22%2F%3E%0D%0A%09%09%3C%2Fg%3E%0D%0A%09%3C%2Fg%3E%0D%0A%3C%2Fg%3E%0D%0A%3Cg%20id%3D%22Layer_1%22%3E%0D%0A%3C%2Fg%3E%0D%0A%3C%2Fsvg%3E%0D%0A" );
+
+     addMenu( "targets", TARGETS_GAMEID, "Targets", "studyslide-", "See how fast you can hit all the targets",
+"data:image/svg+xml,%3Csvg%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20x%3D%220px%22%20y%3D%220px%22%0D%0A%09%20viewBox%3D%220%200%20512%20512%22%20style%3D%22enable-background%3Anew%200%200%20512%20512%3B%22%20xml%3Aspace%3D%22preserve%22%3E%0D%0A%3Cg%20id%3D%22Targets%22%3E%0D%0A%09%3Cg%3E%0D%0A%09%09%3Cg%3E%0D%0A%09%09%09%3Cg%3E%0D%0A%09%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M279.104%2C449.537h-50.207c-5.114%2C0-9.275-4.16-9.275-9.275s4.161-9.275%2C9.275-9.275h15.828%0D%0A%09%09%09%09%09v-6.852c-80.424-4.656-145.666-69.898-150.321-150.322h-6.852v15.828c0%2C5.115-4.161%2C9.275-9.276%2C9.275%0D%0A%09%09%09%09%09c-5.114%2C0-9.275-4.16-9.275-9.275v-50.207c0-5.114%2C4.161-9.275%2C9.275-9.275c5.115%2C0%2C9.276%2C4.161%2C9.276%2C9.275v15.828h6.855%0D%0A%09%09%09%09%09c2.466-40.984%2C22.822-81.556%2C56.159-111.723c28.412-25.71%2C62.506-39.794%2C94.158-38.876v-6.574h-15.828%0D%0A%09%09%09%09%09c-5.114%2C0-9.275-4.161-9.275-9.276c0-5.114%2C4.161-9.275%2C9.275-9.275h50.207c5.115%2C0%2C9.275%2C4.161%2C9.275%2C9.275%0D%0A%09%09%09%09%09c0%2C5.115-4.16%2C9.276-9.275%2C9.276h-15.828v6.852c80.424%2C4.655%2C145.666%2C69.897%2C150.322%2C150.321h6.852v-15.828%0D%0A%09%09%09%09%09c0-5.114%2C4.16-9.275%2C9.275-9.275s9.275%2C4.161%2C9.275%2C9.275v50.207c0%2C5.115-4.16%2C9.275-9.275%2C9.275s-9.275-4.16-9.275-9.275%0D%0A%09%09%09%09%09v-15.828h-6.852c-4.656%2C80.424-69.898%2C145.666-150.322%2C150.322v6.852h15.828c5.115%2C0%2C9.275%2C4.16%2C9.275%2C9.275%0D%0A%09%09%09%09%09S284.219%2C449.537%2C279.104%2C449.537z%20M228.896%2C436.986c-1.806%2C0-3.275%2C1.469-3.275%2C3.275s1.47%2C3.275%2C3.275%2C3.275h50.207%0D%0A%09%09%09%09%09c1.807%2C0%2C3.275-1.469%2C3.275-3.275s-1.469-3.275-3.275-3.275h-18.828c-1.656%2C0-3-1.344-3-3v-12.709%0D%0A%09%09%09%09%09c0-1.611%2C1.271-2.934%2C2.881-2.998c79.604-3.156%2C144.43-67.982%2C147.586-147.586c0.064-1.609%2C1.387-2.881%2C2.998-2.881h12.709%0D%0A%09%09%09%09%09c1.656%2C0%2C3%2C1.344%2C3%2C3v18.828c0%2C1.807%2C1.469%2C3.275%2C3.275%2C3.275s3.275-1.469%2C3.275-3.275v-50.207c0-1.806-1.469-3.275-3.275-3.275%0D%0A%09%09%09%09%09s-3.275%2C1.47-3.275%2C3.275v18.828c0%2C1.656-1.344%2C3-3%2C3H410.74c-1.611%2C0-2.934-1.271-2.998-2.881%0D%0A%09%09%09%09%09c-3.156-79.603-67.982-144.43-147.586-147.585c-1.609-0.064-2.881-1.388-2.881-2.998V95.089c0-1.657%2C1.344-3%2C3-3h18.828%0D%0A%09%09%09%09%09c1.807%2C0%2C3.275-1.47%2C3.275-3.276c0-1.806-1.469-3.275-3.275-3.275h-50.207c-1.806%2C0-3.275%2C1.47-3.275%2C3.275%0D%0A%09%09%09%09%09c0%2C1.807%2C1.47%2C3.276%2C3.275%2C3.276h18.828c1.657%2C0%2C3%2C1.343%2C3%2C3v12.709c0%2C0.827-0.342%2C1.617-0.943%2C2.185s-1.4%2C0.87-2.237%2C0.81%0D%0A%09%09%09%09%09c-30.88-1.847-64.771%2C11.696-92.951%2C37.196c-32.446%2C29.359-52.758%2C70.628-54.334%2C110.393c-0.064%2C1.609-1.388%2C2.881-2.998%2C2.881%0D%0A%09%09%09%09%09H84.552c-1.657%2C0-3-1.344-3-3v-18.828c0-1.806-1.47-3.275-3.276-3.275c-1.806%2C0-3.275%2C1.47-3.275%2C3.275v50.207%0D%0A%09%09%09%09%09c0%2C1.807%2C1.47%2C3.275%2C3.275%2C3.275c1.807%2C0%2C3.276-1.469%2C3.276-3.275v-18.828c0-1.656%2C1.343-3%2C3-3h12.709%0D%0A%09%09%09%09%09c1.61%2C0%2C2.934%2C1.271%2C2.998%2C2.881c3.155%2C79.604%2C67.982%2C144.43%2C147.585%2C147.586c1.609%2C0.064%2C2.881%2C1.387%2C2.881%2C2.998v12.709%0D%0A%09%09%09%09%09c0%2C1.656-1.343%2C3-3%2C3H228.896z%22%2F%3E%0D%0A%09%09%09%3C%2Fg%3E%0D%0A%09%09%09%3Cg%3E%0D%0A%09%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M373.998%2C260.457c-1.578%2C0-2.898-1.23-2.992-2.824c-3.479-59.292-50.811-106.622-110.102-110.094%0D%0A%09%09%09%09%09c-1.654-0.097-2.916-1.517-2.818-3.171c0.094-1.653%2C1.459-2.902%2C3.17-2.819c62.326%2C3.649%2C112.084%2C53.404%2C115.738%2C115.732%0D%0A%09%09%09%09%09c0.098%2C1.654-1.164%2C3.074-2.818%2C3.17C374.115%2C260.455%2C374.057%2C260.457%2C373.998%2C260.457z%22%2F%3E%0D%0A%09%09%09%3C%2Fg%3E%0D%0A%09%09%09%3Cg%3E%0D%0A%09%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M254%2C295.537c-17.094%2C0-31-13.906-31-31s13.906-31%2C31-31s31%2C13.906%2C31%2C31%0D%0A%09%09%09%09%09S271.094%2C295.537%2C254%2C295.537z%20M254%2C239.537c-13.785%2C0-25%2C11.215-25%2C25s11.215%2C25%2C25%2C25s25-11.215%2C25-25%0D%0A%09%09%09%09%09S267.785%2C239.537%2C254%2C239.537z%22%2F%3E%0D%0A%09%09%09%3C%2Fg%3E%0D%0A%09%09%09%3Cg%3E%0D%0A%09%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M160.186%2C261.262c-0.066%2C0-0.134-0.002-0.201-0.006c-1.653-0.111-2.905-1.539-2.795-3.193%0D%0A%09%09%09%09%09c3.205-48.295%2C42.041-87.131%2C90.337-90.336c1.661-0.13%2C3.082%2C1.142%2C3.191%2C2.795c0.11%2C1.652-1.142%2C3.082-2.795%2C3.191%0D%0A%09%09%09%09%09c-45.307%2C3.007-81.74%2C39.44-84.747%2C84.748C163.071%2C260.047%2C161.752%2C261.262%2C160.186%2C261.262z%22%2F%3E%0D%0A%09%09%09%3C%2Fg%3E%0D%0A%09%09%09%3Cg%3E%0D%0A%09%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M197.892%2C261.262c-0.111%2C0-0.223-0.006-0.335-0.018c-1.647-0.184-2.834-1.668-2.65-3.314%0D%0A%09%09%09%09%09c3.042-27.37%2C25.116-49.444%2C52.487-52.486c1.628-0.181%2C3.13%2C1.003%2C3.313%2C2.65c0.184%2C1.646-1.003%2C3.13-2.65%2C3.313%0D%0A%09%09%09%09%09c-24.606%2C2.735-44.451%2C22.58-47.187%2C47.188C200.699%2C260.127%2C199.399%2C261.262%2C197.892%2C261.262z%22%2F%3E%0D%0A%09%09%09%3C%2Fg%3E%0D%0A%09%09%09%3Cg%3E%0D%0A%09%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M247.729%2C323.65c-0.111%2C0-0.223-0.006-0.335-0.018c-27.371-3.043-49.445-25.119-52.487-52.488%0D%0A%09%09%09%09%09c-0.184-1.646%2C1.003-3.131%2C2.65-3.314c1.627-0.174%2C3.13%2C1.004%2C3.313%2C2.65c2.735%2C24.607%2C22.58%2C44.453%2C47.187%2C47.188%0D%0A%09%09%09%09%09c1.647%2C0.184%2C2.834%2C1.668%2C2.65%2C3.314C250.536%2C322.516%2C249.236%2C323.65%2C247.729%2C323.65z%22%2F%3E%0D%0A%09%09%09%3C%2Fg%3E%0D%0A%09%09%09%3Cg%3E%0D%0A%09%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M247.728%2C361.355c-0.066%2C0-0.134-0.002-0.201-0.006c-48.296-3.207-87.132-42.043-90.337-90.338%0D%0A%09%09%09%09%09c-0.11-1.654%2C1.142-3.082%2C2.795-3.193c1.655-0.092%2C3.082%2C1.143%2C3.191%2C2.795c3.007%2C45.307%2C39.44%2C81.742%2C84.747%2C84.748%0D%0A%09%09%09%09%09c1.653%2C0.111%2C2.905%2C1.539%2C2.795%2C3.193C250.612%2C360.141%2C249.294%2C361.355%2C247.728%2C361.355z%22%2F%3E%0D%0A%09%09%09%3C%2Fg%3E%0D%0A%09%09%09%3Cg%3E%0D%0A%09%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M260.271%2C323.65c-1.508%2C0-2.808-1.135-2.978-2.668c-0.184-1.646%2C1.003-3.131%2C2.649-3.314%0D%0A%09%09%09%09%09c24.607-2.734%2C44.453-22.58%2C47.188-47.188c0.186-1.646%2C1.674-2.822%2C3.314-2.65c1.646%2C0.184%2C2.832%2C1.668%2C2.65%2C3.314%0D%0A%09%09%09%09%09c-3.045%2C27.369-25.119%2C49.443-52.488%2C52.488C260.494%2C323.645%2C260.383%2C323.65%2C260.271%2C323.65z%22%2F%3E%0D%0A%09%09%09%3C%2Fg%3E%0D%0A%09%09%09%3Cg%3E%0D%0A%09%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M260.271%2C361.355c-1.564%2C0-2.884-1.215-2.989-2.801c-0.11-1.654%2C1.142-3.082%2C2.794-3.193%0D%0A%09%09%09%09%09c45.307-3.006%2C81.742-39.441%2C84.748-84.748c0.109-1.656%2C1.553-2.885%2C3.193-2.795c1.652%2C0.111%2C2.904%2C1.539%2C2.795%2C3.193%0D%0A%09%09%09%09%09c-3.207%2C48.295-42.043%2C87.131-90.338%2C90.338C260.406%2C361.354%2C260.34%2C361.355%2C260.271%2C361.355z%22%2F%3E%0D%0A%09%09%09%3C%2Fg%3E%0D%0A%09%09%09%3Cg%3E%0D%0A%09%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M310.109%2C261.262c-1.508%2C0-2.807-1.135-2.979-2.668c-2.734-24.607-22.58-44.452-47.188-47.188%0D%0A%09%09%09%09%09c-1.646-0.183-2.833-1.666-2.649-3.313c0.183-1.647%2C1.671-2.829%2C3.313-2.65c27.369%2C3.042%2C49.445%2C25.116%2C52.488%2C52.486%0D%0A%09%09%09%09%09c0.182%2C1.646-1.004%2C3.131-2.65%2C3.314C310.332%2C261.256%2C310.221%2C261.262%2C310.109%2C261.262z%22%2F%3E%0D%0A%09%09%09%3C%2Fg%3E%0D%0A%09%09%09%3Cg%3E%0D%0A%09%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M347.814%2C261.262c-1.564%2C0-2.885-1.215-2.99-2.801c-3.006-45.308-39.441-81.741-84.748-84.748%0D%0A%09%09%09%09%09c-1.652-0.109-2.904-1.539-2.794-3.191c0.109-1.656%2C1.552-2.908%2C3.192-2.795c48.295%2C3.205%2C87.131%2C42.041%2C90.338%2C90.336%0D%0A%09%09%09%09%09c0.109%2C1.654-1.143%2C3.082-2.795%2C3.193C347.949%2C261.26%2C347.883%2C261.262%2C347.814%2C261.262z%22%2F%3E%0D%0A%09%09%09%3C%2Fg%3E%0D%0A%09%09%09%3Cg%3E%0D%0A%09%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M134.01%2C260.457c-0.06%2C0-0.118-0.002-0.179-0.006c-1.653-0.096-2.916-1.516-2.819-3.17%0D%0A%09%09%09%09%09c3.649-62.325%2C53.403-112.082%2C115.732-115.739c1.624-0.075%2C3.073%2C1.165%2C3.171%2C2.819c0.097%2C1.654-1.165%2C3.073-2.819%2C3.171%0D%0A%09%09%09%09%09c-59.292%2C3.479-106.622%2C50.812-110.094%2C110.101C136.908%2C259.227%2C135.586%2C260.457%2C134.01%2C260.457z%22%2F%3E%0D%0A%09%09%09%3C%2Fg%3E%0D%0A%09%09%09%3Cg%3E%0D%0A%09%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M246.923%2C387.529c-0.06%2C0-0.118-0.002-0.178-0.006c-62.326-3.646-112.083-53.4-115.74-115.73%0D%0A%09%09%09%09%09c-0.097-1.654%2C1.165-3.074%2C2.819-3.17c1.624-0.104%2C3.073%2C1.164%2C3.171%2C2.818c3.479%2C59.293%2C50.812%2C106.623%2C110.1%2C110.094%0D%0A%09%09%09%09%09c1.654%2C0.096%2C2.917%2C1.516%2C2.82%2C3.17C249.821%2C386.299%2C248.499%2C387.529%2C246.923%2C387.529z%22%2F%3E%0D%0A%09%09%09%3C%2Fg%3E%0D%0A%09%09%09%3Cg%3E%0D%0A%09%09%09%09%3Cpath%20style%3D%22fill%3A%23FFFFFF%3B%22%20d%3D%22M261.078%2C387.537c-1.578%2C0-2.898-1.23-2.992-2.824c-0.098-1.654%2C1.164-3.074%2C2.818-3.17%0D%0A%09%09%09%09%09c59.293-3.479%2C106.623-50.811%2C110.094-110.102c0.094-1.654%2C1.48-2.939%2C3.17-2.818c1.654%2C0.096%2C2.916%2C1.516%2C2.818%2C3.17%0D%0A%09%09%09%09%09c-3.646%2C62.326-53.4%2C112.084-115.73%2C115.738C261.195%2C387.535%2C261.137%2C387.537%2C261.078%2C387.537z%22%2F%3E%0D%0A%09%09%09%3C%2Fg%3E%0D%0A%09%09%3C%2Fg%3E%0D%0A%09%3C%2Fg%3E%0D%0A%3C%2Fg%3E%0D%0A%3Cg%20id%3D%22Layer_1%22%3E%0D%0A%3C%2Fg%3E%0D%0A%3C%2Fsvg%3E%0D%0A" );
+
+    markItemActive( activeId );
+
+    for ( var didItBit=0; didItBit<20; didItBit++ ) {
+       var gameId = 1 << didItBit ;
+       if ( (completionBits & gameId) != 0 ) { 
+          showDidItDot( gameId ); 
+       }
+    }
+
+} // end initStudyMenu()
+

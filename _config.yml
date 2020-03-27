@@ -8,9 +8,9 @@
 # jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
 #--------------------------
 
-title: Nathan                          # the main title
+title: NateM135                          # the main title
 
-tagline: Troy HS '20 | UCI '24.  # it will display as the sub-title
+tagline: Nathan Melwani: Troy HS '20 | UCI '24.  # it will display as the sub-title
 
 description: >-                        # used by seo meta and the atom feed
   A minimal, portfolio, sidebar,

@@ -6,21 +6,25 @@ tags: [favicon]
 toc: false
 ---
 
-In [**Chirpy**](https://github.com/cotes2020/jekyll-theme-chirpy/), the image files of [Favicons](https://www.favicon-generator.org/about/) are placed in `assets/img/favicons/`. You may need to replace them with your own. So let's see how to customize these Favicons.
+## Introduction
 
-Whit a square image (PNG, JPG or GIF) in hand, open the site [*Favicon & App Icon Generator*](https://www.favicon-generator.org/) and upload your original image.
+```
+The FireShell CTF is a Brazilian event in jeopardy style. The proposal is to test participants' hacking skills in a challenging yet fun environment.
+```
 
-![upload-image]({{ "/assets/img/sample/upload-image.png" | relative_url }})
+I participated with the team IrisCS and scored 1807 points landing us in 52nd Place. We completed 4 challenges. 
 
-Click button <kbd>Create Favicon</kbd> and wait a moment for the website to generate the icons of various sizes automatically.
 
-![download-icons]({{ "/assets/img/sample/download-icons.png" | relative_url }})
+## Against the Perfect Discord Inquisitor 1
 
-Download the generated package, unzip and delete the following two from the extracted files:
+Information: 19 Solves, 495 Points.
 
-- browserconfig.xml
-- manifest.json
- 
-Now, copy the rest image files (`.PNG` and `.ICO`) to cover the original one in folder `assets/img/favicons/`.
+```
+You're on a journey and come to the Tavern of a Kingdom Enemy, you need to get information of a secret organization for the next quest. Be careful about the Inquisitor! He can ban you from this world.
 
-Lastly, don't forget to rebuild your site so that the icon becomes your custom edition.
+TL;DR find the flag
+
+Link to Challenge: https://discord.gg/fHHyU6g
+```
+
+[![ATPDI1](http://img.youtube.com/vi/-COfkwjVEyY/0.jpg)](http://www.youtube.com/watch?v=-COfkwjVEyY "ATPDI1")

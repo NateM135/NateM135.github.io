@@ -1,7 +1,7 @@
 ---
 title: "Fireshell CTF 2020"
 date: 2020-03-21 12:34:00 +0800
-categories: [CTF, Writeup]
+categories: [CTF, 2020]
 tags: [favicon]
 toc: true
 ---

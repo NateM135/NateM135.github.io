@@ -1,7 +1,7 @@
 ---
 title: "Fireshell CTF 2020"
 date: 2020-03-21 12:34:00 +0800
-categories: [CTF, 2020]
+categories: [CTF, writeup]
 tags: [favicon]
 toc: true
 ---
@@ -43,3 +43,30 @@ description: Help us to recover the alphabet.
 As we can see from the image, we have a square for each letter of the alphabet as well as an interesting bar on the top of the image.
 
 ![AlphabetCrypto](/assets/problem_files/fireshell2020/alphabet.png)
+
+
+The solution here is to create a matrix/system of equations for each of the pictured words. In total, we will get 26 equations to solve. 
+
+For example, A is Apple. So, we will do 1A+2P+1L+E=453.
+
+If we complete this calculation all the way through and solve (I used an online calculator after writing out my equations) we get the flag.
+
+Flag:
+> F#{y0u-ar4-gr34t-w1th-z3!}
+
+##Welcome Challenge
+
+```
+Welcome to FireShell CTF 2020.
+
+Follow us in our social networks:
+
+Facebook Instagram Linkedin Telegram Twitter
+```
+
+On the Twitter Page, we find this image:
+
+![TwitterAdvert](https://pbs.twimg.com/media/ETeXKWWXkAA7ZCH?format=jpg&name=large)
+
+Flag:
+> F#{Fr4ç01S3_d'4ub1gNé}

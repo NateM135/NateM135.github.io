@@ -54,7 +54,7 @@ If we complete this calculation all the way through and solve (I used an online 
 Flag:
 > F#{y0u-ar4-gr34t-w1th-z3!}
 
-##Welcome Challenge
+## Welcome Challenge
 
 ```
 Welcome to FireShell CTF 2020.
@@ -67,6 +67,8 @@ Facebook Instagram Linkedin Telegram Twitter
 On the Twitter Page, we find this image:
 
 ![TwitterAdvert](https://pbs.twimg.com/media/ETeXKWWXkAA7ZCH?format=jpg&name=large)
+
+I scanned the QR Code with my phone and got the flag.
 
 Flag:
 > F#{Fr4ç01S3_d'4ub1gNé}

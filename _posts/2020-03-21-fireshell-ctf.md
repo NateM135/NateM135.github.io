@@ -42,4 +42,4 @@ description: Help us to recover the alphabet.
 
 As we can see from the image, we have a square for each letter of the alphabet as well as an interesting bar on the top of the image.
 
-![AlphabetCrypto](./assets/problem_files/fireshell2020/alphabet.png)
+![AlphabetCrypto](/assets/problem_files/fireshell2020/alphabet.png)

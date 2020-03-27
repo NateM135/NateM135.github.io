@@ -1,7 +1,7 @@
 ---
-title: "Customize the Favicon"
-date: 2019-08-11 00:34:00 +0800
-categories: [Blogging, Tutorial]
+title: "Fireshell CTF 2020"
+date: 2020-03-21 12:34:00 +0800
+categories: [CTF, Writeup]
 tags: [favicon]
 toc: false
 ---

@@ -1,6 +1,6 @@
 ---
 title: "Huffman Code With Array"
-date: 2020-04-07 02:34:00 +0800
+date: 2020-04-07 12:35:00 +0800
 categories: [CS]
 tags: [labs]
 toc: true

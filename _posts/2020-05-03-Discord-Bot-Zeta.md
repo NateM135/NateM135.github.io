@@ -10,9 +10,14 @@ toc: true
 
 # Zeta Notifications for WaifuBot
 
-[![BotInvite](https://img.shields.io/badge/Invite%20bot-Click%20here-ff69b4.svg "Invite the bot to your server")](https://bit.ly/ZetaNotifs) [![ServerInvite](https://img.shields.io/badge/Join%20Test%20Server-Click%20here-success.svg "This is where you can test the bot")](https://discord.gg/3YM9cPq)
+[![BotInvite](https://img.shields.io/badge/Invite%20bot-Click%20here-ff69b4.svg "Invite the bot to your server")](https://bit.ly/ZetaNotifs) 
+
+
+[![ServerInvite](https://img.shields.io/badge/Join%20Test%20Server-Click%20here-success.svg "This is where you can test the bot")](https://discord.gg/3YM9cPq)
 
 **As of now I will be hosting the bot. Invite it with the button above. If I am unable to host it in the future, I will update this README.**
+
+**Invite the bot using this link: ** https://bit.ly/ZetaNotifs
 
 This bot was created by in order to notify users when a high-rarity waifu is spawned by WaifuBot. Additionally, the bot lists the rarity of each Waifu that spawns.
 

@@ -1,7 +1,7 @@
 ---
 title: "HTB Blunder"
-date: 2020-05-03 12:35:00 +0800
-categories: [HTB]
+date: 2020-09-19 12:35:00 +0800
+categories: [HTB, writeup]
 tags: [writeup]
 toc: true
 ---

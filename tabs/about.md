@@ -9,24 +9,24 @@ title: About
 ---
 I'm Nathan Melwani, a Computer Science BS + MS major at the University of California, Riverside who is interested in security and networking.
 
-Certifications:
+**Certifications:**
 
-Cisco CCNA 200-301
+``Cisco CCNA 200-301``
 
-CompTIA Security+
+``CompTIA Security+``
 
-CompTIA Network+
+``CompTIA Network+``
 
-CompTIA A+
+``CompTIA A+``
 
-CompTIA IT Fundamentals+
+``CompTIA IT Fundamentals+``
 
-CompTIA IT Fundamentals
+``CompTIA IT Fundamentals``
 
-Discord Verified Bot Developer | Early Verified Bot Developer Program Participant
+``Discord Verified Bot Developer - Early Verified Bot Developer Program Participant``
 
-Google Analytics
+``Google Analytics``
 
-Google Digital Garage
+``Google Digital Garage``
 
-Google Digital Marketing
+``Google Digital Marketing``

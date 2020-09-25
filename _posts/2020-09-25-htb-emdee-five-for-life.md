@@ -1,6 +1,6 @@
 ---
 title: "HTB Challenge: Emdee Five for Life"
-date: 2020-09-25 14:35:00 +0800
+date: 2020-09-25 14:35:00 -0700
 categories: [htb]
 tags: [writeup, web, htb_chal]
 toc: true

@@ -12,5 +12,6 @@ User-agent: *
 
 Disallow: /norobots/
 Disallow: /posts/htb-blunder/
+Disallow: /posts/htb-admirer/
 
 Sitemap: {{ site.url | append: site.baseurl }}/sitemap.xml

@@ -56,7 +56,7 @@ Now we run the script:
 
 Flag: ``HTB{N1c3_ScrIpt1nG_B0i!}``
 
-<a id="raw-url" href="natem135.github.io/assets/htb-emm-dee-5/sol.py">Click this link to download the script.</a>
+<a id="raw-url" href="/assets/htb-emm-dee-5/sol.py">Click this link to download the script.</a>
 
 
 

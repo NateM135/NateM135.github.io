@@ -46,11 +46,11 @@ Nmap done: 1 IP address (1 host up) scanned in 18.68 seconds
 
 SSH and a web server. Let's check out the web server first.
 
-![site](/assets/htb-tenten/site.png)
+![site](/assets/htb-tenten/site.PNG)
 
 The website is running Wordpress. Using the firefox extension Wappalyzer, I'm able to grab the version number being used.
 
-![wapp](/assets/htb-tenten/wapp.png)
+![wapp](/assets/htb-tenten/wapp.PNG)
 
 Since we know that wordpress is being used, we can use ``wpscan`` to get more information about various themes, vulnerabilites, etc. If I put the full scan in, it would be longer than the writeup so here are some of the interesting/important parts.
 

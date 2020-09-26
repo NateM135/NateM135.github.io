@@ -1,5 +1,5 @@
 ---
-title: "HTB Tabby"
+title: "HTB tenten"
 date: 2020-09-25 22:44:00 -0700
 categories: [HTB, writeup]
 tags: [writeup]
@@ -8,7 +8,7 @@ toc: true
 
 ## Introduction
 
-HTB Tabby is a linux-based box.
+HTB tenten is a linux-based box.
 
 Author: ``ch4p``
 

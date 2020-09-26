@@ -13,5 +13,6 @@ User-agent: *
 Disallow: /norobots/
 Disallow: /posts/htb-blunder/
 Disallow: /posts/htb-admirer/
+Disallow: /posts/htb-tabby/
 
 Sitemap: {{ site.url | append: site.baseurl }}/sitemap.xml

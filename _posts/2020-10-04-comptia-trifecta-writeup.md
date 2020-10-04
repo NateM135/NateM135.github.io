@@ -1,6 +1,6 @@
 ---
 title: "CompTIA Trifecta in 40 Days"
-date: 2020-10-04 18:00:00 -0700
+date: 2020-10-04 16:00:00 -0700
 categories: [comptia, writeup]
 tags: [writeup]
 toc: true
@@ -18,6 +18,7 @@ I recently started college as a CS major and I hope that these certiications wil
 
 Here is the **timeline** of my studying:
 
+```
 7/21: Start studying for A+ 1001
 
 7/29: Passed A+ 1001
@@ -33,10 +34,12 @@ Here is the **timeline** of my studying:
 8/21: Started studying S+
 
 9/01: Passed S+
+```
 
 I studied around 4-6 hours a day using videos and notes I had taken while listening to music. I suggest some background music like [this](https://www.youtube.com/watch?v=n7t1T7aJRhg).
 
-Here is a breakdown of each test and the resources I used for all of them.
+
+**Here is a breakdown of each exam and the resources I used to study for them.**
 
 
 ## A+ 1001
@@ -146,7 +149,7 @@ Examcompass quizzes are a waste of time, they are way too specific and will lead
 
 My high school covered the costs of my A+ and Security+ exams, and a friend covered the cost of the ITF+ exam. I ended up paying $160 for a Network+ ACAD (student discount) voucher, $20 for 1001 and 1002 practice tests, $20 for the examcram book, $10 for network+ tests and $10 for security+ tests. Overall, $220 for the four certifications.
 
-My next step is the CCNA. The official cert guide books are actually [on sale oftenn for 45% off](https://www.reddit.com/r/ccna/comments/ikncaj/cisco_press_discounted_some_of_their_titles/). I picked up the official cert guide physical book + pdf because the pdf comes with practice exams and labs.
+My next step is the CCNA. The official cert guide books are actually [on sale often for 45% off](https://www.reddit.com/r/ccna/comments/ikncaj/cisco_press_discounted_some_of_their_titles/). I picked up the official cert guide physical book + pdf because the pdf comes with practice exams and labs.
 
 As for CEU's, whatever CCNA doesn't get me I'll be going back to Messer as I heard that he holds sessions occasionally where you can get a certificate and turn them in for these credits.
 

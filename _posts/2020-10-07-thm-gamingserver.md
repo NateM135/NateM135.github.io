@@ -12,7 +12,7 @@ toc: true
 
 TryHackMe's GamingServer is an easy box made for beginners. 
 
-It took me around two hours from deploying the machine to rooting the machine.
+It took me around two hours to get from deployment to root.
 
 I think this is a solid starter box for someone who cannot solve anything out on HackTheBox yet, although this is definetely a lot easier than any of the boxes you can find on HackTheBox.
 
@@ -48,7 +48,7 @@ Nmap done: 1 IP address (1 host up) scanned in 17.17 seconds
 
 Port 22 (SSH) and Port 80 (A web server) are open. It looks like the web server is utilizing apache, which is important information that will help us out later. Since we know that these two basic protocols are being run, we need to decide what exactly we want to attack. SSH is almost never an initial attack vector, so the next step would be to go to the web server and look for more information and find something to exploit.
 
-## Enumeration
+## Web Server Enumeration
 
 We can access the website using the box's ip address and putting it into the url bar in the browser (10.10.242.31).
 
@@ -78,6 +78,8 @@ The last file, ``dict.lst`` is interesting. Let's take a look at it:
 ![dictlst](https://i.imgur.com/gRRMKiq.png)
 
 If anything, this looks like a wordlist. It will be useful if there's a login page or some configuration file with a hash that we can bruteforce later. For now, let's keep enumerating.
+
+## gobuster
 
 At this point, I decided to run a gobuster scan. Gobuster bruteforces for directories, so if something like x.x.x.x/login exists, it will find it and report back to me. There's a massive list of potential directories called ``big.txt`` that comes with Kali, so I will use this wordlist to try and find something interesting.
 
@@ -138,9 +140,11 @@ Looks like ``john`` or some variation of john is a potential username. Awesome! 
 
 While we do have this file, we still cannot really use it for anything as it is encrypted. If we are able to "crack" it, we will then be able to use the file to make use of the open SSH connection.
 
+## SSH Key Cracking
+
 In order to crack a private key like this, I will use the tool ``John The Ripper``. This tool can crack more or less anything, but it does it in an interesting way. You have to use a script to convert the prviate key file into a format that John can crack with. If something on the internet exists, there's probably a module to convert it into a format that John can use. 
 
-I found a solid guide on this topic here: https://null-byte.wonderhowto.com/how-to/crack-ssh-private-key-passwords-with-john-ripper-0302810/. I downloaded the script from [here](https://github.com/truongkma/ctf-tools/blob/master/John/run/sshng2john.py).
+I found a solid guide on this topic [here](https://null-byte.wonderhowto.com/how-to/crack-ssh-private-key-passwords-with-john-ripper-0302810/). I downloaded the script that we will need to use from [here](https://github.com/truongkma/ctf-tools/blob/master/John/run/sshng2john.py).
 
 Use the script like this: 
 

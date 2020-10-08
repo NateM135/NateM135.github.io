@@ -6,7 +6,7 @@ tags: [writeup]
 toc: true
 ---
 
-> GamingServer : An Easy Boot2Root box for beginners
+> TryHackMe GamingServer: An Easy Boot2Root box for beginners
 
 ## Introduction
 

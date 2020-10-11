@@ -14,15 +14,13 @@ TryHackMe's Lazy Admin is an easy box made for beginners.
 
 It took me around four hours to get from deployment to root.
 
-I've only solved easy/medium difficulty boxes and this was one of the harder ones because of the WAF cutting off potential attack vectors.
-
 ## nmap
 
 As with all machines, the first thing we do is an nmap scan to get an idea of what is running on the box. TryHackMe's IP addresses are always different as all instances are personal. My IP address was ``10.10.16.134``.
 
 Here is the command I used for the scan:
 
-``nmap -sC -sV -o nmap.nmap 10.10.16.134`
+``nmap -sC -sV -o nmap.nmap 10.10.16.134``
 
 Here is the output of the scan: 
 
@@ -429,4 +427,4 @@ If you want to start doing pentesting labs like this, I suggest you check out Tr
 
 In the future, I'm going to keep doing TryHackMe machines of this difficulty to build my skills up and eventually move onto HTB. 
 
-
+Unrelated Note: If you like Coldplay [check out my song bracket ;o](https://i.imgur.com/9EF5Yh7.png)

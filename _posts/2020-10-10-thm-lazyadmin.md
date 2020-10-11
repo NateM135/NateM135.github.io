@@ -1,6 +1,6 @@
 ---
 title: "THM Lazy Admin"
-date: 2020-10-10 19:00:00 -0700
+date: 2020-10-10 20:00:00 -0700
 categories: [THM, writeup]
 tags: [writeup]
 toc: true

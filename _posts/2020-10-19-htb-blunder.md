@@ -1,6 +1,6 @@
 ---
 title: "HTB Blunder"
-date: 2020-10-19 09:35:00 +0800
+date: 2020-10-19 09:35:00 -0700
 categories: [HTB, writeup]
 tags: [writeup]
 toc: true

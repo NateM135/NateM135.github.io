@@ -1,6 +1,6 @@
 ---
 title: "THM Bounty Hacker"
-date: 2020-11-03 09:35:00 -0700
+date: 2020-11-03 13:10:00 -0700
 categories: [THM, writeup]
 tags: [writeup]
 toc: true
@@ -12,7 +12,7 @@ toc: true
 
 TryHackMe's Bounty Hacker is a Cowboy Bebop themed easy box made for beginners. 
 
-In this box, you uses anonymous FTP login to retrieve a wordlist and username which can be used to bruteforce ssh login. Once I gained credentials with the help of a metasploit module, I logged in through SSH and got the user flag. I then abused the abilty of the account I was logged into to run ``/bin/tar`` as root to escalate privs and get a shell as root.
+In this box, you uses anonymous FTP login to retrieve a wordlist and username which can be used to bruteforce ssh login. Once I brute-forced credentials with the help of a metasploit module, I logged in through SSH and got the user flag. I then abused the abilty of the account I was logged into to run ``/bin/tar`` as root to escalate privs and get a shell as root.
 
 It took me around twenty minutes to get from deployment to root. 
 
@@ -187,6 +187,7 @@ What service can you bruteforce with the text file found?
 
 What is the users password? 
 > RedDr4gonSynd1cat3
+```
 
 Now let's login with ssh.
 

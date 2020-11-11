@@ -14,11 +14,6 @@
   path: tabs
   url: categories
 -
-  name: "Tags"
-  icon: "fas fa-tags"
-  path: tabs
-  url: tags
--
   name: "Archives"
   path: tabs
   url: archives

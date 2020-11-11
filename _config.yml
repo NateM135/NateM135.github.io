@@ -120,19 +120,6 @@ defaults:
       comments: false
   -
     scope:
-      path: tags
-    values:
-      tab_active: Tags
-      location: Tag
-      breadcrumb:
-        -
-          label: Home
-          url: /
-        -
-          label: Tags
-          url: /tabs/tags/
-  -
-    scope:
       path: categories
     values:
       tab_active: Categories

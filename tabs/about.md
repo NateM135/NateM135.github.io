@@ -30,3 +30,7 @@ I'm Nathan Melwani, a Computer Science BS + MS major at the University of Califo
 ``Google Digital Garage``
 
 ``Google Digital Marketing``
+
+**Resume**
+
+[Click here to see my current resume](/resume.pdf)

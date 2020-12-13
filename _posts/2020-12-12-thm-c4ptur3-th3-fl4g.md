@@ -1,18 +1,16 @@
 ---
-title: "TryHackMe c4ptur3-th3-fl4g"
-date: 2020-12-12 23:15:00 -0800
+title: "TryHackMe: c4ptur3-th3-fl4g"
+date: 2020-12-12 20:05:00 -0800
 categories: [tryhackme, writeup]
 tags: [writeup]
 toc: true
 ---
 
-## Introduction
-
 In this post, I will write my solutions and through process when solving the challenges in the TryHackMe room ``c4ptur3-th3-fl4g``. 
 
 ## Task 1
 
-This section is titled translations and shifting and there are several messages that we have to decode.
+This section is titled ``Translations and Shifting`` and there are several messages that we have to decode. The format I will use for this section on of the writeup is a code block with the ciphertext, a small amount of text with my solution/thought process, and a comment with the solution below that.
 
 ```
 c4n y0u c4p7u23 7h3 f149?
@@ -52,7 +50,7 @@ This message looks like the last one, except there are now lower case letters. I
 68 65 78 61 64 65 63 69 6d 61 6c 20 6f 72 20 62 61 73 65 31 36 3f
 ```
 
-In this message, we can see numbers 0-0 and letters a-f. This is a clear indicator that this is base16/hexadecimal.
+In this message, we can see numbers 0-9 and letters a-f. This is a clear indicator that this is base16/hexadecimal.
 
 > hexadecimal or base16?
 

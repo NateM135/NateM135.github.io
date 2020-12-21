@@ -1,6 +1,6 @@
 ---
 title: "TryHackMe: Lian_Yu"
-date: 2020-12-21 20:05:00 -0800
+date: 2020-12-21 12:21:00 -0800
 categories: [tryhackme, writeup]
 tags: [writeup]
 toc: true

@@ -73,7 +73,7 @@ if($password == $CORRECT_PASSWORD) {
 
 The vulnerability is in this line: ``parse_str($_SERVER["QUERY_STRING"]);``. 
 
-You can read up on the vulnerability here: https://ctf-wiki.github.io/ctf-wiki/web/php/php/#parse_str-variable-override, but essentially we can use the character `&` to reference the variables already in place, and take those values and set them equal to the get parameter values. Additionally, we can re-declare and assign other already-declared variables. Looking at the code, we need to specify a few things in order to bypass all the checks, given that we can access to all the set variables.
+You can read up on the vulnerability [here](https://ctf-wiki.github.io/ctf-wiki/web/php/php/#parse_str-variable-override), but essentially we can use the character `&` to reference the variables already in place, and take those values and set them equal to the get parameter values. Additionally, we can re-declare and assign other already-declared variables. Looking at the code, we need to specify a few things in order to bypass all the checks, given that we can access to all the set variables.
 
 First, looking at this line:
 

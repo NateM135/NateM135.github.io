@@ -275,7 +275,7 @@ Super easy privilege escalation!
 
 ## Conclusion
 
-This is a stupid box. You had to guess A LOT in order to figure out which user went where, and it was not a logical process. I think it would make sense if you are familiar with the theme of the box, however I am not. I do not suggest that you complete this box.
+This is a stupid box. You had to guess A LOT in order to figure out what to fuzz, which user went where, and it was not a logical/practical whatsoever. I wish I did not waste time solving it out.
 
 
 

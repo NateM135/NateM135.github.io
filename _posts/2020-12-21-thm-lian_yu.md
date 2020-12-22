@@ -81,6 +81,8 @@ by OJ Reeves (@TheColonial) & Christian Mehlmauer (@_FireFart_)
 ===============================================================
 ```
 
+Looks like we found ``/island``
+
 ```
  Ohhh Noo, Don't Talk...............
 
@@ -89,6 +91,8 @@ I wasn't Expecting You at this Moment. I will meet you there
 You should find a way to Lian_Yu as we are planed. The Code Word is:
 vigilante
 ```
+
+After going through a few more wordlists, I realized that I was supposed to scan within island for another hidden directory.
 
 ```
 kali@kali:~/Desktop/thm/lian_yu$ gobuster dir -u 10.10.107.8/island -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt
@@ -108,10 +112,13 @@ by OJ Reeves (@TheColonial) & Christian Mehlmauer (@_FireFart_)
 /2100 (Status: 301)
 ```
 
+We found ``/island/2100``.
+
 ```
 <!-- you can avail your .ticket here but how?   -->
 ```
 
+Hmm.. ``.ticket`` looks like a file extension. Running dirbuster again, but this time looking for ``.ticket`` files.
 
 ```
 kali@kali:~/Desktop/thm/lian_yu$ gobuster dir -u 10.10.107.8/island/2100 -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -x ticket
@@ -132,6 +139,8 @@ by OJ Reeves (@TheColonial) & Christian Mehlmauer (@_FireFart_)
 /green_arrow.ticket (Status: 200)
 ```
 
+Found it! Let's look at the page.
+
 ```
 This is just a token to get into Queen's Gambit(Ship)
 
@@ -139,11 +148,15 @@ This is just a token to get into Queen's Gambit(Ship)
 RTy8yhBQdscX
 ```
 
-## ftp
+Looks like we got some kind of password. I tried to use it for the next step of the box, however it did not work. There is a hint for this section:
 
 > Looks like base? https://gchq.github.io/CyberChef/
 
+... That's kinda stupid. Using cyberchef, I was able to convert the string to a password for FTP.
+
 base58 -> !#th3h00d
+
+## ftp
 
 ```
 Username: vigilante

@@ -1,6 +1,6 @@
 ---
 title: "Dice CTF Writeup"
-date: 2021-02-08 00:10:00 -0800
+date: 2021-02-08 10:45:00 -0800
 categories: [CTF, writeup]
 tags: [writeup]
 toc: true

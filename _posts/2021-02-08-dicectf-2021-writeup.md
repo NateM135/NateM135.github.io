@@ -1,6 +1,6 @@
 ---
 title: "Dice CTF Writeup"
-date: 2021-02-08 00:05:00 -0800
+date: 2021-02-08 00:10:00 -0800
 categories: [CTF, writeup]
 tags: [writeup]
 toc: true
@@ -330,23 +330,13 @@ app.get('/admin/debug/add_widget', async (req, res) => {
 
 We also saw this regarding the flag:
 
-```
-app.get('/admin/debug/add_widget', async (req, res) => {
-    const cookies = req.cookies;
-    const queryParams = req.query;
-
-    if(cookies['token'] && cookies['token'] == secret_token){
-        query = `INSERT INTO widgets (panelid, widgetname, widgetdata) VALUES ('${queryParams['panelid']}', '${queryParams['widgetname']}', '${queryParams['widgetdata']}');`;
-        db.run(query, (err) => {
-            if(err){
-                console.log(err);
-                res.send('something went wrong');
-            }else{
-                res.send('success!');
-            }
-        });
+```js
+db.run(query, [], (err) => {
+    if(!err){
+        let innerQuery = `INSERT INTO flag SELECT 'dice{fake_flag}'`;
+        db.run(innerQuery);
     }else{
-        res.redirect('/');
+        console.error('Could not create flag table');
     }
 });
 ```

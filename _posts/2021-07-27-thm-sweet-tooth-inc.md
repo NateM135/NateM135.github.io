@@ -8,6 +8,7 @@ toc: true
 
 > Sweettooth Inc. needs your help to find out how secure their system is!
 
+This is a linux box from [TryHackMe](https://tryhackme.com).
 
 
 As with all boxes, we start with an nmap scan.

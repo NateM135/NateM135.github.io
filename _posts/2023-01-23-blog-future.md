@@ -1,8 +1,8 @@
 ---
 title: "The Future of this Blog"
 date: 2023-01-03 10:30:00 -0800
-categories: []
-tags: []
+categories: [blog]
+tags: [blog]
 toc: true
 ---
 
